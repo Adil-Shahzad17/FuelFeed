@@ -4,6 +4,12 @@ export default {
   content: ["./src/**/*.{html,js,jsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        icon: ["Icon-Font", "sans-serif"],
+        heading: ["Heading", "sans-serif"],
+        body: ["Body", "sans-serif"],
+        title: ["Title", "sans-serif"],
+      },
       keyframes: {
         "caret-blink": {
           "0%,70%,100%": { opacity: "1" },
@@ -19,6 +25,9 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
+        mainColor: "#F44545",
+        bgColor: "#F2F4F7",
+        hoverColor: "#E5E7EA",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

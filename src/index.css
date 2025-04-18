@@ -2,6 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Icon-Font';
+  src: url('./Assets/Fonts/Bulgaria_Dreams_Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Heading';
+  src: url('./Assets/Fonts/Century_Gothic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Body';
+  src: url('./Assets/Fonts/Roboto_Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Title';
+  src: url('./Assets/Fonts/Greycliffcf.otf') format('opentype');
+}
+
+
 @layer base {
   :root {
     --background: 0 0% 100%;
