@@ -1,10 +1,12 @@
 import React from 'react'
-import power from "./assets/Images/power.png"
+import AuthLayout from './_auth/AuthLayout'
+import RootLayout from './_root/RootLayout'
 
 const App = () => {
   return (
     <div>
-
+      <RootLayout />
+      {/* <AuthLayout /> */}
     </div>
   )
 }

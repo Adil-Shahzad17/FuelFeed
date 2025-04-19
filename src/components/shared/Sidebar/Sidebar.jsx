@@ -1,21 +1,20 @@
 import React from 'react'
-import power from "../../../Assets/Images/power.png"
-import Logout from './Logout';
+import power from "../../../assets/Images/power.png"
 import { SidebarIcons, SettingIcons } from '../../../constants/Icons/SideBarIcons';
-import ThemeBtn from './ThemeBtn';
-
+import Logout from './Logout';
+// import ThemeBtn from './ThemeBtn';
 
 const Sidebar = () => {
     return (
-        <div className="absolute left-0 top-16 pt-3 w-72 pl-3 h-full hidden bg-bgColor text-black lg:block">
+        <div className="absolute left-0 pt-3 w-72 pl-3 h-full bg-bgColor text-black lg:block">
             <div className="flex items-center p-2 space-x-4 rounded-l-md hover:cursor-pointer hover:bg-hoverColor">
                 <img src={power} alt="Fuel Feed" className="w-12 h-12 rounded-full dark:bg-gray-500" />
                 <div>
-                    <h2 className="text-lg font-semibold">Leroy Jenkins</h2>
-
+                    <h2 className="text-lg font-title font-semibold">Leroy Jenkins</h2>
                 </div>
             </div>
-            <div className="divide-y dark:divide-gray-300 pt-4 font-Heading text-sm font-semibold tracking-wider">
+
+            <div className="divide-y dark:divide-gray-300 pt-4 font-body text-sm font-semibold tracking-wider">
                 <ul className="pt-2 pb-4 space-y-1">
 
                     {SidebarIcons.map((iconObj) => {
@@ -49,7 +48,7 @@ const Sidebar = () => {
                 </ul>
 
                 <Logout />
-                <ThemeBtn />
+                {/* <ThemeBtn /> */}
 
             </div>
         </div>

@@ -102,7 +102,6 @@ import { IoIosHelpCircle } from "react-icons/io";
 
 
 // -------------------------------------------------------------------------------------------------------------
-// 1. Button Outline
-// 2. Button Color
-// 3. Button Focus
-// 4. CheckBox Color
+
+
+// A Place to Rise Together.
