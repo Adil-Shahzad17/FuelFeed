@@ -54,7 +54,7 @@ const SearchBar = () => {
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-44 h-10 border-0 font-body text-gray-500 tracking-wider rounded-3xl flex    justify-start gap-3 bg-bgColor sm:w-72"
+                    className="w-44 h-10 border-0 font-body text-gray-500 tracking-wider rounded-3xl flex justify-start gap-3 bg-bgColor sm:w-72"
                 >
                     <IoSearch className="text-xl" />
                     {value

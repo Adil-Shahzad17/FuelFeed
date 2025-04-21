@@ -1,9 +1,12 @@
 import React from 'react'
+import WhatsOnYourMind from './WhatsOnYourMind'
+import Story from './Stories/Story'
 
 const Home = () => {
     return (
-        <aside className='absolute left-40 top-16 bg-mainColor w-[450px] h-screen'>
-            Home
+        <aside className='bg-white mx-5 h-full flex flex-col gap-3'>
+            <WhatsOnYourMind />
+            <Story />
         </aside>
     )
 }
