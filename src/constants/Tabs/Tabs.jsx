@@ -1,35 +1,33 @@
-"use client"
-import { IoSearch } from "react-icons/io5";
-import React from "react"
-
+import React, { useState } from "react"
+import { Sidebar_Tabs_Icons } from "../Icons/SideBarIcons";
+import Menu from "./Menu/Menu";
 
 const Tabs = () => {
 
-
     return (
-        <main className="w-full h-full">
+        <>
+            <ul
+                className="flex justify-around gap-5 text-center text-gray-500 font-title bg-white h-auto 
+        min-w-[280px] w-full md:hidden">
+                {
+                    Sidebar_Tabs_Icons.map((icons) => (
+                        <li key={icons.iconName} className="w-full">
+                            <a href="#page1" className="flex justify-center border-b-4 border-transparent
+                focus:border-mainColor hover:border-mainColor p-5">
+                                {icons.icon}
+                            </a>
+                        </li>
+                    ))
+                }
 
-            <ul className="flex gap-5 text-center text-gray-500">
-                <li>
-                    <a href="#page1" className="flex justify-center border-b-4 border-transparent
-                focus:text-indigo-600 focus:border-indigo-600 hover:text-black hover:border-mainColor py-4">
-                        <IoSearch />
-                        Pilot  Training</a>
+                <li className="w-full"
+                >
+                    <Menu />
                 </li>
-                <li>
-                    <a href="#page2" className="flex justify-center border-b-4 border-transparent hover:text-bgColor hover:border-indigo-600 py-4">Titan maintenance</a>
-                </li>
-                <li>
-                    <a href="#page3" className="flex justify-center border-b-4 border-transparent hover:text-bgColor hover:border-indigo-600 py-4">Loadout</a>
-                </li>
-                <li>
-                    <a href="#page4" className="flex justify-center border-b-4 border-transparent hover:text-bgColor hover:border-indigo-600 py-4">Server Browser</a>
-                </li>
-                <li>
-                    <a href="#page5" className="flex justify-center border-b-4 border-transparent hover:text-bgColor hover:border-indigo-600 py-4">Settings</a>
-                </li>
+
             </ul>
-        </main>
+
+        </>
 
 
     )

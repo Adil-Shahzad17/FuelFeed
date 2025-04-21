@@ -6,7 +6,7 @@ import SearchBar from './SearchBar/SearchBar'
 
 const Header = () => {
     return (
-        <header className='bg-white shadow-md z-50 w-full h-16'>
+        <header className='bg-white shadow-md fixed z-50 w-full h-16 max-w-screen-xl'>
             <nav className='flex justify-between items-center h-full w-full px-5 md:px-10'>
                 <div className='flex items-center gap-3 hover:cursor-pointer'>
                     <img src={power} alt="Fuel Feed" className="w-12 h-12 rounded-full sm:h-14 sm:w-14" />

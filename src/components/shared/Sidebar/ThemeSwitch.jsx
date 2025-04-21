@@ -20,7 +20,7 @@ const ThemeSwitch = () => {
               <p>Theme</p>
             </div>
           </AccordionTrigger>
-          <AccordionContent className='h-auto'>
+          <AccordionContent className='h-auto pt-6'>
             <StyledWrapper >
               <label className="ui-switch">
                 <input type="checkbox" onClick={(e) => console.log(e.target.checked)} />

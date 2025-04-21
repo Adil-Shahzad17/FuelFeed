@@ -1,11 +1,11 @@
 import React from 'react'
 import power from '@/constants/Images/images';
-import { SidebarIcons, SettingIcons } from '../../../constants/Icons/SideBarIcons';
+import { Sidebar_Tabs_Icons, SettingIcons } from '../../../constants/Icons/SideBarIcons';
 import Logout from './Logout';
 
 const Sidebar = () => {
     return (
-        <div className="z-10 h-screen pt-3 pl-3 bg-bgColor text-black hidden md:block">
+        <div className="z-10 mt-16 pt-3 pl-3 bg-bgColor text-black hidden md:block">
             <div className="flex items-center p-2 space-x-4 rounded-l-md hover:cursor-pointer hover:bg-hoverColor">
                 <img src={power} alt="Fuel Feed" className="w-12 h-12 rounded-full dark:bg-gray-500" />
                 <div>
@@ -16,37 +16,34 @@ const Sidebar = () => {
             <div className="divide-y dark:divide-gray-300 pt-4 font-body text-sm font-semibold tracking-wider">
                 <ul className="pt-2 pb-4 space-y-1">
 
-                    {SidebarIcons.map((iconObj) => {
-                        const [key, IconComponent] = Object.entries(iconObj)[0];
-                        return (
-                            <li key={key} className="rounded-l-md hover:bg-hoverColor">
+                    {
+                        Sidebar_Tabs_Icons.map((icons) => (
+                            <li key={icons.iconName} className="rounded-l-md hover:bg-hoverColor">
                                 <a rel="noopener noreferrer" href="#" className="flex items-center p-2 space-x-3 rounded-md">
-                                    {IconComponent}
-                                    <span className="capitalize">{key}</span>
+                                    {icons.icon}
+                                    <span className="capitalize">{icons.iconName}</span>
                                 </a>
                             </li>
-                        );
-                    })}
+                        ))
+                    }
 
                 </ul>
 
                 <ul className="py-4 space-y-1">
 
-                    {SettingIcons.map((iconObj) => {
-                        const [key, IconComponent] = Object.entries(iconObj)[0];
-                        return (
-                            <li key={key} className="rounded-md rounded-l-md hover:bg-hoverColor">
+                    {
+                        SettingIcons.map((icons) => (
+                            <li key={icons.iconName} className="rounded-l-md hover:bg-hoverColor">
                                 <a rel="noopener noreferrer" href="#" className="flex items-center p-2 space-x-3 rounded-md">
-                                    {IconComponent}
+                                    {icons.icon}
                                     {
-                                        key !== "theme" && <span className="capitalize">{key}</span>
+                                        icons.iconName !== "theme" && <span className="capitalize">{icons.iconName}</span>
                                     }
                                 </a>
                             </li>
-                        );
-                    })}
+                        ))
+                    }
 
-                    {/* <ThemeSwitch />s */}
                 </ul>
 
                 <Logout />
