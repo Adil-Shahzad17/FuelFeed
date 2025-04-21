@@ -105,3 +105,6 @@ import { IoIosHelpCircle } from "react-icons/io";
 
 
 // A Place to Rise Together.
+
+// 1. Alert Dialog: For Logout, Delete Post
+// 2. 

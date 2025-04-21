@@ -2,7 +2,7 @@ import { GoHomeFill } from "react-icons/go";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { IoIosHelpCircle } from "react-icons/io";
 import { IoIosBookmark } from "react-icons/io";
-import { BsNintendoSwitch } from "react-icons/bs";
+import ThemeSwitch from "@/components/shared/Sidebar/ThemeSwitch";
 
 export const SidebarIcons = [
   {
@@ -18,7 +18,7 @@ export const SidebarIcons = [
 
 export const SettingIcons = [
   {
-    theme: <BsNintendoSwitch size={20} color="#ff7b00" />,
+    theme: <ThemeSwitch />,
   },
   {
     help: <IoIosHelpCircle size={24} color="#5a189a" />,

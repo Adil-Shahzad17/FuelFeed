@@ -1,16 +1,41 @@
 import React from 'react';
 import styled from 'styled-components';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+import { BsNintendoSwitch } from 'react-icons/bs'
 
 const ThemeSwitch = () => {
   return (
-    <StyledWrapper>
-      <label className="ui-switch">
-        <input type="checkbox" />
-        <div className="slider">
-          <div className="circle" />
-        </div>
-      </label>
-    </StyledWrapper>
+
+    <div className='w-[300px]'>
+      <Accordion type="single" collapsible>
+        <AccordionItem value="item-1">
+          <AccordionTrigger>
+            <div className='flex gap-4 font-body text-sm font-semibold tracking-wider'>
+              <BsNintendoSwitch size={20} color="#ff7b00" />
+              <p>Theme</p>
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className='h-auto'>
+            <StyledWrapper >
+              <label className="ui-switch">
+                <input type="checkbox" onClick={(e) => console.log(e.target.checked)} />
+                <div className="slider">
+                  <div className="circle" />
+                </div>
+              </label>
+            </StyledWrapper>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+
+    </div>
+
+
   );
 }
 

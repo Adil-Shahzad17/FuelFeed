@@ -10,7 +10,7 @@ import {
     FormMessage,
 } from "../../components/ui/form"
 import { Input } from "../../components/ui/input"
-import power from "../../assets/Images/power.png"
+import power from "@/constants/Images/images"
 import { formSchema } from "../../validation/AuthValidation"
 import { Checkbox } from "@/components/ui/checkbox"
 
