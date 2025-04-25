@@ -39,7 +39,7 @@ const DropZone = React.forwardRef(({ onChange, value, ...props }, ref) => {
     };
 
     return (
-        <div className="border border-altColor/45 rounded-lg p-4 flex flex-col gap-4">
+        <div className="border border-altColor/45 p-2 w-full rounded-lg flex flex-col gap-4">
 
             <h1 className="text-2xl font-title">
                 Upload Image
@@ -59,7 +59,7 @@ const DropZone = React.forwardRef(({ onChange, value, ...props }, ref) => {
                     className="max-w-full max-h-96 object-contain mb-4 mx-auto"
                 />
             ) : (
-                <div className="border-2 border-dashed border-gray-400 p-8 text-center mb-4">
+                <div className="border-2 border-dashed border-gray-400 text-center mb-2 py-12">
                     <p>No image selected</p>
                 </div>
             )}
@@ -69,7 +69,7 @@ const DropZone = React.forwardRef(({ onChange, value, ...props }, ref) => {
                 accept=".jpg,.jpeg,.png"
                 onChange={handleImageChange}
                 ref={ref}
-                className="font-body mt-5"
+                className="font-body mt-5 w-full "
                 {...props}
             />
         </div>

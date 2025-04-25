@@ -3,14 +3,21 @@ import { test } from '@/constants/Images/images'
 import Posts from '../Home/Posts';
 import { MdEdit } from 'react-icons/md';
 import { Button } from '@/components/ui/button';
+import { IoIosCamera } from "react-icons/io";
+import EditCoverPhoto from '@/_root/Forms/EditCoverPhoto';
 
 const Profile = () => {
     return (
         <div className="w-full mx-auto flex flex-col gap-2 ">
 
             <div className='w-full rounded-lg relative pb-6'>
-                <div className='hover:cursor-pointer'>
+                <div className='relative'>
                     <img src={test} alt="" className='max-h-52 w-full object-cover rounded-lg' />
+
+                    <div className='bg-white absolute gap-2 py-2 px-3 rounded-md right-2 bottom-2 hover:cursor-pointer '>
+                        <EditCoverPhoto />
+                    </div>
+
                 </div>
 
                 <div className='bg-teal-500 w-24 h-24 rounded-full border-4 border-white absolute left-3 

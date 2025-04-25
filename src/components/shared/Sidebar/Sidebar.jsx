@@ -1,7 +1,7 @@
 import React from 'react'
 import { power } from '@/constants/Images/images';
 import { Sidebar_Tabs_Icons, SettingIcons } from '../../../constants/Icons/SideBarIcons';
-import Logout from './Logout';
+import LogoutAlert from '@/constants/Alerts/LogoutAlert';
 
 const Sidebar = () => {
     return (
@@ -46,7 +46,9 @@ const Sidebar = () => {
 
                 </ul>
 
-                <Logout />
+                <div className='pt-3'>
+                    <LogoutAlert />
+                </div>
 
             </div>
         </div>
