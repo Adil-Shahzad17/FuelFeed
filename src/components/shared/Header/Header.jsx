@@ -1,5 +1,5 @@
 import React from 'react'
-import power from '@/constants/Images/images'
+import { power } from '@/constants/Images/images'
 import SearchBar from './SearchBar/SearchBar'
 
 

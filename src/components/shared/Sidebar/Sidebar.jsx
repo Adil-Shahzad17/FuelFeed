@@ -1,5 +1,5 @@
 import React from 'react'
-import power from '@/constants/Images/images';
+import { power } from '@/constants/Images/images';
 import { Sidebar_Tabs_Icons, SettingIcons } from '../../../constants/Icons/SideBarIcons';
 import Logout from './Logout';
 

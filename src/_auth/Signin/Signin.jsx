@@ -11,7 +11,7 @@ import {
 } from "../../components/ui/form"
 import { Input } from "../../components/ui/input"
 import { formSchema } from "../../validation/AuthValidation"
-import power from "@/constants/Images/images"
+import { power } from "@/constants/Images/images"
 
 
 export default function Signin() {

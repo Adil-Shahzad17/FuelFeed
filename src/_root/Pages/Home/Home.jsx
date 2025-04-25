@@ -1,13 +1,16 @@
 import React from 'react'
 import WhatsOnYourMind from './WhatsOnYourMind'
-import Story from './Stories/Story'
+import Demo from '@/Demo'
+import Posts from './Posts'
 
 const Home = () => {
+
     return (
-        <aside className='bg-white mx-5 h-full flex flex-col gap-3'>
+        <div className="h-screen w-full mx-auto px-5 flex flex-col gap-3 overflow-y-auto">
             <WhatsOnYourMind />
-            <Story />
-        </aside>
+            <Posts show="home" />
+            {/* <Demo /> */}
+        </div>
     )
 }
 

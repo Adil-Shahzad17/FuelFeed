@@ -16,9 +16,6 @@ const RootLayout = () => {
             </main>
             {/* <Demo /> */}
         </div>
-
-
-
     )
 }
 

@@ -1,35 +1,48 @@
-"use client"
-import { IoSearch } from "react-icons/io5";
-import React from "react"
+import * as React from "react";
 
+export default function Demo() {
+    const [imageUrl, setImageUrl] = React.useState(null);
+    const fileInputRef = React.useRef();
 
-const Demo = () => {
-
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                setImageUrl(event.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     return (
-        <ul className="flex gap-5 text-center text-gray-500">
-            <li>
-                <a href="#page1" className="flex justify-center border-b-4 border-transparent
-                focus:text-indigo-600 focus:border-indigo-600 hover:text-black hover:border-mainColor py-4">
-                    <IoSearch />
-                    Pilot  Training</a>
-            </li>
-            <li>
-                <a href="#page2" className="flex justify-center border-b-4 border-transparent hover:text-bgColor hover:border-indigo-600 py-4">Titan maintenance</a>
-            </li>
-            <li>
-                <a href="#page3" className="flex justify-center border-b-4 border-transparent hover:text-bgColor hover:border-indigo-600 py-4">Loadout</a>
-            </li>
-            <li>
-                <a href="#page4" className="flex justify-center border-b-4 border-transparent hover:text-bgColor hover:border-indigo-600 py-4">Server Browser</a>
-            </li>
-            <li>
-                <a href="#page5" className="flex justify-center border-b-4 border-transparent hover:text-bgColor hover:border-indigo-600 py-4">Settings</a>
-            </li>
-        </ul>
+        <div className="border border-altColor h-auto rounded-lg p-4 flex flex-col gap-4">
 
+            <h1 className="text-2xl font-title">Upload Images</h1>
 
-    )
+            <hr />
+
+            {imageUrl ? (
+                <img
+                    src={imageUrl}
+                    alt="Preview"
+                    className="max-w-full max-h-96 object-contain mb-4"
+                />
+            ) : (
+                <div className="border-2 border-dashed border-gray-400 p-8 text-center mb-4">
+                    <p>No image selected</p>
+                </div>
+            )}
+
+            <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                ref={fileInputRef}
+            // className="block mx-auto"
+            />
+        </div>
+    );
 }
 
-export default Demo
+
