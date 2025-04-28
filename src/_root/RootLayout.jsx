@@ -1,11 +1,15 @@
 import React from 'react'
 import Sidebar from '../components/shared/Sidebar/Sidebar'
-import Demo from '@/Demo'
 import Header from '@/components/shared/Header/Header'
 import PageLayout from './Pages/PageLayout'
+import { Navigate } from 'react-router-dom'
+import Tabs from '@/constants/Tabs/Tabs'
 
 const RootLayout = () => {
-    return (
+
+    const auth = true
+
+    return auth ? (
         <div className='min-w-[320px] mx-auto max-w-screen-xl grid grid-rows-[auto_1fr] grid-cols-1 relative dark:bg-dark_bgColor bg-bgColor'>
 
             <Header />
@@ -14,9 +18,8 @@ const RootLayout = () => {
                 <Sidebar />
                 <PageLayout />
             </main>
-            {/* <Demo /> */}
         </div>
-    )
+    ) : <Navigate to="/_auth/signup" />
 }
 
 export default RootLayout

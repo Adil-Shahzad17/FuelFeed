@@ -1,10 +1,11 @@
 import React from 'react'
-import DropZone from './components/ui/DropZone'
-import DeleteAlert from './constants/Alerts/DeleteAlert'
+
 
 const Demo = () => {
     return (
-        <DeleteAlert />
+        <div className='bg-dark_altColor text-white text-7xl flex justify-center items-center'>
+            Home
+        </div>
     )
 }
 

@@ -13,6 +13,7 @@ import { Input } from "../../components/ui/input"
 import { power } from "@/constants/Images/images"
 import { formSchema } from "../../validation/AuthValidation"
 import { Checkbox } from "@/components/ui/checkbox"
+import { Link } from "react-router-dom"
 
 export default function Signup() {
 
@@ -135,9 +136,9 @@ export default function Signup() {
             </Form>
             <div className="text-center text-sm font-body">
                 Already have an account?{" "}
-                <a href="#" className="underline underline-offset-4">
+                <Link to="/_auth/signin" className="underline underline-offset-4">
                     Sign in
-                </a>
+                </Link>
             </div>
         </div>
     )

@@ -12,6 +12,7 @@ import {
 import { Input } from "../../components/ui/input"
 import { formSchema } from "../../validation/AuthValidation"
 import { power } from "@/constants/Images/images"
+import { Link } from "react-router-dom"
 
 
 export default function Signin() {
@@ -81,9 +82,9 @@ export default function Signin() {
             </Form>
             <div className="text-center text-sm font-body">
                 Don&apos;t have an account?{" "}
-                <a href="#" className="underline underline-offset-4">
+                <Link to="/_auth/signup" className="underline underline-offset-4">
                     Sign up
-                </a>
+                </Link>
             </div>
         </div>
     )

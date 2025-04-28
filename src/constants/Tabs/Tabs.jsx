@@ -1,26 +1,28 @@
 import React from "react"
 import { Sidebar_Tabs_Icons } from "../Icons/SideBarIcons";
 import Menu from "./Menu/Menu";
+import { Link } from "react-router-dom";
 
 const Tabs = () => {
 
     return (
         <ul
-            className="flex justify-around gap-3 pt-4 py-3 text-center text-gray-500 font-title bg-bgColor h-auto 
+            className="h-auto flex justify-around gap-3 text-center text-gray-500 font-title bg-bgColor 
   shadow-md min-w-[280px] w-full md:hidden dark:bg-dark_altColor">
 
             {
                 Sidebar_Tabs_Icons.map((icons) => (
-                    <li key={icons.iconName} className="w-full">
-                        <a href="#page1" className="flex justify-center border-b-4 border-transparent
-                focus:border-mainColor hover:border-mainColor">
+                    <li key={icons.iconName} className="py-5 w-full h-full flex items-center justify-center
+                   border-b-4 border-transparent focus:border-mainColor hover:border-mainColor">
+                        <Link to={icons.navigate} className="flex justify-center                 ">
                             {icons.icon}
-                        </a>
+                        </Link>
                     </li>
                 ))
             }
 
-            <li className="w-full"
+            <li className="w-full h-full flex items-center justify-center
+                   border-b-4 border-transparent focus:border-mainColor hover:border-mainColor"
             >
                 <Menu />
             </li>
