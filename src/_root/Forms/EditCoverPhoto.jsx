@@ -49,7 +49,7 @@ export default function EditCoverPhoto() {
                 <IoIosCamera size={28} color='black' />
 
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] max-h-[80vh] overflow-auto">
+            <DialogContent className="sm:max-w-[425px] max-h-[80vh] overflow-auto dark:bg-dark_bgColor dark:text-white">
                 <DialogHeader>
                     <DialogTitle>Edit Cover Photo</DialogTitle>
                     <DialogDescription>
@@ -73,7 +73,7 @@ export default function EditCoverPhoto() {
                                 </div>
                             }
 
-                            <Button type='button' onClick={() => setEdit(!edit)} className='w-full'>
+                            <Button type='button' onClick={() => setEdit(!edit)} className='w-full dark:bg-white dark:text-black'>
                                 {edit ? "Discard" : "Undo Discard"}
                             </Button>
 

@@ -8,7 +8,7 @@ import EditCoverPhoto from '@/_root/Forms/EditCoverPhoto';
 
 const Profile = () => {
     return (
-        <div className="w-full mx-auto flex flex-col gap-2 ">
+        <div className="w-full mx-auto flex flex-col gap-2 dark:text-white">
 
             <div className='w-full rounded-lg relative pb-6'>
                 <div className='relative'>
@@ -20,7 +20,7 @@ const Profile = () => {
 
                 </div>
 
-                <div className='bg-teal-500 w-24 h-24 rounded-full border-4 border-white absolute left-3 
+                <div className='w-24 h-24 rounded-full border-4 border-white absolute left-3 
                 bottom-0'>
                     <img src={test} alt="" className='w-full h-full object-cover rounded-full' />
                 </div>

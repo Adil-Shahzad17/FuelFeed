@@ -1,6 +1,5 @@
 import React from 'react'
 import { SettingIcons } from '@/constants/Icons/SideBarIcons'
-import Logout from '@/components/shared/Sidebar/Logout'
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -17,14 +16,14 @@ const Menu = () => {
 
         <DropdownMenu>
             <DropdownMenuTrigger><IoMenu size={32} /></DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent className='dark:bg-dark_altColor dark:text-white'>
                 <DropdownMenuLabel>Menu</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <ul className="space-y-4">
 
                     {
                         SettingIcons.map((icons) => (
-                            <li key={icons.iconName} className="rounded-l-md hover:bg-hoverColor">
+                            <li key={icons.iconName} className="rounded-l-md hover:bg-hoverColor dark:hover:bg-dark_hoverColor">
                                 <a rel="noopener noreferrer" href="#" className="flex items-center p-2 space-x-3 rounded-md">
                                     {icons.icon}
                                     {

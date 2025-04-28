@@ -26,7 +26,7 @@ export default function DeleteAlert({ post }) {
                     </span>
                 </a>
             </AlertDialogTrigger>
-            <AlertDialogContent>
+            <AlertDialogContent className='dark:bg-dark_bgColor dark:text-white'>
                 <AlertDialogHeader>
                     <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                     <AlertDialogDescription>
@@ -35,7 +35,7 @@ export default function DeleteAlert({ post }) {
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogCancel className='dark:text-black'>Cancel</AlertDialogCancel>
                     <AlertDialogAction className='bg-mainColor'>Delete</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>

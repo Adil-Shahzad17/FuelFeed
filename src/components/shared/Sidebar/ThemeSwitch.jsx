@@ -9,6 +9,33 @@ import {
 import { BsNintendoSwitch } from 'react-icons/bs'
 
 const ThemeSwitch = () => {
+
+  const [theme, setTheme] = React.useState(false);
+  const ref = React.useRef(null);
+
+  React.useEffect(() => {
+    const savedTheme = JSON.parse(localStorage.getItem("theme"));
+    if (savedTheme) {
+      document.documentElement.classList.add('dark');
+      setTheme(true);
+    } else {
+      document.documentElement.classList.remove('dark');
+      setTheme(false);
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    if (ref.current.checked) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem("theme", JSON.stringify(true));
+      setTheme(true);
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem("theme", JSON.stringify(false));
+      setTheme(false);
+    }
+  };
+
   return (
 
     <div className='w-[300px]'>
@@ -23,7 +50,7 @@ const ThemeSwitch = () => {
           <AccordionContent className='h-auto pt-6'>
             <StyledWrapper >
               <label className="ui-switch">
-                <input type="checkbox" onClick={(e) => console.log(e.target.checked)} />
+                <input type="checkbox" onClick={toggleTheme} ref={ref} checked={theme} />
                 <div className="slider">
                   <div className="circle" />
                 </div>

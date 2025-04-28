@@ -19,28 +19,6 @@ import {
 } from "@/components/ui/popover"
 import searchItems from "./searchItems";
 
-const frameworks = [
-    {
-        value: "next.js",
-        label: "Next.js",
-    },
-    {
-        value: "sveltekit",
-        label: "SvelteKit",
-    },
-    {
-        value: "nuxt.js",
-        label: "Nuxt.js",
-    },
-    {
-        value: "remix",
-        label: "Remix",
-    },
-    {
-        value: "astro",
-        label: "Astro",
-    },
-]
 
 const SearchBar = () => {
 
@@ -54,7 +32,7 @@ const SearchBar = () => {
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-44 h-10 border-0 font-body text-gray-500 tracking-wider rounded-3xl flex justify-start gap-3 bg-bgColor sm:w-72"
+                    className="w-44 h-10 border-0 font-body text-gray-500 tracking-wider rounded-3xl flex justify-start gap-3 bg-bgColor sm:w-72 dark:bg-dark_hoverColor dark:text-white"
                 >
                     <IoSearch className="text-xl" />
                     {value
@@ -64,11 +42,11 @@ const SearchBar = () => {
             </PopoverTrigger>
 
             <PopoverContent className="w-72 p-0 font-body">
-                <Command className='bg-bgColor'>
+                <Command className='bg-bgColor dark:bg-dark_hoverColor dark:text-white'>
                     <CommandInput placeholder="Search fuel..." className="h-9" />
                     <CommandList>
                         <CommandEmpty>No Results found.</CommandEmpty>
-                        <CommandGroup>
+                        <CommandGroup className='dark:text-white'>
                             {searchItems.map((framework) => (
                                 <CommandItem
                                     key={framework.value}

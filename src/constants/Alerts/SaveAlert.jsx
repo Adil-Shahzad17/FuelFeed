@@ -23,12 +23,12 @@ export default function SaveAlert({ post }) {
                     </span>
                 </a>
             </AlertDialogTrigger>
-            <AlertDialogContent>
+            <AlertDialogContent className='dark:bg-dark_bgColor dark:text-white'>
                 <AlertDialogHeader>
                     <AlertDialogTitle>Save Post to Saved Items?</AlertDialogTitle>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogCancel className='dark:text-black'>Cancel</AlertDialogCancel>
                     <AlertDialogAction className='bg-green-600'>Continue</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>

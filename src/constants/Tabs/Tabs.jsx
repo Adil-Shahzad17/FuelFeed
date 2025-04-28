@@ -6,8 +6,8 @@ const Tabs = () => {
 
     return (
         <ul
-            className="flex justify-around gap-3 text-center text-gray-500 font-title bg-bgColor h-auto 
-  shadow-md min-w-[280px] w-full md:hidden p-3">
+            className="flex justify-around gap-3 pt-4 py-3 text-center text-gray-500 font-title bg-bgColor h-auto 
+  shadow-md min-w-[280px] w-full md:hidden dark:bg-dark_altColor">
 
             {
                 Sidebar_Tabs_Icons.map((icons) => (

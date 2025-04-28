@@ -117,9 +117,10 @@ export default function Signup() {
                                     <FormControl>
                                         <Checkbox id="terms" {...field}
                                             checked={field.value}
-                                            onCheckedChange={field.onChange} />
+                                            onCheckedChange={field.onChange}
+                                            className='dark:border dark:border-white' />
                                     </FormControl>
-                                    <FormLabel className="text-sm pt-[1px] font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                    <FormLabel className="text-sm pt-[1px] font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ">
                                         I consent to surrender my privacy to this corporation.
                                     </FormLabel>
                                 </div>

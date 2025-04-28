@@ -6,7 +6,7 @@ import Posts from './Posts'
 const Home = () => {
 
     return (
-        <div className="h-screen w-full mx-auto flex flex-col gap-3 overflow-y-auto">
+        <div className="h-screen w-full mx-auto px-2 flex flex-col gap-3 overflow-y-auto">
             <WhatsOnYourMind />
             <Posts show="home" />
             {/* <Demo /> */}

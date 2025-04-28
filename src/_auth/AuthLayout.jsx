@@ -5,10 +5,10 @@ import Signup from './Signup/Signup'
 
 const AuthLayout = () => {
     return (
-        <div className='min-w-[320px] flex md:items-center justify-center min-h-screen py-8 relative'>
+        <div className='min-w-[320px] flex md:items-center justify-center min-h-screen py-8 relative dark:bg-dark_bgColor dark:text-white'>
 
-            {/* <Signin /> */}
-            <Signup />
+            <Signin />
+            {/* <Signup /> */}
         </div>
     )
 }

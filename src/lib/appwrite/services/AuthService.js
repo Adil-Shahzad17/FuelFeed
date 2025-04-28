@@ -45,9 +45,9 @@ class AuthService {
     }
   }
 
-  async loginUsingOTP({ user_Id, otpToken }) {
+  async loginUsingOTP({ user_id, otpToken }) {
     try {
-      return await this.account.createSession(user_Id, otpToken);
+      return await this.account.createSession(user_id, otpToken);
     } catch (error) {
       console.log(error.message);
       return error;
@@ -59,11 +59,7 @@ class AuthService {
       const user = await this.account.get();
       return user;
     } catch (error) {
-      if (error.code === 401) {
-        console.log(
-          "Unauthorized: Please ensure the user is logged in and has the necessary permissions."
-        );
-      }
+      throw error;
     }
   }
 

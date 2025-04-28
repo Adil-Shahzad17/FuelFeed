@@ -34,12 +34,12 @@ const ShareAlert = () => {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <div className="px-8 flex items-center space-x-4 font-body text-base font-medium hover:bg-gray-100 p-2 rounded cursor-pointer">
+                <div className="px-2 flex items-center space-x-4 font-body text-base font-medium hover:bg-gray-100 p-2 rounded cursor-pointer dark:hover:bg-dark_hoverColor">
                     <FaShare size={24} />
                     <span>Share</span>
                 </div>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent className="sm:max-w-md dark:bg-dark_bgColor dark:text-white">
                 <DialogHeader>
                     <DialogTitle>Share link</DialogTitle>
                     <DialogDescription>

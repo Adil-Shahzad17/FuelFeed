@@ -47,21 +47,22 @@ const EditProfile = () => {
     }
 
     return (
-        <div className="w-full max-w-[500px] p-4 mx-auto flex flex-col gap-4">
+        <div className="w-full rounded-lg p-4 mx-auto flex flex-col gap-4 dark:bg-dark_altColor dark:text-white">
 
             <div className="flex gap-3 items-center text-center border-b border-b-black/10 justify-center relative pb-2">
                 <h1 className="text-2xl font-bold font-title">
                     Edit Profile</h1>
 
                 <ul>
-                    <li className="rounded-l-md hover:bg-hoverColor">
+                    <li className="rounded-l-md">
                         <AlertDialog>
                             <AlertDialogTrigger asChild>
                                 <a rel="noopener noreferrer" href="#" className="flex items-center p-2 space-x-3 rounded-md">
-                                    <IoIosCloseCircle size={36} className='bg-altColor rounded-full hover:cursor-pointer absolute right-4' />
+                                    <IoIosCloseCircle size={36} className='bg-altColor dark:bg-dark_altColor rounded-full hover:cursor-pointer absolute right-4' />
                                 </a>
                             </AlertDialogTrigger>
-                            <AlertDialogContent>
+                            <AlertDialogContent className='dark:bg-dark_bgColor dark:text-white'>
+
                                 <AlertDialogHeader>
                                     <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                                     <AlertDialogDescription>
@@ -70,7 +71,7 @@ const EditProfile = () => {
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
                                     <AlertDialogAction className='bg-mainColor'>Discard Changes</AlertDialogAction>
-                                    <AlertDialogCancel>Continue</AlertDialogCancel>
+                                    <AlertDialogCancel className='dark:text-black'>Continue</AlertDialogCancel>
                                 </AlertDialogFooter>
                             </AlertDialogContent>
                         </AlertDialog>

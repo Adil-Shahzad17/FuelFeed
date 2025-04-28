@@ -53,7 +53,7 @@ export default function ReportAlert({ post }) {
                 </a>
 
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] max-h-[80vh] overflow-auto">
+            <DialogContent className="sm:max-w-[425px] max-h-[80vh] overflow-auto dark:bg-dark_bgColor dark:text-white">
                 <DialogHeader>
                     <DialogTitle>Report!!!</DialogTitle>
                     <DialogDescription>

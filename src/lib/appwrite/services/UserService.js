@@ -1,7 +1,7 @@
-import credentials from "@/lib/credentials";
 import { Client, ID, Databases, Storage } from "appwrite";
+import credentials from "@/lib/credentials";
 
-class PostService {
+class UserService {
   client = new Client();
   database;
   bucket;
@@ -14,70 +14,56 @@ class PostService {
     this.bucket = new Storage(this.client);
   }
 
-  async createPost(data) {
+  async createUser(user_id, data) {
     try {
       return await this.database.createDocument(
         credentials.database_db,
-        credentials.collection_post,
-        ID.unique(),
+        credentials.collection_user,
+        user_id,
         {
           data,
         }
       );
     } catch (error) {
-      console.log("Create Post Error", error);
+      console.log("Create User Profile Error", error);
       return false;
     }
   }
 
-  async updatePost(post_id, data) {
+  async updateUser(user_id, data) {
     try {
       return await this.database.updateDocument(
         credentials.database_db,
-        credentials.collection_post,
-        post_id,
+        credentials.collection_user,
+        user_id,
         {
           data,
         }
       );
     } catch (error) {
-      console.log("Update Post Error", error);
+      console.log("Update Profile Error", error);
       return false;
     }
   }
 
-  async deletePost({ post_id }) {
-    try {
-      await this.database.deleteDocument(
-        credentials.database_db,
-        credentials.collection_post,
-        post_id
-      );
-      return true;
-    } catch (error) {
-      console.log("Delete Post Error", error);
-      return false;
-    }
-  }
-
-  async getPost({ post_id }) {
+  async getUser({ user_id }) {
     try {
       return await this.database.getDocument(
         credentials.database_db,
-        credentials.collection_post,
-        post_id
+        credentials.collection_user,
+        user_id
       );
     } catch (error) {
-      console.log("Get Post Error", error);
+      console.log("Get Profile Error", error);
       return false;
     }
   }
 
-  async allPosts(queries = []) {
+  async allUsers(queries = []) {
     try {
       return await this.database.listDocuments(
         credentials.database_db,
-        credentials.collection_post,
+        credentials.collection_user,
         queries
       );
     } catch (error) {
@@ -86,7 +72,7 @@ class PostService {
     }
   }
 
-  async uploadFile(file) {
+  async uploadUserFile(file) {
     try {
       return await this.bucket.createFile(
         credentials.bucket_fuel,
@@ -94,35 +80,26 @@ class PostService {
         file
       );
     } catch (error) {
-      console.log("Create | Upload File Error", error);
+      console.log("Create | Upload Profile File Error", error);
       return false;
     }
   }
 
-  async deleteFile(file_id) {
+  async deleteUserFile(file_id) {
     try {
       await this.bucket.deleteFile(credentials.bucket_fuel, file_id);
       return true;
     } catch (error) {
-      console.log("Delete File Error", error);
+      console.log("Delete Profile File Error", error);
       return false;
     }
   }
 
-  getFilePreview(file_id) {
+  getUserFilePreview(file_id) {
     return this.bucket.getFilePreview(credentials.bucket_fuel, file_id);
   }
-
-  //   async getImage(file_id) {
-  //     try {
-  //       return this.bucket.getFile(credentials.bucket_fuel, file_id);
-  //     } catch (error) {
-  //       console.log("Get File Error", error);
-  //       return false;
-  //     }
-  //   }
 }
 
-const post_service = new PostService();
+const user_service = new UserService();
 
-export default post_service;
+export default user_service;

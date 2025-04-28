@@ -24,7 +24,7 @@ const Posts = ({ show }) => {
     return (
         <>
             <div className="dark:bg-gray-900 flex items-center justify-center">
-                <div className="px-5 py-4 w-full h-auto dark:bg-gray-800 shadow rounded-lg bg-white">
+                <div className="px-5 py-4 w-full h-auto dark:bg-dark_altColor shadow rounded-lg bg-white">
                     <div className="flex justify-between">
                         <div className='flex mb-4'>
 
@@ -37,7 +37,7 @@ const Posts = ({ show }) => {
                         </div>
                         <div >
                             <DropdownMenu>
-                                <DropdownMenuTrigger><Ellipsis /></DropdownMenuTrigger>
+                                <DropdownMenuTrigger><Ellipsis className='dark:text-white' /></DropdownMenuTrigger>
                                 <DropdownMenuContent className='absolute right-0'>
                                     {
                                         show === 'profile' &&
@@ -90,13 +90,13 @@ const Posts = ({ show }) => {
                         />
                     </div>
 
-                    <div className="w-full mt-5 bg-white rounded-md shadow-sm p-2">
+                    <div className="w-full mt-5 bg-white dark:bg-dark_bgColor rounded-md shadow-sm p-2">
                         <div className="flex items-center justify-between px-2">
                             {
                                 count > 0 &&
                                 <div className="flex items-center space-x-2 font-body">
                                     <FaThumbsUp size={16} color='blue' />
-                                    <span className="text-sm text-gray-700">{count}</span>
+                                    <span className="text-sm text-gray-700 dark:text-white">{count}</span>
                                 </div>
                             }
                         </div>
@@ -109,7 +109,7 @@ const Posts = ({ show }) => {
 
                             {
                                 show === 'home' &&
-                                <div className="flex items-center space-x-4 font-body text-base font-medium hover:bg-gray-100 p-2 rounded cursor-pointer"
+                                <div className="flex items-center space-x-4 font-body text-base font-medium hover:bg-gray-100 dark:hover:bg-dark_hoverColor p-2 rounded cursor-pointer"
                                     onClick={(() => {
                                         setLiked(!liked)
                                         if (!liked) setCount(count + 1)
