@@ -1,6 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { Button } from "../../components/ui/button"
+import { power } from "@/constants/Images/images"
+import { formSchema } from "../../validation/AuthValidation"
+import { Link, useNavigate } from "react-router-dom"
 import {
     Form,
     FormControl,
@@ -8,15 +10,16 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "../../components/ui/form"
-import { Input } from "../../components/ui/input"
-import { power } from "@/constants/Images/images"
-import { formSchema } from "../../validation/AuthValidation"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Link } from "react-router-dom"
+    Button,
+    Input,
+    Checkbox,
+} from "@/components/ui/components"
+import { useDispatch } from "react-redux"
+import { draftLogin } from "@/lib/store/authSlice"
 
 export default function Signup() {
-
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -29,16 +32,16 @@ export default function Signup() {
         },
     })
 
-    // 2. Define a submit handler.
-    function onSubmit(values) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
-    }
+    const onSubmit = (data) => {
+        dispatch(draftLogin(data))
+        console.log(data);
+        navigate("/_auth/otp");
+    };
 
     return (
 
         <div className="w-full max-w-[500px] px-4 flex flex-col gap-4">
+
 
             <div className="flex flex-col gap-3 items-center text-center">
                 <img src={power} alt="Fuel Feed" width="60px" height="60px" />

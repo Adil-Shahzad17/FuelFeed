@@ -19,19 +19,7 @@ class AuthService {
         email,
         password
       );
-      if (userAccount) {
-        return this.generate_getOTPToken(email);
-      } else {
-        return userAccount;
-      }
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  async login({ email, password }) {
-    try {
-      return await this.account.createEmailPasswordSession(email, password);
+      return userAccount;
     } catch (error) {
       throw error;
     }
@@ -51,6 +39,14 @@ class AuthService {
     } catch (error) {
       console.log(error.message);
       return error;
+    }
+  }
+
+  async login({ email, password }) {
+    try {
+      return await this.account.createEmailPasswordSession(email, password);
+    } catch (error) {
+      throw error;
     }
   }
 

@@ -13,6 +13,7 @@ import CreatePost from './_root/Forms/CreatePost';
 import EditPost from './_root/Forms/EditPost';
 import EditProfile from './_root/Forms/EditProfile';
 import Demo from './Demo';
+import OTP from './components/ui/OTP';
 
 const Routing = () => {
     return (
@@ -31,6 +32,7 @@ const Routing = () => {
             <Route path="/_auth" element={<AuthLayout />}>
                 <Route path="signin" element={<Signin />} />
                 <Route path="signup" element={<Signup />} />
+                <Route path="otp" element={<OTP />} />
             </Route>
         </Routes>
     )
