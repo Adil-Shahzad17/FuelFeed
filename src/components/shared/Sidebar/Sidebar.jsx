@@ -38,7 +38,7 @@ const Sidebar = () => {
                                 <Link to={icons.navigate} className="flex items-center p-2 space-x-3 rounded-md">
                                     {icons.icon}
                                     {
-                                        icons.iconName !== "theme" && <span className="capitalize">{icons.iconName}</span>
+                                        <span className="capitalize">{icons.iconName}</span>
                                     }
                                 </Link>
                             </li>

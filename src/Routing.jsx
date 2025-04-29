@@ -12,18 +12,20 @@ import Help from './_root/Pages/Help/Help';
 import CreatePost from './_root/Forms/CreatePost';
 import EditPost from './_root/Forms/EditPost';
 import EditProfile from './_root/Forms/EditProfile';
+import Demo from './Demo';
 
 const Routing = () => {
     return (
         <Routes>
             <Route path="/" element={<RootLayout />}>
-                <Route path='home' element={<Home />} />
+                <Route path='/' element={<Home />} />
                 <Route path='profile' element={<Profile />} />
                 <Route path='saved' element={<Saved />} />
                 <Route path='help' element={<Help />} />
                 <Route path='createpost' element={<CreatePost />} />
                 <Route path='editpost' element={<EditPost />} />
                 <Route path='editprofile' element={<EditProfile />} />
+                <Route path="demo" element={<Demo />} />
             </Route>
 
             <Route path="/_auth" element={<AuthLayout />}>

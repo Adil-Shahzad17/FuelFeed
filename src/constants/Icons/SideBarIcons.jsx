@@ -8,7 +8,7 @@ export const Sidebar_Tabs_Icons = [
   {
     iconName: "home",
     icon: <GoHomeFill size={32} color="#358f80" />,
-    navigate: "home"
+    navigate: "/"
   },
   {
     iconName: "profile",
@@ -25,13 +25,8 @@ export const Sidebar_Tabs_Icons = [
 
 export const SettingIcons = [
   {
-    iconName: "theme",
-    icon: <ThemeSwitch />,
-    // navigate: "",
-  },
-  {
     iconName: "help",
-    icon: <IoIosHelpCircle size={24} color="#5a189a" />,
+    icon: <IoIosHelpCircle size={32} color="#5a189a" />,
     navigate: "help"
   },
 ];

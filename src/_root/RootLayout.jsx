@@ -7,7 +7,7 @@ import Tabs from '@/constants/Tabs/Tabs'
 
 const RootLayout = () => {
 
-    const auth = true
+    const auth = false
 
     return auth ? (
         <div className='min-w-[320px] mx-auto max-w-screen-xl grid grid-rows-[auto_1fr] grid-cols-1 relative dark:bg-dark_bgColor bg-bgColor'>
