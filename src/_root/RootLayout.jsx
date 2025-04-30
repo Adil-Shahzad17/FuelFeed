@@ -1,16 +1,34 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Sidebar from '../components/shared/Sidebar/Sidebar'
 import Header from '@/components/shared/Header/Header'
 import PageLayout from './Pages/PageLayout'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { useCurrentUserQuery } from '@/lib/tanstack/querys_mutations'
+import LoaderScreen from '@/constants/Loading/LoaderScreen'
 
 const RootLayout = () => {
 
     const auth = useSelector((state) => state.auth.status)
     console.log(auth);
 
-    return auth ? (
+    const { isFetching, refetch } = useCurrentUserQuery()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        const cookieFallback = localStorage.getItem("cookieFallback");
+        if (
+            cookieFallback === "[]" ||
+            cookieFallback === null ||
+            cookieFallback === undefined
+        ) {
+            navigate("/_auth/signup");
+        }
+        refetch();
+    }, []);
+
+
+    return isFetching ? <LoaderScreen /> : (
         <div className='min-w-[320px] mx-auto max-w-screen-xl grid grid-rows-[auto_1fr] grid-cols-1 relative dark:bg-dark_bgColor bg-bgColor'>
 
             <Header />
@@ -20,7 +38,7 @@ const RootLayout = () => {
                 <PageLayout />
             </main>
         </div>
-    ) : <Navigate to="/_auth/signup" />
+    )
 }
 
 export default RootLayout

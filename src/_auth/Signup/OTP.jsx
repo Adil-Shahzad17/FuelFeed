@@ -9,11 +9,9 @@ import {
 } from "@/components/ui/components"
 import Loader from "@/constants/Loading/Loader"
 import { useOTPLoginMutation } from "@/lib/tanstack/querys_mutations"
-import { Navigate, useNavigate } from "react-router-dom"
 
 export default function OTP() {
 
-    const navigate = useNavigate()
 
     const { isPending, isError, error, mutateAsync } = useOTPLoginMutation()
     const [otp, setOtp] = React.useState("")
@@ -74,10 +72,6 @@ export default function OTP() {
                 {
                     isPending && <Loader />
                 }
-
-                <Button type='buttion' onClick={() => navigate('/')}>
-                    Navigate
-                </Button>
             </div>
         </div>
 

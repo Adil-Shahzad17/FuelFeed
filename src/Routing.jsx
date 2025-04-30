@@ -4,7 +4,6 @@ import AuthLayout from './_auth/AuthLayout'
 import RootLayout from './_root/RootLayout';
 import Signin from './_auth/Signin/Signin'
 import Signup from './_auth/Signup/Signup'
-import PageLayout from './_root/Pages/PageLayout';
 import Home from './_root/Pages/Home/Home';
 import Profile from './_root/Pages/Profile/Profile';
 import Saved from './_root/Pages/Saved/Saved';
@@ -14,6 +13,8 @@ import EditPost from './_root/Forms/EditPost';
 import EditProfile from './_root/Forms/EditProfile';
 import Demo from './Demo';
 import OTP from './_auth/Signup/OTP';
+import LoaderScreen from './constants/Loading/LoaderScreen';
+import AppLayout from './AppLayout';
 
 const Routing = () => {
     return (
@@ -34,6 +35,7 @@ const Routing = () => {
                 <Route path="signup" element={<Signup />} />
                 <Route path="otp" element={<OTP />} />
             </Route>
+            {/* <Route path='loading' element={<LoaderScreen />} /> */}
         </Routes>
     )
 }

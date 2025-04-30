@@ -1,9 +1,10 @@
 import authservice from "../appwrite/services/AuthService";
 import { useDispatch, useSelector } from "react-redux";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { draftLogin, login, logout } from "../store/authSlice";
 
+// Authentication
 export const useSigninMutation = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -120,3 +121,26 @@ export const useLoginMutation = () => {
     },
   });
 };
+
+export const useCurrentUserQuery = () => {
+  const dispatch = useDispatch();
+  return useQuery({
+    queryKey: ["current_user"],
+    enabled: false,
+    staleTime: Infinity,
+    queryFn: async () => {
+      try {
+        const currentUser = await authservice.getCurrentUser();
+
+        if (currentUser instanceof Error) throw currentUser;
+
+        dispatch(login(currentUser));
+        return currentUser;
+      } catch (error) {
+        throw new Error("Failed to get Current User");
+      }
+    },
+  });
+};
+
+// ---------------------------
