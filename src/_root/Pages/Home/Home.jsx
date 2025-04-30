@@ -2,6 +2,7 @@ import React from 'react'
 import WhatsOnYourMind from './WhatsOnYourMind'
 import Demo from '@/Demo'
 import Posts from './Posts'
+import { useSelector } from 'react-redux'
 
 const Home = () => {
 

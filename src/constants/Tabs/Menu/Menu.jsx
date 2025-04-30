@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { IoMenu } from "react-icons/io5";
 import LogoutAlert from '@/constants/Alerts/LogoutAlert';
+import { Link } from 'react-router-dom';
 
 
 const Menu = () => {
@@ -24,12 +25,12 @@ const Menu = () => {
                     {
                         SettingIcons.map((icons) => (
                             <li key={icons.iconName} className="rounded-l-md hover:bg-hoverColor dark:hover:bg-dark_hoverColor">
-                                <a rel="noopener noreferrer" href="#" className="flex items-center p-2 space-x-3 rounded-md">
+                                <Link to={icons.navigate} className="flex items-center p-2 space-x-3 rounded-md">
                                     {icons.icon}
                                     {
                                         icons.iconName !== "theme" && <span className="capitalize font-body font-semibold">{icons.iconName}</span>
                                     }
-                                </a>
+                                </Link>
                             </li>
                         ))
                     }

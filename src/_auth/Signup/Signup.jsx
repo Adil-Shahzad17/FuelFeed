@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { power } from "@/constants/Images/images"
-import { formSchema } from "../../validation/AuthValidation"
-import { Link, useNavigate } from "react-router-dom"
+import { signupValidation } from "../../validation/AuthValidation"
+import { Link } from "react-router-dom"
 import {
     Form,
     FormControl,
@@ -14,15 +14,15 @@ import {
     Input,
     Checkbox,
 } from "@/components/ui/components"
-import { useDispatch } from "react-redux"
-import { draftLogin } from "@/lib/store/authSlice"
+import { useSigninMutation } from "@/lib/tanstack/querys_mutations"
+import Loader from "@/constants/Loading/Loader"
 
 export default function Signup() {
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
+
+    const { mutateAsync, error, isError, isPending } = useSigninMutation()
 
     const form = useForm({
-        resolver: zodResolver(formSchema),
+        resolver: zodResolver(signupValidation),
         defaultValues: {
             username: "",
             email: "",
@@ -32,10 +32,9 @@ export default function Signup() {
         },
     })
 
-    const onSubmit = (data) => {
-        dispatch(draftLogin(data))
-        console.log(data);
-        navigate("/_auth/otp");
+    const onSubmit = (data, e) => {
+        e.preventDefault();
+        mutateAsync(data)
     };
 
     return (
@@ -51,6 +50,13 @@ export default function Signup() {
                 <p className="text-md text-altColor">
                     Create your account now, fill in to get started.
                 </p>
+
+                {
+                    isError && <p className="text-md text-mainColor">
+                        {error.message}
+                    </p>
+                }
+
             </div>
 
             <Form {...form}>
@@ -133,16 +139,29 @@ export default function Signup() {
                         )}
                     />
 
-                    <Button type="submit" className="w-full bg-mainColor mt-5">Login</Button>
+                    <Button type="submit"
+                        className={`w-full dark:text-white bg-mainColor mt-5 
+                        ${isPending ? 'opacity-50 pointer-events-none' : ''}`}
+
+                        disabled={isPending} >
+                        Sign up
+                    </Button>
                 </form>
 
             </Form>
-            <div className="text-center text-sm font-body">
+            <div className="text-center text-sm font-body mx-auto">
                 Already have an account?{" "}
                 <Link to="/_auth/signin" className="underline underline-offset-4">
                     Sign in
                 </Link>
+
+                {
+                    isPending && <Loader className="mt-5" />
+                }
+
             </div>
+
+
         </div>
     )
 }

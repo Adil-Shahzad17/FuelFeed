@@ -5,9 +5,7 @@ const credentials = {
   collection_post: String(import.meta.env.VITE_APPWRITE_COLLECTION_POST),
   collection_user: String(import.meta.env.VITE_APPWRITE_COLLECTION_USER),
   collection_saves: String(import.meta.env.VITE_APPWRITE_COLLECTION_SAVES),
-  bucket_fuel: String(import.meta.env.VITE_APPWRITE_BUCKET_fuel),
+  bucket_fuel: String(import.meta.env.VITE_APPWRITE_BUCKET_FUEL),
 };
 
 export default credentials;
-
-console.log(credentials);

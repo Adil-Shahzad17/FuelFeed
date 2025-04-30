@@ -13,7 +13,7 @@ import CreatePost from './_root/Forms/CreatePost';
 import EditPost from './_root/Forms/EditPost';
 import EditProfile from './_root/Forms/EditProfile';
 import Demo from './Demo';
-import OTP from './components/ui/OTP';
+import OTP from './_auth/Signup/OTP';
 
 const Routing = () => {
     return (

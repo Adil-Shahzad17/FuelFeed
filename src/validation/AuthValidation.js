@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-export const formSchema = z
+export const signupValidation = z
   .object({
     username: z
       .string()
@@ -32,3 +32,19 @@ export const formSchema = z
     message: "Passwords don't match",
     path: ["confirmPassword"],
   });
+
+export const signinValidation = z.object({
+  email: z.string().email({ message: "Enter a valid email address." }),
+  password: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters long." })
+    .regex(/[A-Z]/, {
+      message: "Password must include at least one uppercase letter.",
+    })
+    .regex(/[a-z]/, {
+      message: "Password must include at least one lowercase letter.",
+    })
+    .regex(/[!@#$%^&*(),.?":{}|<>]/, {
+      message: "Password must include at least one special character.",
+    }),
+});

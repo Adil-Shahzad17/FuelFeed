@@ -7,17 +7,21 @@ import {
     InputOTPGroup,
     InputOTPSlot, Button
 } from "@/components/ui/components"
-import { useSelector } from "react-redux"
+import Loader from "@/constants/Loading/Loader"
+import { useOTPLoginMutation } from "@/lib/tanstack/querys_mutations"
+import { Navigate, useNavigate } from "react-router-dom"
 
 export default function OTP() {
-    const [value, setValue] = React.useState("")
 
-    const auth = useSelector((state) => state.auth)
-    console.log(auth);
+    const navigate = useNavigate()
+
+    const { isPending, isError, error, mutateAsync } = useOTPLoginMutation()
+    const [otp, setOtp] = React.useState("")
 
     const submitOTP = () => {
-        console.log(value);
+        mutateAsync(otp)
     }
+
 
     return (
         <div className="space-y-10">
@@ -29,13 +33,19 @@ export default function OTP() {
                 <p className="text-md text-altColor">
                     Create your account now, fill in to get started.
                 </p>
+
+                {
+                    isError && <p className="text-md text-mainColor">
+                        {error.message}
+                    </p>
+                }
             </div>
 
             <div className="space-y-5 flex flex-col items-center">
                 <InputOTP
                     maxLength={6}
-                    value={value}
-                    onChange={(value) => setValue(value)}
+                    otp={otp}
+                    onChange={(otp) => setOtp(otp)}
                     pattern={REGEXP_ONLY_DIGITS}
                 >
                     <InputOTPGroup>
@@ -48,15 +58,25 @@ export default function OTP() {
                     </InputOTPGroup>
                 </InputOTP>
                 <div className="text-center text-md text-altColor">
-                    {value === "" ? (
+                    {otp === "" ? (
                         <>Enter your one-time password.</>
                     ) : (
-                        <>You entered: {value}</>
+                        <>You entered: {otp}</>
                     )}
                 </div>
 
-                <Button onClick={submitOTP}>
+                <Button onClick={submitOTP}
+                    disabled={isPending}
+                    className={`${isPending && 'opacity-50 pointer-events-none'} 'font-icon'`}>
                     Submit
+                </Button>
+
+                {
+                    isPending && <Loader />
+                }
+
+                <Button type='buttion' onClick={() => navigate('/')}>
+                    Navigate
                 </Button>
             </div>
         </div>

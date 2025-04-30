@@ -16,12 +16,12 @@ export default function SaveAlert({ post }) {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <a rel="noopener noreferrer" href="#" className="flex items-center p-2 space-x-3 rounded-md">
+                <div className="flex items-center p-2 space-x-3 rounded-md">
                     <FaImages size={24} />
                     <span className="capitalize font-body font-semibold">
                         Save
                     </span>
-                </a>
+                </div>
             </AlertDialogTrigger>
             <AlertDialogContent className='dark:bg-dark_bgColor dark:text-white'>
                 <AlertDialogHeader>

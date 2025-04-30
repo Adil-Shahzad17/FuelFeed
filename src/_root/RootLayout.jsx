@@ -3,11 +3,12 @@ import Sidebar from '../components/shared/Sidebar/Sidebar'
 import Header from '@/components/shared/Header/Header'
 import PageLayout from './Pages/PageLayout'
 import { Navigate } from 'react-router-dom'
-import Tabs from '@/constants/Tabs/Tabs'
+import { useSelector } from 'react-redux'
 
 const RootLayout = () => {
 
-    const auth = false
+    const auth = useSelector((state) => state.auth.status)
+    console.log(auth);
 
     return auth ? (
         <div className='min-w-[320px] mx-auto max-w-screen-xl grid grid-rows-[auto_1fr] grid-cols-1 relative dark:bg-dark_bgColor bg-bgColor'>
