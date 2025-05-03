@@ -1,18 +1,29 @@
 import React from 'react'
-import { test } from '@/constants/Images/images'
+import { test, coverPhoto, profilePhoto } from '@/constants/Images/images'
 import Posts from '../Home/Posts';
 import { MdEdit } from 'react-icons/md';
 import { Button } from '@/components/ui/button';
-import { IoIosCamera } from "react-icons/io";
 import EditCoverPhoto from '@/_root/Forms/EditCoverPhoto';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import userService from '@/lib/appwrite/services/UserService';
 
 const Profile = () => {
+
+    const user = useSelector((state) => state.user.userData)
+    console.log(user);
+
+
     return (
         <div className="w-full mx-auto flex flex-col gap-2 dark:text-white">
 
-            <div className='w-full rounded-lg relative pb-6'>
-                <div className='relative'>
-                    <img src={test} alt="" className='max-h-52 w-full object-cover rounded-lg' />
+            <div className='w-full relative pb-6 '>
+                <div className="h-52 rounded-lg relative bg-cover bg-center"
+                    style={{ backgroundImage: `url(${coverPhoto})` }}
+                >
+                    {
+                        user.cover_img && <img src={coverPhoto} alt="" className='max-h-52 w-full object-cover rounded-lg' />
+                    }
 
                     <div className='bg-white absolute gap-2 py-2 px-3 rounded-md right-2 bottom-2 hover:cursor-pointer '>
                         <EditCoverPhoto />
@@ -20,16 +31,21 @@ const Profile = () => {
 
                 </div>
 
-                <div className='w-24 h-24 rounded-full border-4 border-white absolute left-3 
+                <div className='bg-altColor w-24 h-24 rounded-full border-4 border-white absolute left-3 
                 bottom-0'>
-                    <img src={test} alt="" className='w-full h-full object-cover rounded-full' />
+                    {
+                        user.profile_img && <img src={userService.getUserFilePreview(user.profile_img
+                        )} alt="" className='w-full h-full object-cover rounded-full' />
+                    }
                 </div>
 
             </div>
             <div className='flex items-center justify-between px-3'>
 
-                <h1 className='text-xl font-title font-bold'>Adil Shahzad</h1>
-                <Button className='bg-mainColor'>Edit Profile <MdEdit /> </Button>
+                <h1 className='text-xl font-title font-bold capitalize'>{user.user_name}</h1>
+                <Link to={`/editprofile/${user.$id}`}>
+                    <Button className='bg-mainColor text-white'>Edit Profile <MdEdit /> </Button>
+                </Link>
 
             </div>
 

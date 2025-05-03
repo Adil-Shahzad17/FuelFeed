@@ -4,7 +4,7 @@ import './Loading.css'
 
 const Loader = ({ className }) => {
     return (
-        <div className={`loader ${className}`} />
+        <div className={`loader ${className} mx-auto`} />
     )
 }
 

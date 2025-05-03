@@ -14,14 +14,17 @@ class UserService {
     this.bucket = new Storage(this.client);
   }
 
-  async createUser(user_id, data) {
+  async createUser({ user_id, user_name, bio, cover_img, profile_img }) {
     try {
       return await this.database.createDocument(
         credentials.database_db,
         credentials.collection_user,
         user_id,
         {
-          data,
+          user_name,
+          bio,
+          cover_img,
+          profile_img,
         }
       );
     } catch (error) {
@@ -30,14 +33,16 @@ class UserService {
     }
   }
 
-  async updateUser(user_id, data) {
+  async updateUser({ user_id, bio, cover_img, profile_img }) {
     try {
       return await this.database.updateDocument(
         credentials.database_db,
         credentials.collection_user,
         user_id,
         {
-          data,
+          bio,
+          cover_img,
+          profile_img,
         }
       );
     } catch (error) {
@@ -100,6 +105,6 @@ class UserService {
   }
 }
 
-const user_service = new UserService();
+const userService = new UserService();
 
-export default user_service;
+export default userService;

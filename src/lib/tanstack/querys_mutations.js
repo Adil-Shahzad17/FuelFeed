@@ -1,8 +1,10 @@
 import authservice from "../appwrite/services/AuthService";
+import userService from "../appwrite/services/UserService";
 import { useDispatch, useSelector } from "react-redux";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { draftLogin, login, logout } from "../store/authSlice";
+import { userData } from "../store/userSlice";
 
 // Authentication
 export const useSigninMutation = () => {
@@ -41,7 +43,8 @@ export const useSigninMutation = () => {
 export const useOTPLoginMutation = () => {
   const userInfo = useSelector((state) => state.auth.userData);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const authdispatch = useDispatch();
+  const userdispatch = useDispatch();
 
   return useMutation({
     mutationFn: async (otp) => {
@@ -58,14 +61,26 @@ export const useOTPLoginMutation = () => {
 
         const currentUser = await authservice.getCurrentUser();
 
-        if (currentUser instanceof Error) throw new Error("No User Found");
-        dispatch(login(currentUser));
+        if (currentUser instanceof Error) throw new Error("No Account Found");
+        authdispatch(login(currentUser));
+
+        const createUser = await userService.createUser({
+          user_id: currentUser.$id,
+          user_name: currentUser.name,
+        });
+
+        if (createUser instanceof Error) throw new Error("No User Found");
+
+        const user = await userService.getUser({
+          user_id: createUser.$id,
+        });
+
+        if (user instanceof Error) throw user;
+        userdispatch(userData(user));
       } catch (error) {
         console.log(error);
         throw new Error("OTP Login M Error");
       }
-      console.log(userInfo);
-      console.log(otp);
     },
     onSuccess: () => {
       navigate("/");
@@ -95,7 +110,8 @@ export const useLogoutMutation = () => {
 };
 
 export const useLoginMutation = () => {
-  const dispatch = useDispatch();
+  const authdispatch = useDispatch();
+  const userdispatch = useDispatch();
   const navigate = useNavigate();
   return useMutation({
     mutationFn: async (data) => {
@@ -108,12 +124,19 @@ export const useLoginMutation = () => {
         if (loginUser instanceof Error)
           throw new Error("Failed to Login, try again later");
 
+        console.log(loginUser);
+
         const currentUser = await authservice.getCurrentUser();
 
         if (currentUser instanceof Error) throw new Error("No User Found");
-        dispatch(login(currentUser));
+        authdispatch(login(currentUser));
+
+        const user = await userService.getUser({ user_id: currentUser.$id });
+
+        if (user instanceof Error) throw new Error("No User Found");
+        userdispatch(userData(user));
       } catch (error) {
-        throw new Error("Failed to Login, try again later");
+        throw new Error(error);
       }
     },
     onSuccess: () => {
@@ -122,20 +145,32 @@ export const useLoginMutation = () => {
   });
 };
 
-export const useCurrentUserQuery = () => {
-  const dispatch = useDispatch();
+export const useCurrentAccountUserQuery = () => {
+  const authdispatch = useDispatch();
+  const userdispatch = useDispatch();
+
   return useQuery({
-    queryKey: ["current_user"],
+    queryKey: ["account_user"],
     enabled: false,
     staleTime: Infinity,
     queryFn: async () => {
       try {
-        const currentUser = await authservice.getCurrentUser();
+        const currentAccount = await authservice.getCurrentUser();
+
+        if (currentAccount instanceof Error) throw currentAccount;
+        authdispatch(login(currentAccount));
+
+        const currentUser = await userService.getUser({
+          user_id: currentAccount.$id,
+        });
 
         if (currentUser instanceof Error) throw currentUser;
+        userdispatch(userData(currentUser));
 
-        dispatch(login(currentUser));
-        return currentUser;
+        console.log(currentAccount);
+        console.log(currentUser);
+
+        return true;
       } catch (error) {
         throw new Error("Failed to get Current User");
       }
@@ -144,3 +179,50 @@ export const useCurrentUserQuery = () => {
 };
 
 // ---------------------------
+
+export const useUserQuery = (userid) => {
+  return useQuery({
+    queryKey: ["user", userid],
+    staleTime: Infinity,
+    queryFn: async () => {
+      try {
+        const user = await userService.getUser({ user_id: userid });
+
+        if (user instanceof Error) throw new Error("Failed to get user info");
+        return user;
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+  });
+};
+
+export const useEditProfileMutation = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data) => {
+      const fileUpload = await userService.uploadUserFile(data.file);
+
+      if (fileUpload instanceof Error)
+        throw new Error("Failed to upload profile photo");
+
+      const edit = await userService.updateUser({
+        user_id: data.user_id,
+        bio: data.bio,
+        profile_img: fileUpload.$id,
+      });
+
+      if (edit instanceof Error) throw new Error("Failed to update Profile");
+
+      dispatch(userData(edit));
+      return edit;
+    },
+    onSuccess: (data) => {
+      navigate("/");
+      queryClient.invalidateQueries({ queryKey: ["user", data.$id] });
+    },
+  });
+};

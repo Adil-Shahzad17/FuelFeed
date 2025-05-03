@@ -3,16 +3,8 @@ import { power, test } from '@/constants/Images/images';
 import { IoIosCloseCircle } from "react-icons/io";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { Button } from '@/components/ui/button';
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormMessage
-} from "@/components/ui/form"
-import {
-    AlertDialog,
+    Button, Form, FormControl, FormField, FormItem, FormMessage, AlertDialog,
     AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
@@ -20,18 +12,31 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { Textarea } from "@/components/ui/textarea"
+    AlertDialogTrigger, Textarea
+} from "@/components/ui/components"
 import DropZone from '@/components/ui/DropZone';
-import { postSchema } from '@/validation/PostValidation';
+import { profileSchema } from '@/validation/ProfileValidation';
+import { useParams } from 'react-router-dom';
+import { useEditProfileMutation, useUserQuery } from '@/lib/tanstack/querys_mutations';
+import userService from '@/lib/appwrite/services/UserService';
+import LoaderPage from '@/constants/Loading/LoaderPage';
+import Loader from '@/constants/Loading/Loader';
 
 const EditProfile = () => {
 
     const [edit, setEdit] = useState(true)
+    const { user_id } = useParams()
+    console.log(user_id);
+
+    const { data, isFetching, isError, error, isSuccess } = useUserQuery(user_id)
+    const { isPending, mutateAsync } = useEditProfileMutation()
+    if (isSuccess) {
+        console.log(data)
+    }
+
 
     const form = useForm({
-        resolver: zodResolver(postSchema),
+        resolver: zodResolver(profileSchema),
         defaultValues: {
             bio: "",
             file: undefined,
@@ -41,17 +46,32 @@ const EditProfile = () => {
 
     // 2. Define a submit handler.
     function onSubmit(values) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
+        mutateAsync({ ...values, user_id: data.$id })
+        // console.log(values);
+    }
+
+    if (isFetching) {
+        return (
+            <>
+                <LoaderPage />
+            </>
+        )
     }
 
     return (
-        <div className="w-full rounded-lg p-4 mx-auto flex flex-col gap-4 dark:bg-dark_altColor dark:text-white">
+        <div className="w-full rounded-lg p-4 mx-auto flex flex-col gap-4 
+        dark:bg-dark_altColor dark:text-white">
 
             <div className="flex gap-3 items-center text-center border-b border-b-black/10 justify-center relative pb-2">
                 <h1 className="text-2xl font-bold font-title">
-                    Edit Profile</h1>
+                    Edit Profile
+                </h1>
+
+                {
+                    isError && <p className="text-md text-mainColor">
+                        {error.message}
+                    </p>
+                }
 
                 <ul>
                     <li className="rounded-l-md">
@@ -85,7 +105,7 @@ const EditProfile = () => {
                 <div className="w-10 h-10 rounded-full bg-black bg-cover bg-center border border-black"
                     style={{ backgroundImage: `url(${power})` }} />
 
-                <h2 className='font-bold font-title'>Mark Henry</h2>
+                <h2 className='font-bold font-title'>{data.user_name}</h2>
             </div>
 
 
@@ -106,24 +126,26 @@ const EditProfile = () => {
                         )}
                     />
 
-                    {
-                        edit &&
+                    <div className='flex flex-col gap-3 '>
+                        <h3 className='text-2xl font-title font-bold '>Profile Image</h3>
+                        {
+                            (edit && data.profile_img) ? <img src={userService.getUserFilePreview(data.profile_img)} alt="" className='rounded-lg' />
+                                :
+                                <div className='w-full h-32 border border-altColor/45 flex justify-center items-center rounded-lg'>
+                                    <p>No existing profile photo found</p>
+                                </div>
+                        }
 
-                        <div className='flex flex-col gap-3 text-2xl font-title font-bold'>
-                            <h3>Profile Image</h3>
-                            <img src={test} alt="" className='rounded-lg' />
+                    </div>
+                    {/* } */}
 
-                        </div>
-                    }
 
                     <Button type='button' onClick={() => setEdit(!edit)} className='w-full'>
-                        {edit ? "Discard" : "Undo Discard"}
+                        {edit ? "Choose Photo" : "Discard"}
                     </Button>
 
                     {
-                        !edit &&
-
-                        <FormField
+                        !edit && <FormField
                             control={form.control}
                             name="file"
                             render={({ field }) => (
@@ -137,7 +159,16 @@ const EditProfile = () => {
                         />
                     }
 
-                    <Button type="submit" className="w-full bg-mainColor">Save Changes</Button>
+                    <Button type="submit"
+                        className={`w-full dark:text-white bg-mainColor mt-5 
+                                            ${isPending ? 'opacity-50 pointer-events-none' : ''}`}
+
+                        disabled={isPending} >
+                        Save Changes
+                    </Button>
+                    {
+                        isPending && <Loader />
+                    }
                 </form>
 
             </Form>

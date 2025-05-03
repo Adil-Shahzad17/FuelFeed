@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const postSchema = z.object({
+export const profileSchema = z.object({
   bio: z.string().optional(),
   file: z
     .custom((val) => val === null || val instanceof File, {

@@ -8,8 +8,8 @@ const UserSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    user_data: (state, action) => {
-      state.userData = action.payload.userData;
+    userData: (state, action) => {
+      state.userData = action.payload;
     },
     clearUserData: (state) => {
       state.userData = null;
@@ -17,6 +17,6 @@ const UserSlice = createSlice({
   },
 });
 
-export const { user_data, clearUserData } = UserSlice.actions;
+export const { userData, clearUserData } = UserSlice.actions;
 
 export default UserSlice.reducer;
