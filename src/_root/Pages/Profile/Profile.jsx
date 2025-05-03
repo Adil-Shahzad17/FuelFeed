@@ -50,7 +50,7 @@ const Profile = () => {
             </div>
 
             <div className='text-base font-body mt-4 mb-2 px-4'>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus itaque perferendis cupiditate dolore impedit minima blanditiis tenetur architecto iusto recusandae?
+                {user.bio}
             </div>
 
             <hr />
