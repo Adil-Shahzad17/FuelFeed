@@ -5,13 +5,24 @@ import { MdEdit } from 'react-icons/md';
 import { Button } from '@/components/ui/button';
 import EditCoverPhoto from '@/_root/Forms/EditCoverPhoto';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import userService from '@/lib/appwrite/services/UserService';
+import { useUserPostsQuery } from '@/lib/tanstack/querys_mutations';
+import Loader from '@/constants/Loading/Loader';
+import SkeletonLoader from '@/constants/Loading/SkeletonLoader';
 
 const Profile = () => {
 
     const user = useSelector((state) => state.user.userData)
-    console.log(user);
+    console.log(user.$id);
+
+
+    const { data, isFetching, isError, error, isSuccess } = useUserPostsQuery(user.$id)
+
+    if (isSuccess) {
+        console.log(data);
+    }
+
 
 
     return (
@@ -57,9 +68,27 @@ const Profile = () => {
 
             <h2 className='font-title font-bold text-2xl my-4'>All Posts</h2>
 
-            <div className='flex flex-col gap-5'>
-                <Posts show='profile' />
-            </div>
+            {
+                isError && <p className="text-md text-mainColor">
+                    {error.message}
+                </p>
+            }
+
+            {
+                isFetching && <SkeletonLoader />
+            }
+
+            {
+                isSuccess &&
+                <div className='flex flex-col gap-5'>
+                    {
+                        data.documents.map((post) => (
+                            <Posts show='profile' posts={post} user={user} key={post.$id}
+                            />
+                        ))
+                    }
+                </div>
+            }
 
         </div>
     )

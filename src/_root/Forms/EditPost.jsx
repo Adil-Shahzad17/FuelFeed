@@ -25,10 +25,14 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import DropZone from '@/components/ui/DropZone';
 import { postSchema } from '@/validation/PostValidation';
+import { useParams } from 'react-router-dom';
 
 const EditPost = () => {
 
     const [edit, setEdit] = useState(true)
+    const { post_id } = useParams()
+
+    console.log(post_id);
 
     const form = useForm({
         resolver: zodResolver(postSchema),

@@ -13,11 +13,19 @@ import ReportAlert from '@/constants/Alerts/ReportAlert';
 import RemoveAlert from '@/constants/Alerts/RemoveAlert';
 import SaveAlert from '@/constants/Alerts/SaveAlert';
 import ShareAlert from '@/constants/Alerts/ShareAlert';
+import post_service from '@/lib/appwrite/services/PostService';
+import userService from '@/lib/appwrite/services/UserService';
+import { useNavigate } from 'react-router-dom';
 
-const Posts = ({ show }) => {
+const Posts = ({ show, posts, user }) => {
 
     const [liked, setLiked] = React.useState(false)
     const [count, setCount] = React.useState(0)
+
+    const navigate = useNavigate()
+
+    console.log(user);
+    console.log(posts);
 
 
 
@@ -28,10 +36,10 @@ const Posts = ({ show }) => {
                     <div className="flex justify-between">
                         <div className='flex mb-4'>
 
-                            <img className="w-12 h-12 rounded-full object-cover" src={test} />
+                            <img className="w-12 h-12 rounded-full object-cover" src={userService.getUserFilePreview(user.profile_img)} />
                             <div className="ml-2 mt-0.5">
-                                <span className="block font-medium font-title text-base leading-snug text-black dark:text-gray-100">Loyce Kuvalis</span>
-                                <span className="block text-sm font-heading text-gray-500 dark:text-gray-400 font-light leading-snug">16 December at 08:25</span>
+                                <span className="block font-medium font-title text-base leading-snug text-black dark:text-gray-100">{user.user_name}</span>
+                                <span className="block text-sm font-heading text-gray-500 dark:text-gray-400 font-light leading-snug">{posts.$createdAt}</span>
                             </div>
 
                         </div>
@@ -44,7 +52,8 @@ const Posts = ({ show }) => {
 
                                         <ul className="space-y-2">
                                             <li className="rounded-l-md hover:bg-hoverColor">
-                                                <div className="flex items-center p-2 space-x-3 rounded-md">
+                                                <div className="flex items-center p-2 space-x-3 rounded-md"
+                                                    onClick={() => navigate(`/editpost/${posts.$id}`)} >
                                                     <MdEdit size={24} />
                                                     <span className="capitalize font-body font-semibold">
                                                         Edit
@@ -61,17 +70,17 @@ const Posts = ({ show }) => {
                                             {
                                                 show === 'profile' &&
                                                 <>
-                                                    <DeleteAlert post='fuck' />
+                                                    <DeleteAlert post={posts.$id} />
                                                 </>
                                             }
                                             {show === 'home' &&
                                                 <>
-                                                    <SaveAlert post='fuck' />
-                                                    <ReportAlert post='fuck' />
+                                                    <SaveAlert post={posts.$id} />
+                                                    <ReportAlert post={posts.$id} />
                                                 </>
                                             }
                                             {show === 'saved' &&
-                                                <RemoveAlert post='fuck' />
+                                                <RemoveAlert post={posts.$id} />
                                             }
                                         </li>
                                     </ul>
@@ -83,14 +92,14 @@ const Posts = ({ show }) => {
 
                     <div className="text-gray-800 font-body dark:text-gray-100 leading-snug md:leading-normal flex flex-col                     gap-3">
 
-                        <p >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <p >{posts.content}</p>
 
-                        <h2 className='italic font-heading text-blue-500'>#Self Improvement</h2>
+                        <h2 className='italic font-heading text-blue-500'>#{posts.category}</h2>
                     </div>
 
                     <div className="rounded-lg my-5 w-full aspect-square mx-auto overflow-hidden">
                         <img
-                            src={test}
+                            src={post_service.getFilePreview(posts.post_img)}
                             alt=""
                             className="w-full h-full object-cover"
                         />

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { draftLogin, login, logout } from "../store/authSlice";
 import { userData } from "../store/userSlice";
 import post_service from "../appwrite/services/PostService";
+import { Query } from "appwrite";
 
 // Authentication
 export const useSigninMutation = () => {
@@ -262,6 +263,7 @@ export const useEditCoverMutation = () => {
 
 export const useCreatePostMutation = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data) => {
       try {
@@ -283,8 +285,31 @@ export const useCreatePostMutation = () => {
         throw new Error(error.message);
       }
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       navigate("/profile");
+      queryClient.invalidateQueries({ queryKey: ["user_posts", data.user_id] });
+    },
+  });
+};
+
+export const useUserPostsQuery = (user_id) => {
+  return useQuery({
+    queryKey: ["user_posts", user_id],
+    staleTime: Infinity,
+    queryFn: async () => {
+      try {
+        const posts = await post_service.allPosts([
+          Query.equal("user_id", user_id),
+        ]);
+
+        if (posts instanceof Error)
+          throw new Error("Failed to fetch your posts");
+        console.log(posts);
+
+        return posts;
+      } catch (error) {
+        throw new Error(error.message);
+      }
     },
   });
 };

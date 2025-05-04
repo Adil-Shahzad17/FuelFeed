@@ -2,7 +2,7 @@ import { GoHomeFill } from "react-icons/go";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { IoIosHelpCircle } from "react-icons/io";
 import { IoIosBookmark } from "react-icons/io";
-import ThemeSwitch from "@/components/shared/Sidebar/ThemeSwitch";
+
 
 export const Sidebar_Tabs_Icons = [
   {
@@ -13,7 +13,7 @@ export const Sidebar_Tabs_Icons = [
   {
     iconName: "profile",
     icon: <IoPersonCircleOutline size={32} color="#197AE8" />,
-    navigate: "profile"
+    navigate: `profile`
 
   },
   {

@@ -114,17 +114,11 @@ class PostService {
   }
 
   getFilePreview(file_id) {
-    return this.bucket.getFilePreview(credentials.bucket_fuel, file_id);
-  }
+    // return this.bucket.getFilePreview(credentials.bucket_fuel, file_id);
+    const fileUrl = `https://cloud.appwrite.io/v1/storage/buckets/${credentials.bucket_fuel}/files/${file_id}/view?project=${credentials.project_id}`;
 
-  //   async getImage(file_id) {
-  //     try {
-  //       return this.bucket.getFile(credentials.bucket_fuel, file_id);
-  //     } catch (error) {
-  //       console.log("Get File Error", error);
-  //       return false;
-  //     }
-  //   }
+    return fileUrl;
+  }
 }
 
 const post_service = new PostService();

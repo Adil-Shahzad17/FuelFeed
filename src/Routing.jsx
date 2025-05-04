@@ -59,7 +59,7 @@ const Routing = () => {
                 <Route path='saved' element={<Saved />} />
                 <Route path='help' element={<Help />} />
                 <Route path='createpost' element={<CreatePost />} />
-                <Route path='editpost' element={<EditPost />} />
+                <Route path='editpost/:post_id' element={<EditPost />} />
                 <Route path='editprofile/:user_id' element={<EditProfile />} />
                 <Route path="demo" element={<Demo />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
