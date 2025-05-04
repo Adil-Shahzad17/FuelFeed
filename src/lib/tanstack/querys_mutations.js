@@ -304,9 +304,27 @@ export const useUserPostsQuery = (user_id) => {
 
         if (posts instanceof Error)
           throw new Error("Failed to fetch your posts");
-        console.log(posts);
 
         return posts;
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+  });
+};
+
+export const useGetPostQuery = (post_id) => {
+  return useQuery({
+    queryKey: ["posts", post_id],
+    staleTime: Infinity,
+    queryFn: async () => {
+      try {
+        const post = await post_service.getPost(post_id);
+        console.log(post);
+
+        if (post instanceof Error) throw new Error("Failed to fetch your post");
+
+        return post;
       } catch (error) {
         throw new Error(error.message);
       }

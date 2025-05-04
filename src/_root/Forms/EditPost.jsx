@@ -25,14 +25,23 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import DropZone from '@/components/ui/DropZone';
 import { postSchema } from '@/validation/PostValidation';
-import { useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import userService from '@/lib/appwrite/services/UserService';
+import { profilePhoto } from '@/constants/Images/images';
+import { useGetPostQuery } from '@/lib/tanstack/querys_mutations';
 
 const EditPost = () => {
 
     const [edit, setEdit] = useState(true)
+    const navigate = useNavigate()
+    const user = useSelector((state) => state.user.userData)
     const { post_id } = useParams()
 
+    console.log(user)
     console.log(post_id);
+
+    // const {data, isFetching, isError, error, isSuccess } = useGetPostQuery(post_id)
 
     const form = useForm({
         resolver: zodResolver(postSchema),
@@ -60,9 +69,9 @@ const EditPost = () => {
                     <li className="rounded-l-md">
                         <AlertDialog>
                             <AlertDialogTrigger asChild>
-                                <a rel="noopener noreferrer" href="#" className="flex items-center p-2 space-x-3 rounded-md">
+                                <Link className="flex items-center p-2 space-x-3 rounded-md">
                                     <IoIosCloseCircle size={36} className='bg-altColor dark:bg-dark_altColor rounded-full hover:cursor-pointer absolute right-4' />
-                                </a>
+                                </Link>
                             </AlertDialogTrigger>
                             <AlertDialogContent className='dark:bg-dark_bgColor dark:text-white'>
                                 <AlertDialogHeader>
@@ -72,7 +81,8 @@ const EditPost = () => {
                                     </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
-                                    <AlertDialogAction className='bg-mainColor'>Discard Changes</AlertDialogAction>
+                                    <AlertDialogAction className='bg-mainColor'
+                                        onClick={() => navigate("/profile")}>Discard Changes</AlertDialogAction>
                                     <AlertDialogCancel className='dark:text-black'>Continue</AlertDialogCancel>
                                 </AlertDialogFooter>
                             </AlertDialogContent>
@@ -85,9 +95,12 @@ const EditPost = () => {
 
             <div className='flex items-center gap-3'>
                 <div className="w-10 h-10 rounded-full bg-black bg-cover bg-center border border-black"
-                    style={{ backgroundImage: `url(${power})` }} />
+                    style={{
+                        backgroundImage: `url(${user.profile_img ? userService.getUserFilePreview(user.profile_img) : profilePhoto})`
+                    }}
+                />
 
-                <h2 className='font-bold font-title'>Mark Henry</h2>
+                <h2 className='font-bold font-title'>{user.user_name}</h2>
             </div>
 
 
