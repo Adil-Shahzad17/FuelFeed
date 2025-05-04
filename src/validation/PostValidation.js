@@ -2,6 +2,19 @@ import { z } from "zod";
 
 export const postSchema = z.object({
   content: z.string().min(1, "Content is required"),
+  category: z.enum(
+    [
+      "self_improvement",
+      "Discipline",
+      "Consistency",
+      "Productivity",
+      "Motivation",
+      "Focus",
+    ],
+    {
+      required_error: "Please select a topic",
+    }
+  ),
   file: z
     .custom((val) => val === null || val instanceof File, {
       message: "Please select a valid image file",

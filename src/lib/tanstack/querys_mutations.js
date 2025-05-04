@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { draftLogin, login, logout } from "../store/authSlice";
 import { userData } from "../store/userSlice";
+import post_service from "../appwrite/services/PostService";
 
 // Authentication
 export const useSigninMutation = () => {
@@ -255,6 +256,35 @@ export const useEditCoverMutation = () => {
     onSuccess: (data) => {
       navigate("/");
       queryClient.invalidateQueries({ queryKey: ["user", data.$id] });
+    },
+  });
+};
+
+export const useCreatePostMutation = () => {
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: async (data) => {
+      try {
+        const fileUpload = await post_service.uploadFile(data.file);
+
+        if (fileUpload instanceof Error)
+          throw new Error("Failed to post photo");
+
+        const createPost = await post_service.createPost({
+          category: data.category,
+          content: data.content,
+          user_id: data.user_id,
+          post_img: fileUpload.$id,
+        });
+
+        if (createPost instanceof Error)
+          throw new Error("Something went wrong with post creation");
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+    onSuccess: () => {
+      navigate("/profile");
     },
   });
 };

@@ -22,25 +22,40 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { postSchema } from '@/validation/PostValidation';
 import Dropzone from '@/components/ui/DropZone';
+import { useCreatePostMutation } from '@/lib/tanstack/querys_mutations';
+import { useSelector } from 'react-redux';
+import Loader from '@/constants/Loading/Loader';
 
 const CreatePost = () => {
+
+    const user = useSelector((state) => state.user.userData)
+    const { mutateAsync, isError, error, isPending } = useCreatePostMutation()
 
     const form = useForm({
         resolver: zodResolver(postSchema),
         defaultValues: {
             content: "",
+            category: undefined,
+            file: undefined
         },
     });
 
 
     // 2. Define a submit handler.
-    function onSubmit(values) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
+    function onSubmit(data) {
+        mutateAsync({ ...data, user_id: user.$id })
     }
 
     return (
@@ -48,7 +63,14 @@ const CreatePost = () => {
 
             <div className="flex gap-3 items-center text-center border-b border-b-black/10 justify-center relative pb-2            ">
                 <h1 className="text-2xl font-bold font-title">
-                    Create Post</h1>
+                    Create Post
+                </h1>
+
+                {
+                    isError && <p className="text-md text-mainColor">
+                        {error.message}
+                    </p>
+                }
 
                 <ul>
                     <li className="rounded-l-md">
@@ -94,7 +116,35 @@ const CreatePost = () => {
                             <FormItem>
                                 <FormControl>
                                     <Textarea placeholder="What's on your mind, User?"  {...field}
-                                        className='min-h-32' />
+                                        className='min-h-32' maxLength={2000} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="category"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <Select onValueChange={field.onChange} value={field.value}>
+                                        <SelectTrigger className="w-full">
+                                            <SelectValue placeholder="Select a topic" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                <SelectLabel>Category</SelectLabel>
+                                                <SelectItem value="self_improvement">Self Improvement</SelectItem>
+                                                <SelectItem value="Discipline">Discipline</SelectItem>
+                                                <SelectItem value="Consistency">Consistency</SelectItem>
+                                                <SelectItem value="Productivity">Productivity</SelectItem>
+                                                <SelectItem value="Motivation">Motivation</SelectItem>
+                                                <SelectItem value="Focus">Focus</SelectItem>
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -113,8 +163,16 @@ const CreatePost = () => {
                             </FormItem>
                         )}
                     />
+                    <Button type="submit"
+                        className={`w-full dark:text-white bg-mainColor mt-5 
+                                            ${isPending ? 'opacity-50 pointer-events-none' : ''}`}
 
-                    <Button type="submit" className="w-full bg-mainColor">Create Post</Button>
+                        disabled={isPending} >
+                        Create Post
+                    </Button>
+                    {
+                        isPending && <Loader />
+                    }
                 </form>
 
             </Form>

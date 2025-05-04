@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/components"
 import DropZone from '@/components/ui/DropZone';
 import { profileSchema } from '@/validation/ProfileValidation';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEditProfileMutation, useUserQuery } from '@/lib/tanstack/querys_mutations';
 import userService from '@/lib/appwrite/services/UserService';
 import LoaderPage from '@/constants/Loading/LoaderPage';
@@ -26,14 +26,10 @@ const EditProfile = () => {
 
     const [edit, setEdit] = useState(true)
     const { user_id } = useParams()
-    console.log(user_id);
+    const navigate = useNavigate()
 
     const { data, isFetching, isError, error, isSuccess } = useUserQuery(user_id)
     const { isPending, mutateAsync } = useEditProfileMutation()
-    if (isSuccess) {
-        console.log(data)
-    }
-
 
     const form = useForm({
         resolver: zodResolver(profileSchema),
@@ -90,8 +86,9 @@ const EditProfile = () => {
                                     </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
-                                    <AlertDialogAction className='bg-mainColor'>Discard Changes</AlertDialogAction>
-                                    <AlertDialogCancel className='dark:text-black'>Continue</AlertDialogCancel>
+                                    <AlertDialogAction className='bg-mainColor dark:text-white'
+                                        onClick={() => navigate('/profile')}>Discard Changes</AlertDialogAction>
+                                    <AlertDialogCancel className='dark:text-white'>Continue</AlertDialogCancel>
                                 </AlertDialogFooter>
                             </AlertDialogContent>
                         </AlertDialog>
