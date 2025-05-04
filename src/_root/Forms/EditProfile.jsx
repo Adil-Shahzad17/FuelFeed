@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { power, test } from '@/constants/Images/images';
+import { power } from '@/constants/Images/images';
 import { IoIosCloseCircle } from "react-icons/io";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -137,12 +137,6 @@ const EditProfile = () => {
                         }
 
                     </div>
-                    {/* } */}
-
-
-                    <Button type='button' onClick={() => setEdit(!edit)} className='w-full'>
-                        {edit ? "Choose Photo" : "Discard"}
-                    </Button>
 
                     {
                         !edit && <FormField
@@ -158,6 +152,10 @@ const EditProfile = () => {
                             )}
                         />
                     }
+
+                    <Button type='button' onClick={() => setEdit(!edit)} className='w-full'>
+                        {edit ? "Choose Photo" : "Discard"}
+                    </Button>
 
                     <Button type="submit"
                         className={`w-full dark:text-white bg-mainColor mt-5 

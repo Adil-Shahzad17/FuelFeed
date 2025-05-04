@@ -101,7 +101,7 @@ class UserService {
   }
 
   getUserFilePreview(file_id) {
-    const image = this.bucket.getFileDownload(credentials.bucket_fuel, file_id);
+    // const image = this.bucket.getFileDownload(credentials.bucket_fuel, file_id);
 
     const fileUrl = `https://cloud.appwrite.io/v1/storage/buckets/${credentials.bucket_fuel}/files/${file_id}/view?project=${credentials.project_id}`;
 

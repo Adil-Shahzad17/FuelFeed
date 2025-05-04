@@ -22,7 +22,7 @@ const Profile = () => {
                     style={{ backgroundImage: `url(${coverPhoto})` }}
                 >
                     {
-                        user.cover_img && <img src={coverPhoto} alt="" className='max-h-52 w-full object-cover rounded-lg' />
+                        user.cover_img && <img src={userService.getUserFilePreview(user.cover_img)} alt="" className='max-h-52 w-full object-cover rounded-lg' />
                     }
 
                     <div className='bg-white absolute gap-2 py-2 px-3 rounded-md right-2 bottom-2 hover:cursor-pointer '>

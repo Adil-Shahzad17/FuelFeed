@@ -21,11 +21,17 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { IoIosCamera } from "react-icons/io";
+import { useSelector } from 'react-redux';
+import userService from '@/lib/appwrite/services/UserService';
+import { useEditCoverMutation } from '@/lib/tanstack/querys_mutations';
+import Loader from '@/constants/Loading/Loader';
 
 
 export default function EditCoverPhoto() {
 
     const [edit, setEdit] = useState(true)
+    const user = useSelector((state) => state.user.userData)
+    const { mutateAsync, isError, error, isPending } = useEditCoverMutation()
 
     const form = useForm({
         resolver: zodResolver(coverSchema),
@@ -36,10 +42,8 @@ export default function EditCoverPhoto() {
 
 
     // 2. Define a submit handler.
-    function onSubmit(values) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
+    function onSubmit(data) {
+        mutateAsync({ ...data, user_id: user.$id })
     }
 
 
@@ -57,11 +61,17 @@ export default function EditCoverPhoto() {
                     </DialogDescription>
                 </DialogHeader>
                 <div className="h-auto">
+                    {
+                        isError && <p className="text-md text-mainColor">
+                            {error.message}
+                        </p>
+                    }
+
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-3">
 
 
-                            {
+                            {/* {
                                 edit &&
 
                                 <div className="rounded-lg my-5 w-full aspect-square mx-auto overflow-hidden">
@@ -71,11 +81,15 @@ export default function EditCoverPhoto() {
                                         className="w-full h-full object-cover"
                                     />
                                 </div>
-                            }
+                            } */}
 
-                            <Button type='button' onClick={() => setEdit(!edit)} className='w-full dark:bg-white dark:text-black'>
-                                {edit ? "Discard" : "Undo Discard"}
-                            </Button>
+                            {
+                                (edit && user.cover_img) ? <img src={userService.getUserFilePreview(user.cover_img)} alt="" className='rounded-lg' />
+                                    :
+                                    <div className='w-full h-32 border border-altColor/45 flex justify-center items-center rounded-lg'>
+                                        <p>No existing cover photo found</p>
+                                    </div>
+                            }
 
                             {
                                 !edit &&
@@ -94,7 +108,20 @@ export default function EditCoverPhoto() {
                                 />
                             }
 
-                            <Button type="submit" className="w-full bg-mainColor">Save Changes</Button>
+                            <Button type='button' onClick={() => setEdit(!edit)} className='w-full dark:bg-white dark:text-black'>
+                                {edit ? "Choose Photo" : "Discard"}
+                            </Button>
+
+                            <Button type="submit"
+                                className={`w-full dark:text-white bg-mainColor mt-5 
+                                                                            ${isPending ? 'opacity-50 pointer-events-none' : ''}`}
+
+                                disabled={isPending} >
+                                Save Changes
+                            </Button>
+                            {
+                                isPending && <Loader />
+                            }
                         </form>
 
                     </Form>

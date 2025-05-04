@@ -209,16 +209,48 @@ export const useEditProfileMutation = () => {
       if (fileUpload instanceof Error)
         throw new Error("Failed to upload profile photo");
 
-      const edit = await userService.updateUser({
+      const update = await userService.updateUser({
         user_id: data.user_id,
         bio: data.bio,
         profile_img: fileUpload.$id,
       });
 
-      if (edit instanceof Error) throw new Error("Failed to update Profile");
+      if (update instanceof Error) throw new Error("Failed to update Profile");
 
-      dispatch(userData(edit));
-      return edit;
+      dispatch(userData(update));
+      return update;
+    },
+    onSuccess: (data) => {
+      navigate("/");
+      queryClient.invalidateQueries({ queryKey: ["user", data.$id] });
+    },
+  });
+};
+
+export const useEditCoverMutation = () => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data) => {
+      try {
+        const fileUpload = await userService.uploadUserFile(data.file);
+
+        if (fileUpload instanceof Error)
+          throw new Error("Failed to upload cover photo");
+
+        const update = await userService.updateUser({
+          user_id: data.user_id,
+          cover_img: fileUpload.$id,
+        });
+
+        if (update instanceof Error)
+          throw new Error("Failed to update Profile");
+
+        return data.user_id;
+      } catch (error) {
+        throw new Error(error.message);
+      }
     },
     onSuccess: (data) => {
       navigate("/");
