@@ -82,7 +82,7 @@ const Posts = ({ show, posts, user }) => {
                                             }
                                             {show === 'home' &&
                                                 <>
-                                                    <SaveAlert post={posts.$id} />
+                                                    <SaveAlert post={posts} />
                                                     <ReportAlert post={posts.$id} />
                                                 </>
                                             }

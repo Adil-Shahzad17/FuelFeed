@@ -14,14 +14,18 @@ class SaveService {
     this.bucket = new Storage(this.client);
   }
 
-  async createPost(data) {
+  async savePost({ user_id, post_id, content, category, post_img }) {
     try {
       return await this.database.createDocument(
         credentials.database_db,
         credentials.collection_saves,
         ID.unique(),
         {
-          data,
+          user_id,
+          post_id,
+          content,
+          category,
+          post_img,
         }
       );
     } catch (error) {
@@ -43,18 +47,19 @@ class SaveService {
     }
   }
 
-  //   async deleteSave({ user_id }) {
-  //     try {
-  //       return await this.database.getDocument(
-  //         credentials.database_db,
-  //         credentials.collection_saves,
-  //         post_id
-  //       );
-  //     } catch (error) {
-  //       console.log("Get Post Error", error);
-  //       return false;
-  //     }
-  //   }
+  async deletePost(save_id) {
+    try {
+      await this.database.deleteDocument(
+        credentials.database_db,
+        credentials.collection_post,
+        save_id
+      );
+      return true;
+    } catch (error) {
+      console.log("Delete Post Error", error);
+      return false;
+    }
+  }
 }
 
 const saveService = new SaveService();

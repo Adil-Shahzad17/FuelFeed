@@ -7,6 +7,7 @@ import { draftLogin, login, logout } from "../store/authSlice";
 import { userData } from "../store/userSlice";
 import post_service from "../appwrite/services/PostService";
 import { Query } from "appwrite";
+import saveService from "../appwrite/services/SaveService";
 
 // Authentication
 export const useSigninMutation = () => {
@@ -407,6 +408,26 @@ export const useAllPostsQuery = () => {
 
       if (posts instanceof Error) throw new Error("Failed to get posts");
       return posts;
+    },
+  });
+};
+
+export const useSavePostMutation = () => {
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: async (data) => {
+      const savePost = await saveService.savePost({
+        user_id: data.user_id,
+        post_id: data.$id,
+        post_img: data.post_img,
+        category: data.category,
+        content: data.content,
+      });
+
+      if (savePost instanceof Error) throw new Error("Failed to Save Posts");
+    },
+    onSuccess: () => {
+      navigate("/saved");
     },
   });
 };
