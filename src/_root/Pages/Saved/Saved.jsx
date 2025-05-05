@@ -10,7 +10,7 @@ const Saved = () => {
                     All Saves</h1>
             </div>
 
-            <Posts show="saved" />
+            {/* <Posts show="saved" /> */}
         </div>
     )
 }

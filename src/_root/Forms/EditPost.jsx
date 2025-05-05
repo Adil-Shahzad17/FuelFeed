@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { power, test } from '@/constants/Images/images';
 import { IoIosCloseCircle } from "react-icons/io";
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -22,6 +22,15 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import DropZone from '@/components/ui/DropZone';
 import { postSchema } from '@/validation/PostValidation';
@@ -29,7 +38,11 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import userService from '@/lib/appwrite/services/UserService';
 import { profilePhoto } from '@/constants/Images/images';
-import { useGetPostQuery } from '@/lib/tanstack/querys_mutations';
+import { useEditPostMutation, useGetPostQuery } from '@/lib/tanstack/querys_mutations';
+import SkeletonLoader from '@/constants/Loading/SkeletonLoader';
+import post_service from '@/lib/appwrite/services/PostService';
+import { Separator } from '@/components/ui/separator';
+import Loader from '@/constants/Loading/Loader';
 
 const EditPost = () => {
 
@@ -38,15 +51,24 @@ const EditPost = () => {
     const user = useSelector((state) => state.user.userData)
     const { post_id } = useParams()
 
-    console.log(user)
-    console.log(post_id);
+    const { data, isPending, isError, error, isSuccess } = useGetPostQuery(post_id)
+    if (isSuccess) {
+        console.log(data);
+    }
 
-    // const {data, isFetching, isError, error, isSuccess } = useGetPostQuery(post_id)
+    useEffect(() => {
+        if (data) {
+            form.reset({ content: data.content }); // ✅ Syncs default value after load
+        }
+    }, [data])
+
+    const { mutateAsync } = useEditPostMutation()
 
     const form = useForm({
         resolver: zodResolver(postSchema),
         defaultValues: {
             content: "",
+            category: undefined,
             file: undefined,
         },
     });
@@ -54,9 +76,8 @@ const EditPost = () => {
 
     // 2. Define a submit handler.
     function onSubmit(values) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
+        // console.log(values);
+        mutateAsync({ ...values, edit, post_id, prev_image: data.post_img, user_id: user.$id })
     }
 
     return (
@@ -64,7 +85,14 @@ const EditPost = () => {
 
             <div className="flex gap-3 items-center text-center border-b border-b-black/10 justify-center relative pb-2">
                 <h1 className="text-2xl font-bold font-title">
-                    Edit Post</h1>
+                    Edit Post
+                </h1>
+
+                {
+                    isError && <p className="text-md text-mainColor">
+                        {error.message}
+                    </p>
+                }
                 <ul>
                     <li className="rounded-l-md">
                         <AlertDialog>
@@ -103,58 +131,110 @@ const EditPost = () => {
                 <h2 className='font-bold font-title'>{user.user_name}</h2>
             </div>
 
+            {
+                isPending && <SkeletonLoader />
+            }
 
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-3">
+            {
+                isSuccess &&
 
-                    <FormField
-                        control={form.control}
-                        name="content"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormControl>
-                                    <Textarea placeholder="What's on your mind, User?"  {...field}
-                                        className='min-h-32' />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
 
-                    {
-                        edit &&
-
-                        <div className='flex flex-col gap-3'>
-                            <img src={test} alt="" className='rounded-lg' />
-
-                        </div>
-                    }
-
-                    <Button type='button' onClick={() => setEdit(!edit)} className='w-full'>
-                        {edit ? "Discard" : "Undo Discard"}
-                    </Button>
-
-                    {
-                        !edit &&
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-3">
 
                         <FormField
                             control={form.control}
-                            name="file"
+                            name="content"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <DropZone {...field} />
+                                        <Textarea placeholder="What's on your mind, User?"  {...field}
+                                            className='min-h-32' />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
-                    }
 
-                    <Button type="submit" className="w-full bg-mainColor">Edit Post</Button>
-                </form>
+                        <Separator />
 
-            </Form>
+                        <FormField
+                            control={form.control}
+                            name="category"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Select onValueChange={field.onChange} value={field.value}>
+                                            <SelectTrigger className="w-full">
+                                                <SelectValue placeholder="Select a topic" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    <SelectLabel>Category</SelectLabel>
+                                                    <SelectItem value="self_improvement">Self Improvement</SelectItem>
+                                                    <SelectItem value="Discipline">Discipline</SelectItem>
+                                                    <SelectItem value="Consistency">Consistency</SelectItem>
+                                                    <SelectItem value="Productivity">Productivity</SelectItem>
+                                                    <SelectItem value="Motivation">Motivation</SelectItem>
+                                                    <SelectItem value="Focus">Focus</SelectItem>
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <Separator />
+
+
+                        {
+                            edit &&
+
+                            <div className='flex flex-col gap-3'>
+                                <img src={data.post_img && post_service.getFilePreview(data.post_img)} alt="" className='rounded-lg' />
+
+                            </div>
+                        }
+
+                        <Separator />
+
+
+                        {
+                            !edit &&
+
+                            <FormField
+                                control={form.control}
+                                name="file"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <DropZone {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        }
+
+                        <Button type='button' onClick={() => setEdit(!edit)} className='w-full'>
+                            {edit ? "Choose Photo" : "Discard"}
+                        </Button>
+
+                        <Button type="submit"
+                            className={`w-full dark:text-white bg-mainColor mt-5 ${isPending ? 'opacity-50 pointer-events-none' : ''}`}
+                            disabled={isPending} >
+                            Edit Post
+                        </Button>
+
+                        {
+                            isPending && <Loader />
+                        }
+                    </form>
+
+                </Form>
+            }
         </div>
     )
 }

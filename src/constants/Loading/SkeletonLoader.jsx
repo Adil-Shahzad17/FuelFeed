@@ -20,7 +20,7 @@ const SkeletonLoader = () => {
                     <Skeleton className="h-4 w-1/2" />
                 </div>
 
-                <Separator />
+                {/* <Separator />
 
                 <div className='w-full flex flex-col items-start space-y-3'>
                     <div className="flex items-center space-x-2 sm:space-x-4">
@@ -82,7 +82,7 @@ const SkeletonLoader = () => {
                     <Skeleton className="h-4 w-full" />
                     <Skeleton className="h-4 w-full" />
                     <Skeleton className="h-4 w-1/2" />
-                </div>
+                </div> */}
             </div>
         </>
 

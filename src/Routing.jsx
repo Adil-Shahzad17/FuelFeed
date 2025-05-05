@@ -38,10 +38,10 @@ const Routing = () => {
         if (!cookieFallback || cookieFallback === "[]") {
             navigate("/_auth/signup");
             console.log("Navigate to Auth");
-        } else {
-            refetch()
+            return
         }
-    }, []);
+        refetch()
+    }, [navigate, refetch]);
 
     if (isLoading) {
         return <LoaderScreen />;

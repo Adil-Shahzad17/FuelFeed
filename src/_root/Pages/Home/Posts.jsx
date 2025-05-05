@@ -39,7 +39,14 @@ const Posts = ({ show, posts, user }) => {
                             <img className="w-12 h-12 rounded-full object-cover" src={userService.getUserFilePreview(user.profile_img)} />
                             <div className="ml-2 mt-0.5">
                                 <span className="block font-medium font-title text-base leading-snug text-black dark:text-gray-100">{user.user_name}</span>
-                                <span className="block text-sm font-heading text-gray-500 dark:text-gray-400 font-light leading-snug">{posts.$createdAt}</span>
+                                <span className="block text-sm font-heading text-gray-500 dark:text-gray-400 font-light leading-snug">
+                                    {new Date(posts.$createdAt).toLocaleString("en-UK", {
+                                        year: "numeric",
+                                        month: "short",
+                                        day: "numeric",
+                                    })}
+
+                                </span>
                             </div>
 
                         </div>
@@ -70,7 +77,7 @@ const Posts = ({ show, posts, user }) => {
                                             {
                                                 show === 'profile' &&
                                                 <>
-                                                    <DeleteAlert post={posts.$id} />
+                                                    <DeleteAlert post={posts} />
                                                 </>
                                             }
                                             {show === 'home' &&
@@ -97,13 +104,16 @@ const Posts = ({ show, posts, user }) => {
                         <h2 className='italic font-heading text-blue-500'>#{posts.category}</h2>
                     </div>
 
-                    <div className="rounded-lg my-5 w-full aspect-square mx-auto overflow-hidden">
-                        <img
-                            src={post_service.getFilePreview(posts.post_img)}
-                            alt=""
-                            className="w-full h-full object-cover"
-                        />
-                    </div>
+                    {
+                        posts.post_img &&
+                        <div className="rounded-lg my-5 w-full aspect-square mx-auto overflow-hidden">
+                            <img
+                                src={post_service.getFilePreview(posts.post_img)}
+                                alt=""
+                                className="w-full h-full object-cover"
+                            />
+                        </div>
+                    }
 
                     <div className="w-full mt-5 bg-white dark:bg-dark_bgColor rounded-md shadow-sm p-2">
                         <div className="flex items-center justify-between px-2">

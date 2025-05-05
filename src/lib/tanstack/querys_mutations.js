@@ -319,7 +319,7 @@ export const useGetPostQuery = (post_id) => {
     staleTime: Infinity,
     queryFn: async () => {
       try {
-        const post = await post_service.getPost(post_id);
+        const post = await post_service.getPost({ post_id: post_id });
         console.log(post);
 
         if (post instanceof Error) throw new Error("Failed to fetch your post");
@@ -328,6 +328,72 @@ export const useGetPostQuery = (post_id) => {
       } catch (error) {
         throw new Error(error.message);
       }
+    },
+  });
+};
+
+export const useEditPostMutation = () => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data) => {
+      if (data.edit) {
+        const editPost = await post_service.updatePost(data.post_id, {
+          content: data.content,
+          category: data.category,
+        });
+
+        if (editPost instanceof Error) throw new Error("Failed to edit post");
+        console.log(editPost);
+        return data.user_id;
+      } else if (!data.edit) {
+        const deletePrevImage = await post_service.deleteFile(data.prev_image);
+
+        if (deletePrevImage instanceof Error)
+          throw new Error("Failed to delete existing image");
+
+        const fileUpload = await post_service.uploadFile(data.file);
+
+        if (fileUpload instanceof Error)
+          throw new Error("Failed to post photo");
+
+        const editPost = await post_service.updatePost(data.post_id, {
+          content: data.content,
+          category: data.category,
+          post_img: fileUpload.$id,
+        });
+
+        if (editPost instanceof Error) throw new Error("Failed to edit post");
+        console.log(editPost);
+        return data.user_id;
+      }
+    },
+    onSuccess: (data) => {
+      navigate("/profile");
+      queryClient.invalidateQueries({ queryKey: ["user_posts", data] });
+    },
+  });
+};
+
+export const useDeletePostMutation = () => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (data) => {
+      const deletePhoto = await post_service.deleteFile(data.post_img);
+
+      if (deletePhoto instanceof Error)
+        throw new Error("Failed to delete Post Photo");
+
+      const deletePost = await post_service.deletePost(data.$id);
+      if (deletePost instanceof Error) throw new Error("Failed to delete Post");
+
+      return data.user_id;
+    },
+    onSuccess: (data) => {
+      navigate("/profile");
+      queryClient.invalidateQueries({ queryKey: ["user_posts", data] });
     },
   });
 };

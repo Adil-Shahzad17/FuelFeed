@@ -9,22 +9,29 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { useDeletePostMutation } from "@/lib/tanstack/querys_mutations";
 import { MdDelete } from "react-icons/md";
+import { Link } from "react-router-dom";
+import Loader from "../Loading/Loader";
 
 
 export default function DeleteAlert({ post }) {
 
-    console.log(post);
+    const { mutateAsync, isPending, isError, error, } = useDeletePostMutation()
+
+    const handleSubmit = async () => {
+        await mutateAsync({ ...post })
+    }
 
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <a rel="noopener noreferrer" href="#" className="flex items-center p-2 space-x-3 rounded-md">
+                <Link to='' className="flex items-center p-2 space-x-3 rounded-md">
                     <MdDelete size={24} />
                     <span className="capitalize font-body font-semibold">
                         Delete
                     </span>
-                </a>
+                </Link>
             </AlertDialogTrigger>
             <AlertDialogContent className='dark:bg-dark_bgColor dark:text-white'>
                 <AlertDialogHeader>
@@ -36,8 +43,18 @@ export default function DeleteAlert({ post }) {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel className='dark:text-black'>Cancel</AlertDialogCancel>
-                    <AlertDialogAction className='bg-mainColor'>Delete</AlertDialogAction>
+                    <AlertDialogAction className='bg-mainColor'
+                        onClick={handleSubmit}>Delete</AlertDialogAction>
                 </AlertDialogFooter>
+                {
+                    isError && <p className="text-md text-mainColor">
+                        {error.message}
+                    </p>
+                }
+                {
+                    isPending &&
+                    <Loader />
+                }
             </AlertDialogContent>
         </AlertDialog>
     )

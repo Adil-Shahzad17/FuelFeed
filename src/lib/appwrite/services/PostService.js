@@ -34,14 +34,21 @@ class PostService {
     }
   }
 
-  async updatePost(post_id, data) {
+  async updatePost(
+    post_id,
+    { category, content, post_img, user_id, likes_count }
+  ) {
     try {
       return await this.database.updateDocument(
         credentials.database_db,
         credentials.collection_post,
         post_id,
         {
-          data,
+          category,
+          content,
+          post_img,
+          user_id,
+          likes_count,
         }
       );
     } catch (error) {
@@ -50,7 +57,7 @@ class PostService {
     }
   }
 
-  async deletePost({ post_id }) {
+  async deletePost(post_id) {
     try {
       await this.database.deleteDocument(
         credentials.database_db,
