@@ -397,3 +397,16 @@ export const useDeletePostMutation = () => {
     },
   });
 };
+
+export const useAllPostsQuery = () => {
+  return useQuery({
+    queryKey: ["all_posts"],
+    staleTime: Infinity,
+    queryFn: async () => {
+      const posts = await post_service.allPosts();
+
+      if (posts instanceof Error) throw new Error("Failed to get posts");
+      return posts;
+    },
+  });
+};
