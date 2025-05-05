@@ -82,10 +82,13 @@ const Profile = () => {
                 isSuccess &&
                 <div className='flex flex-col gap-5'>
                     {
-                        data.documents.map((post) => (
-                            <Posts show='profile' posts={post} user={user} key={post.$id}
-                            />
-                        ))
+                        !data.total ?
+                            <h3 className='font-title font-bold text-2xl my-4'>You have no posts yet.</h3>
+                            :
+                            data.documents.map((post) => (
+                                <Posts show='profile' posts={post} user={user} key={post.$id}
+                                />
+                            ))
                     }
                 </div>
             }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { power } from '@/constants/Images/images';
+import { power, profilePhoto } from '@/constants/Images/images';
 import { IoIosCloseCircle } from "react-icons/io";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -37,6 +37,7 @@ import Dropzone from '@/components/ui/DropZone';
 import { useCreatePostMutation } from '@/lib/tanstack/querys_mutations';
 import { useSelector } from 'react-redux';
 import Loader from '@/constants/Loading/Loader';
+import userService from '@/lib/appwrite/services/UserService';
 
 const CreatePost = () => {
 
@@ -55,7 +56,7 @@ const CreatePost = () => {
 
     // 2. Define a submit handler.
     function onSubmit(data) {
-        mutateAsync({ ...data, user_id: user.$id })
+        mutateAsync({ ...data, user_id: user.$id, user_name: user.user_name, profile_img: user.profile_img })
     }
 
     return (
@@ -101,9 +102,9 @@ const CreatePost = () => {
 
             <div className='flex items-center gap-3'>
                 <div className="w-10 h-10 rounded-full bg-black bg-cover bg-center border border-black"
-                    style={{ backgroundImage: `url(${power})` }} />
+                    style={{ backgroundImage: `url(${user.profile_img ? userService.getUserFilePreview(user.profile_img) : profilePhoto})` }} />
 
-                <h2 className='font-bold font-title'>Mark Henry</h2>
+                <h2 className='font-bold font-title'>{user.user_name}</h2>
             </div>
 
             <Form {...form}>

@@ -9,21 +9,31 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { useDeleteSavePostMutation } from "@/lib/tanstack/querys_mutations";
 import { IoIosCloseCircle } from "react-icons/io";
+import Loader from "../Loading/Loader";
 
 
 
 export default function RemoveAlert({ post }) {
     console.log(post);
+
+
+    const { mutateAsync, isError, isPending, error } = useDeleteSavePostMutation()
+
+    const handleDelete = async () => {
+        mutateAsync(post)
+    }
+
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <a rel="noopener noreferrer" href="#" className="flex items-center p-2 space-x-3 rounded-md">
+                <div className="flex items-center p-2 space-x-3 rounded-md">
                     <IoIosCloseCircle size={24} />
                     <span className="capitalize font-body font-semibold">
                         Remove
                     </span>
-                </a>
+                </div>
             </AlertDialogTrigger>
             <AlertDialogContent className='dark:bg-dark_bgColor dark:text-white'>
                 <AlertDialogHeader>
@@ -34,9 +44,20 @@ export default function RemoveAlert({ post }) {
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel className='dark:text-black'>Cancel</AlertDialogCancel>
-                    <AlertDialogAction className='bg-mainColor'>Delete</AlertDialogAction>
+                    <AlertDialogCancel className='dark:text-white'>Cancel</AlertDialogCancel>
+                    <AlertDialogAction className='bg-mainColor dark:text-white'
+                        onClick={handleDelete}>Delete</AlertDialogAction>
                 </AlertDialogFooter>
+                {
+                    isError && <p className="text-md text-mainColor">
+                        {error.message}
+                    </p>
+                }
+
+                {
+                    isPending &&
+                    <Loader />
+                }
             </AlertDialogContent>
         </AlertDialog>
     )

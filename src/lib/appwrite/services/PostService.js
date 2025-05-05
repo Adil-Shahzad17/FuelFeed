@@ -14,7 +14,15 @@ class PostService {
     this.bucket = new Storage(this.client);
   }
 
-  async createPost({ category, content, post_img, user_id, likes_count }) {
+  async createPost({
+    category,
+    content,
+    post_img,
+    user_id,
+    profile_img,
+    user_name,
+    likes_count,
+  }) {
     try {
       return await this.database.createDocument(
         credentials.database_db,
@@ -25,6 +33,8 @@ class PostService {
           content,
           post_img,
           user_id,
+          profile_img,
+          user_name,
           likes_count,
         }
       );

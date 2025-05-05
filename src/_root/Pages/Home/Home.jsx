@@ -1,13 +1,11 @@
 import React from 'react'
 import WhatsOnYourMind from './WhatsOnYourMind'
 import Posts from './Posts'
-import { useSelector } from 'react-redux'
 import { useAllPostsQuery } from '@/lib/tanstack/querys_mutations'
 import SkeletonLoader from '@/constants/Loading/SkeletonLoader'
 
 const Home = () => {
 
-    const user = useSelector((state) => state.user.userData)
     const { data, isError, error, isPending, isSuccess } = useAllPostsQuery()
 
     if (isSuccess) {
@@ -33,7 +31,7 @@ const Home = () => {
                 <div className='flex flex-col gap-5'>
                     {
                         data.documents.map((post) => (
-                            <Posts show='home' posts={post} user={user} key={post.$id}
+                            <Posts show='home' posts={post} key={post.$id}
                             />
                         ))
                     }

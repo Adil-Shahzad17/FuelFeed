@@ -278,17 +278,22 @@ export const useCreatePostMutation = () => {
           content: data.content,
           user_id: data.user_id,
           post_img: fileUpload.$id,
+          user_name: data.user_name,
+          profile_img: data.profile_img,
         });
 
         if (createPost instanceof Error)
           throw new Error("Something went wrong with post creation");
+
+        console.log(createPost);
+        return data.user_id;
       } catch (error) {
         throw new Error(error.message);
       }
     },
     onSuccess: (data) => {
       navigate("/profile");
-      queryClient.invalidateQueries({ queryKey: ["user_posts", data.user_id] });
+      queryClient.invalidateQueries({ queryKey: ["user_posts", data] });
     },
   });
 };
@@ -412,8 +417,22 @@ export const useAllPostsQuery = () => {
   });
 };
 
+export const useGetSavePostsQuery = (user_id) => {
+  return useQuery({
+    queryKey: ["user_saves", user_id],
+    staleTime: Infinity,
+    queryFn: async () => {
+      const saves = await saveService.getAllSavedPosts({ user_id: user_id });
+
+      if (saves instanceof Error) throw new Error("Failed to load save posts");
+      return saves;
+    },
+  });
+};
+
 export const useSavePostMutation = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data) => {
       const savePost = await saveService.savePost({
@@ -422,12 +441,36 @@ export const useSavePostMutation = () => {
         post_img: data.post_img,
         category: data.category,
         content: data.content,
+        user_name: data.user_name,
+        profile_img: data.profile_img,
       });
 
       if (savePost instanceof Error) throw new Error("Failed to Save Posts");
+      return savePost;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       navigate("/saved");
+      queryClient.invalidateQueries({ queryKey: ["user_saves", data.user_id] });
+    },
+  });
+};
+
+export const useDeleteSavePostMutation = () => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (data) => {
+      console.log(data);
+
+      const deleteSave = await saveService.deleteSavePost(data.$id);
+
+      if (deleteSave instanceof Error) throw new Error(deleteSave);
+
+      return data.user_id;
+    },
+    onSuccess: (user_id) => {
+      navigate("/saved");
+      queryClient.invalidateQueries({ queryKey: ["user_saves", user_id] });
     },
   });
 };

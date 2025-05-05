@@ -1,4 +1,4 @@
-import { Client, ID, Databases, Storage } from "appwrite";
+import { Client, ID, Databases, Storage, Query } from "appwrite";
 import credentials from "@/lib/credentials";
 
 class SaveService {
@@ -14,7 +14,15 @@ class SaveService {
     this.bucket = new Storage(this.client);
   }
 
-  async savePost({ user_id, post_id, content, category, post_img }) {
+  async savePost({
+    user_id,
+    post_id,
+    content,
+    category,
+    post_img,
+    profile_img,
+    user_name,
+  }) {
     try {
       return await this.database.createDocument(
         credentials.database_db,
@@ -26,6 +34,8 @@ class SaveService {
           content,
           category,
           post_img,
+          profile_img,
+          user_name,
         }
       );
     } catch (error) {
@@ -47,11 +57,11 @@ class SaveService {
     }
   }
 
-  async deletePost(save_id) {
+  async deleteSavePost(save_id) {
     try {
       await this.database.deleteDocument(
         credentials.database_db,
-        credentials.collection_post,
+        credentials.collection_saves,
         save_id
       );
       return true;

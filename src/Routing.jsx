@@ -41,7 +41,7 @@ const Routing = () => {
             return
         }
         refetch()
-    }, [navigate, refetch]);
+    }, [refetch]);
 
     if (isLoading) {
         return <LoaderScreen />;
@@ -66,7 +66,7 @@ const Routing = () => {
             </Route>
             <Route path="/_auth" element={<AuthLayout />}>
                 <Route path="signin" element={<Signin />} />
-                <Route path="signup" element={<Signup />} />
+                <Route indexx path="signup" element={<Signup />} />
                 <Route path="otp" element={<OTP />} />
             </Route>
         </Routes>

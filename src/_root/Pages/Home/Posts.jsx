@@ -17,14 +17,13 @@ import post_service from '@/lib/appwrite/services/PostService';
 import userService from '@/lib/appwrite/services/UserService';
 import { useNavigate } from 'react-router-dom';
 
-const Posts = ({ show, posts, user }) => {
+const Posts = ({ show, posts }) => {
 
     const [liked, setLiked] = React.useState(false)
     const [count, setCount] = React.useState(0)
 
     const navigate = useNavigate()
 
-    console.log(user);
     console.log(posts);
 
 
@@ -36,9 +35,9 @@ const Posts = ({ show, posts, user }) => {
                     <div className="flex justify-between">
                         <div className='flex mb-4'>
 
-                            <img className="w-12 h-12 rounded-full object-cover" src={userService.getUserFilePreview(user.profile_img)} />
+                            <img className="w-12 h-12 rounded-full object-cover" src={userService.getUserFilePreview(posts.profile_img)} />
                             <div className="ml-2 mt-0.5">
-                                <span className="block font-medium font-title text-base leading-snug text-black dark:text-gray-100">{user.user_name}</span>
+                                <span className="block font-medium font-title text-base leading-snug text-black dark:text-gray-100">{posts.user_name}</span>
                                 <span className="block text-sm font-heading text-gray-500 dark:text-gray-400 font-light leading-snug">
                                     {new Date(posts.$createdAt).toLocaleString("en-UK", {
                                         year: "numeric",
@@ -83,11 +82,11 @@ const Posts = ({ show, posts, user }) => {
                                             {show === 'home' &&
                                                 <>
                                                     <SaveAlert post={posts} />
-                                                    <ReportAlert post={posts.$id} />
+                                                    <ReportAlert post={posts} />
                                                 </>
                                             }
                                             {show === 'saved' &&
-                                                <RemoveAlert post={posts.$id} />
+                                                <RemoveAlert post={posts} />
                                             }
                                         </li>
                                     </ul>
