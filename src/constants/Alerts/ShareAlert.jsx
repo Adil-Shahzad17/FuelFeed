@@ -15,7 +15,10 @@ import { Copy, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { FaShare } from 'react-icons/fa'
 
-const ShareAlert = () => {
+const ShareAlert = ({ post }) => {
+
+    console.log(post.$id);
+
 
     const [copy, setCopy] = React.useState('false')
     const ref = React.useRef(null)
@@ -43,7 +46,7 @@ const ShareAlert = () => {
                 <DialogHeader>
                     <DialogTitle>Share link</DialogTitle>
                     <DialogDescription>
-                        Anyone who has this link will be able to view this.
+                        Anyone who has this link will be able to view this post.
                     </DialogDescription>
                 </DialogHeader>
                 <div className="flex items-center space-x-2">
@@ -53,7 +56,7 @@ const ShareAlert = () => {
                         </Label>
                         <Input
                             id="link"
-                            defaultValue="https://ui.shadcn.com/docs/installation"
+                            defaultValue={post.$id}
                             readOnly
                             ref={ref}
                         />

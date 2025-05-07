@@ -1,7 +1,6 @@
 import React from 'react'
 import { FaThumbsUp, FaRegThumbsUp } from "react-icons/fa6";
 import { Ellipsis } from 'lucide-react';
-import { test } from '@/constants/Images/images';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -16,6 +15,7 @@ import ShareAlert from '@/constants/Alerts/ShareAlert';
 import post_service from '@/lib/appwrite/services/PostService';
 import userService from '@/lib/appwrite/services/UserService';
 import { useNavigate } from 'react-router-dom';
+import { useLikePostMutation } from '@/lib/tanstack/querys_mutations';
 
 const Posts = ({ show, posts }) => {
 
@@ -24,7 +24,14 @@ const Posts = ({ show, posts }) => {
 
     const navigate = useNavigate()
 
-    console.log(posts);
+    const { mutateAsync } = useLikePostMutation()
+
+    const updateLikes = () => {
+        mutateAsync({ post_id: posts.$id, likes_count: posts.likes_count, like: liked })
+    }
+
+    console.log(typeof count);
+    console.log(typeof posts.likes_count)
 
 
 
@@ -105,7 +112,7 @@ const Posts = ({ show, posts }) => {
 
                     {
                         posts.post_img &&
-                        <div className="rounded-lg my-5 w-full aspect-square mx-auto overflow-hidden">
+                        <div className="rounded-lg my-5 w-full mx-auto overflow-hidden">
                             <img
                                 src={post_service.getFilePreview(posts.post_img)}
                                 alt=""
@@ -117,10 +124,12 @@ const Posts = ({ show, posts }) => {
                     <div className="w-full mt-5 bg-white dark:bg-dark_bgColor rounded-md shadow-sm p-2">
                         <div className="flex items-center justify-between px-2">
                             {
-                                count > 0 &&
+                                (count > 0 || posts.likes_count) &&
                                 <div className="flex items-center space-x-2 font-body">
                                     <FaThumbsUp size={16} color='blue' />
-                                    <span className="text-sm text-gray-700 dark:text-white">{count}</span>
+                                    <span className="text-sm text-gray-700 dark:text-white">
+                                        {posts.likes_count + count}
+                                    </span>
                                 </div>
                             }
                         </div>
@@ -134,11 +143,21 @@ const Posts = ({ show, posts }) => {
                             {
                                 show === 'home' &&
                                 <div className="flex items-center space-x-4 font-body text-base font-medium hover:bg-gray-100 dark:hover:bg-dark_hoverColor p-2 rounded cursor-pointer"
-                                    onClick={(() => {
-                                        setLiked(!liked)
-                                        if (!liked) setCount(count + 1)
-                                        if (liked) setCount(count - 1)
-                                    })}
+                                    // onClick={(() => {
+                                    //     setLiked(!liked)
+                                    //     if (!liked) setCount(count + 1)
+                                    //     if (liked) setCount(count - 1)
+                                    //     updateLikes()
+                                    // })}
+                                    onClick={() => {
+                                        setLiked(prev => {
+                                            const newLiked = !prev;
+                                            setCount(c => newLiked ? c + 1 : c - 1);
+                                            updateLikes();
+                                            return newLiked;
+                                        });
+                                    }}
+
 
                                 >
                                     {
@@ -149,7 +168,7 @@ const Posts = ({ show, posts }) => {
                                 </div>
                             }
 
-                            <ShareAlert />
+                            <ShareAlert post={posts} />
                         </div>
 
 

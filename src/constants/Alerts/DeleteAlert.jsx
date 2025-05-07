@@ -9,6 +9,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/components";
 import { useDeletePostMutation } from "@/lib/tanstack/querys_mutations";
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
@@ -19,7 +20,7 @@ export default function DeleteAlert({ post }) {
 
     const { mutateAsync, isPending, isError, error, } = useDeletePostMutation()
 
-    const handleSubmit = async () => {
+    const handleDelete = async () => {
         await mutateAsync({ ...post })
     }
 
@@ -42,9 +43,10 @@ export default function DeleteAlert({ post }) {
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel className='dark:text-black'>Cancel</AlertDialogCancel>
-                    <AlertDialogAction className='bg-mainColor'
-                        onClick={handleSubmit}>Delete</AlertDialogAction>
+                    <AlertDialogCancel className='dark:text-white text-black'>Cancel</AlertDialogCancel>
+                    <Button className='bg-mainColor text-white' onClick={handleDelete}>
+                        Delete
+                    </Button>
                 </AlertDialogFooter>
                 {
                     isError && <p className="text-md text-mainColor">

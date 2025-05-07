@@ -9,6 +9,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/components";
 import { useSavePostMutation } from "@/lib/tanstack/querys_mutations";
 import { FaImages } from "react-icons/fa";
 import Loader from "../Loading/Loader";
@@ -36,13 +37,14 @@ export default function SaveAlert({ post }) {
                 <AlertDialogHeader>
                     <AlertDialogTitle>Save Post</AlertDialogTitle>
                     <AlertDialogDescription>
-                        Are you sure you want to save this post in saves collection?
+                        This post will be saved in your save collection.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel className='dark:text-black'>Cancel</AlertDialogCancel>
-                    <AlertDialogAction className='bg-green-600'
-                        onClick={handleSave}>Continue</AlertDialogAction>
+                    <AlertDialogCancel className='dark:text-white text-black'>Cancel</AlertDialogCancel>
+                    <Button className='bg-green-600 text-white' onClick={handleSave}>
+                        Save
+                    </Button>
                 </AlertDialogFooter>
 
                 {

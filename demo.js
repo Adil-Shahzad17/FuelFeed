@@ -1,10 +1,7 @@
-const time = new Date();
+const one = null;
+const two = 1;
 
-console.log(time.toDateString());
-console.log(
-  time.toLocaleString("en-UK", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  })
-);
+const text = String(two + 1);
+
+console.log(typeof two);
+console.log(typeof text);

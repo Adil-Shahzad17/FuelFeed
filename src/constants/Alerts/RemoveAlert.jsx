@@ -9,6 +9,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/components";
 import { useDeleteSavePostMutation } from "@/lib/tanstack/querys_mutations";
 import { IoIosCloseCircle } from "react-icons/io";
 import Loader from "../Loading/Loader";
@@ -21,7 +22,7 @@ export default function RemoveAlert({ post }) {
 
     const { mutateAsync, isError, isPending, error } = useDeleteSavePostMutation()
 
-    const handleDelete = async () => {
+    const handleRemove = async () => {
         mutateAsync(post)
     }
 
@@ -37,16 +38,16 @@ export default function RemoveAlert({ post }) {
             </AlertDialogTrigger>
             <AlertDialogContent className='dark:bg-dark_bgColor dark:text-white'>
                 <AlertDialogHeader>
-                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                    <AlertDialogTitle>UnSave Post</AlertDialogTitle>
                     <AlertDialogDescription>
-                        This action cannot be undone. This will permanently remove this
-                        post from saved collection.
+                        Are you sure you want to remove this post from save collections?
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel className='dark:text-white'>Cancel</AlertDialogCancel>
-                    <AlertDialogAction className='bg-mainColor dark:text-white'
-                        onClick={handleDelete}>Delete</AlertDialogAction>
+                    <AlertDialogCancel className='dark:text-white text-black'>Cancel</AlertDialogCancel>
+                    <Button className='bg-mainColor text-white' onClick={handleRemove}>
+                        Remove
+                    </Button>
                 </AlertDialogFooter>
                 {
                     isError && <p className="text-md text-mainColor">

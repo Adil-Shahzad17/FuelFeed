@@ -41,7 +41,7 @@ export default function LogoutAlert() {
                 <AlertDialogFooter>
                     <AlertDialogCancel className='dark:text-white text-black'>Cancel</AlertDialogCancel>
                     <Button className='bg-mainColor text-white' onClick={handleLogout}>
-                        Delete
+                        Log out
                     </Button>
                 </AlertDialogFooter>
                 {

@@ -474,3 +474,29 @@ export const useDeleteSavePostMutation = () => {
     },
   });
 };
+
+export const useLikePostMutation = () => {
+  return useMutation({
+    mutationFn: async (data) => {
+      try {
+        // if (data.like) {
+        // const currentLikesCount = String(data.likes_count + 1);
+        const like = await post_service.updatePost(data.post_id, {
+          likes_count: 5,
+        });
+        console.log(like);
+
+        //   console.log("Like");
+        // } else if (!data.like && data.likes_count < 1) {
+        //   const currentLikesCount = String(data.likes_count + 1);
+        //   const unlike = await post_service.updatePost(data.post_id, {
+        //     likes_count: currentLikesCount,
+        //   });
+        //   console.log("Un-like");
+        // }
+      } catch (error) {
+        console.log("Failed to Like Post");
+      }
+    },
+  });
+};
