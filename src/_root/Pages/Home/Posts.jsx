@@ -37,7 +37,7 @@ const Posts = ({ show, posts }) => {
 
     return (
         <>
-            <div className="dark:bg-gray-900 flex items-center justify-center">
+            <div className="dark:bg-gray-900 flex items-center justify-center mb-2">
                 <div className="px-5 py-4 w-full h-auto dark:bg-dark_altColor shadow rounded-lg bg-white">
                     <div className="flex justify-between">
                         <div className='flex mb-4'>
@@ -128,7 +128,7 @@ const Posts = ({ show, posts }) => {
                                 <div className="flex items-center space-x-2 font-body">
                                     <FaThumbsUp size={16} color='blue' />
                                     <span className="text-sm text-gray-700 dark:text-white">
-                                        {posts.likes_count + count}
+                                        {Number(posts.likes_count) + count}
                                     </span>
                                 </div>
                             }

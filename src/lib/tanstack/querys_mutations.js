@@ -1,7 +1,12 @@
 import authservice from "../appwrite/services/AuthService";
 import userService from "../appwrite/services/UserService";
 import { useDispatch, useSelector } from "react-redux";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { draftLogin, login, logout } from "../store/authSlice";
 import { userData } from "../store/userSlice";
@@ -403,16 +408,31 @@ export const useDeletePostMutation = () => {
     },
   });
 };
-
+//
 export const useAllPostsQuery = () => {
-  return useQuery({
+  const LIMIT = 1;
+  return useInfiniteQuery({
     queryKey: ["all_posts"],
     staleTime: Infinity,
-    queryFn: async () => {
-      const posts = await post_service.allPosts();
+    initialPageParam: 0,
+    queryFn: async ({ pageParam }) => {
+      const queries = [Query.limit(LIMIT), Query.orderDesc("$createdAt")];
+      if (pageParam) {
+        queries.push(Query.cursorAfter(pageParam));
+      }
+
+      const posts = await post_service.allPosts(queries);
 
       if (posts instanceof Error) throw new Error("Failed to get posts");
       return posts;
+    },
+    getNextPageParam: (lastPage) => {
+      if (!lastPage?.documents || lastPage.documents.length === 0) {
+        return undefined;
+      }
+
+      const lastDocument = lastPage.documents[lastPage.documents.length - 1];
+      return lastDocument?.$id ?? undefined;
     },
   });
 };
@@ -479,23 +499,20 @@ export const useLikePostMutation = () => {
   return useMutation({
     mutationFn: async (data) => {
       try {
-        // if (data.like) {
-        // const currentLikesCount = String(data.likes_count + 1);
-        const like = await post_service.updatePost(data.post_id, {
-          likes_count: 5,
-        });
-        console.log(like);
+        let currentLikesCount = Number(data.likes_count) || 0;
 
-        //   console.log("Like");
-        // } else if (!data.like && data.likes_count < 1) {
-        //   const currentLikesCount = String(data.likes_count + 1);
-        //   const unlike = await post_service.updatePost(data.post_id, {
-        //     likes_count: currentLikesCount,
-        //   });
-        //   console.log("Un-like");
-        // }
+        if (data.like) {
+          currentLikesCount = Math.min(currentLikesCount + 1, 1000);
+        } else {
+          currentLikesCount = Math.max(currentLikesCount - 1, 0);
+        }
+
+        const response = await post_service.updatePost(data.post_id, {
+          likes_count: currentLikesCount,
+        });
       } catch (error) {
-        console.log("Failed to Like Post");
+        console.error("Failed to update likes:", error);
+        throw new Error("Failed to update likes");
       }
     },
   });
