@@ -303,23 +303,99 @@ export const useCreatePostMutation = () => {
   });
 };
 
+export const useAllPostsQuery = (search) => {
+  const LIMIT = 1;
+  return useInfiniteQuery({
+    queryKey: ["all_posts"],
+    staleTime: Infinity,
+    initialPageParam: 0,
+    queryFn: async ({ pageParam }) => {
+      const queries = [Query.limit(LIMIT), Query.orderDesc("$createdAt")];
+
+      if (search) {
+        queries.push(Query.equal("category", search));
+      }
+
+      if (pageParam) {
+        queries.push(Query.cursorAfter(pageParam));
+      }
+
+      const posts = await post_service.allPosts(queries);
+
+      if (posts instanceof Error) throw new Error("Failed to get posts");
+      return posts;
+    },
+    getNextPageParam: (lastPage) => {
+      if (!lastPage?.documents || lastPage.documents.length === 0) {
+        return undefined;
+      }
+
+      const lastDocument = lastPage.documents[lastPage.documents.length - 1];
+      return lastDocument?.$id ?? undefined;
+    },
+  });
+};
+
+export const useGetSavePostsQuery = (user_id) => {
+  const LIMIT = 1;
+  return useInfiniteQuery({
+    queryKey: ["user_saves", user_id],
+    staleTime: Infinity,
+    initialPageParam: 0,
+    queryFn: async ({ pageParam }) => {
+      const queries = [
+        Query.limit(LIMIT),
+        Query.orderDesc("$createdAt"),
+        Query.equal("user_id", user_id),
+      ];
+      if (pageParam) {
+        queries.push(Query.cursorAfter(pageParam));
+      }
+
+      const posts = await post_service.allPosts(queries);
+
+      if (posts instanceof Error) throw new Error("Failed to get posts");
+      return posts;
+    },
+    getNextPageParam: (lastPage) => {
+      if (!lastPage?.documents || lastPage.documents.length === 0) {
+        return undefined;
+      }
+
+      const lastDocument = lastPage.documents[lastPage.documents.length - 1];
+      return lastDocument?.$id ?? undefined;
+    },
+  });
+};
+
 export const useUserPostsQuery = (user_id) => {
-  return useQuery({
+  const LIMIT = 1;
+  return useInfiniteQuery({
     queryKey: ["user_posts", user_id],
     staleTime: Infinity,
-    queryFn: async () => {
-      try {
-        const posts = await post_service.allPosts([
-          Query.equal("user_id", user_id),
-        ]);
-
-        if (posts instanceof Error)
-          throw new Error("Failed to fetch your posts");
-
-        return posts;
-      } catch (error) {
-        throw new Error(error.message);
+    initialPageParam: 0,
+    queryFn: async ({ pageParam }) => {
+      const queries = [
+        Query.limit(LIMIT),
+        Query.orderDesc("$createdAt"),
+        Query.equal("user_id", user_id),
+      ];
+      if (pageParam) {
+        queries.push(Query.cursorAfter(pageParam));
       }
+
+      const posts = await post_service.allPosts(queries);
+
+      if (posts instanceof Error) throw new Error("Failed to get posts");
+      return posts;
+    },
+    getNextPageParam: (lastPage) => {
+      if (!lastPage?.documents || lastPage.documents.length === 0) {
+        return undefined;
+      }
+
+      const lastDocument = lastPage.documents[lastPage.documents.length - 1];
+      return lastDocument?.$id ?? undefined;
     },
   });
 };
@@ -405,47 +481,6 @@ export const useDeletePostMutation = () => {
     onSuccess: (data) => {
       navigate("/profile");
       queryClient.invalidateQueries({ queryKey: ["user_posts", data] });
-    },
-  });
-};
-//
-export const useAllPostsQuery = () => {
-  const LIMIT = 1;
-  return useInfiniteQuery({
-    queryKey: ["all_posts"],
-    staleTime: Infinity,
-    initialPageParam: 0,
-    queryFn: async ({ pageParam }) => {
-      const queries = [Query.limit(LIMIT), Query.orderDesc("$createdAt")];
-      if (pageParam) {
-        queries.push(Query.cursorAfter(pageParam));
-      }
-
-      const posts = await post_service.allPosts(queries);
-
-      if (posts instanceof Error) throw new Error("Failed to get posts");
-      return posts;
-    },
-    getNextPageParam: (lastPage) => {
-      if (!lastPage?.documents || lastPage.documents.length === 0) {
-        return undefined;
-      }
-
-      const lastDocument = lastPage.documents[lastPage.documents.length - 1];
-      return lastDocument?.$id ?? undefined;
-    },
-  });
-};
-
-export const useGetSavePostsQuery = (user_id) => {
-  return useQuery({
-    queryKey: ["user_saves", user_id],
-    staleTime: Infinity,
-    queryFn: async () => {
-      const saves = await saveService.getAllSavedPosts({ user_id: user_id });
-
-      if (saves instanceof Error) throw new Error("Failed to load save posts");
-      return saves;
     },
   });
 };

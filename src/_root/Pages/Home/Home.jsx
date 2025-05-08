@@ -49,9 +49,13 @@ const Home = () => {
                 ))
             }
 
-            <div ref={ref}>
+            <div ref={ref} className='text-mainColor text-center py-2'>
                 {isFetchingNextPage && <Loader />}
-                {!hasNextPage && <div className='text-mainColor font-heading mx-auto my-2'>No more posts to load</div>}
+                {!hasNextPage && (
+                    <div className='font-heading my-2'>
+                        No more posts to load
+                    </div>
+                )}
             </div>
 
         </div>

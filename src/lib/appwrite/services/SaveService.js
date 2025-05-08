@@ -44,12 +44,12 @@ class SaveService {
     }
   }
 
-  async getAllSavedPosts({ user_id }) {
+  async getAllSavedPosts(queries = []) {
     try {
       return await this.database.listDocuments(
         credentials.database_db,
         credentials.collection_saves,
-        [Query.equal("user_id", user_id)]
+        queries
       );
     } catch (error) {
       console.log("All Post Error", error);

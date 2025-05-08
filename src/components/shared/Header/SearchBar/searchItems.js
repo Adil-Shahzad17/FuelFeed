@@ -1,23 +1,27 @@
 const searchItems = [
   {
-    value: "next.js",
-    label: "Next.js",
+    value: "self_improvement",
+    label: "Self Improvement",
   },
   {
-    value: "sveltekit",
-    label: "SvelteKit",
+    value: "Discipline",
+    label: "Discipline",
   },
   {
-    value: "nuxt.js",
-    label: "Nuxt.js",
+    value: "Consistency",
+    label: "Consistency",
   },
   {
-    value: "remix",
-    label: "Remix",
+    value: "Productivity",
+    label: "Productivity",
   },
   {
-    value: "astro",
-    label: "Astro",
+    value: "Motivation",
+    label: "Motivation",
+  },
+  {
+    value: "Focus",
+    label: "Focus",
   },
 ];
 

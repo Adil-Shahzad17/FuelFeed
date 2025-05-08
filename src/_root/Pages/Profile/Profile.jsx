@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { test, coverPhoto, profilePhoto } from '@/constants/Images/images'
 import Posts from '../Home/Posts';
 import { MdEdit } from 'react-icons/md';
@@ -10,14 +10,30 @@ import userService from '@/lib/appwrite/services/UserService';
 import { useUserPostsQuery } from '@/lib/tanstack/querys_mutations';
 import Loader from '@/constants/Loading/Loader';
 import SkeletonLoader from '@/constants/Loading/SkeletonLoader';
+import { useInView } from 'react-intersection-observer';
 
 const Profile = () => {
 
+    const { ref, inView } = useInView({ delay: 200 });
     const user = useSelector((state) => state.user.userData)
     console.log(user.$id);
 
 
-    const { data, isFetching, isError, error, isSuccess } = useUserPostsQuery(user.$id)
+    const { data,
+        error,
+        isLoading,
+        isSuccess,
+        isError,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+    } = useUserPostsQuery(user.$id)
+
+    useEffect(() => {
+        if (inView && hasNextPage && !isFetchingNextPage) {
+            fetchNextPage();
+        }
+    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     if (isSuccess) {
         console.log(data);
@@ -75,23 +91,26 @@ const Profile = () => {
             }
 
             {
-                isFetching && <SkeletonLoader />
+                isLoading && <SkeletonLoader />
             }
 
             {
                 isSuccess &&
-                <div className='flex flex-col gap-5'>
-                    {
-                        !data.total ?
-                            <h3 className='font-title font-bold text-2xl my-4'>You have no posts yet.</h3>
-                            :
-                            data.documents.map((post) => (
-                                <Posts show='profile' posts={post} user={user} key={post.$id}
-                                />
-                            ))
-                    }
-                </div>
+                data.pages.map((page) => (
+                    page.documents.map((post) => (
+                        <Posts show='home' posts={post} key={post.$id} />
+                    ))
+                ))
             }
+
+            <div ref={ref} className='text-mainColor text-center py-2'>
+                {isFetchingNextPage && <Loader />}
+                {!hasNextPage && (
+                    <div className='font-heading my-2'>
+                        No more posts to load
+                    </div>
+                )}
+            </div>
 
         </div>
     )

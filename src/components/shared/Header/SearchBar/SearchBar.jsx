@@ -18,12 +18,22 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 import searchItems from "./searchItems";
+import { useAllPostsQuery } from "@/lib/tanstack/querys_mutations";
 
 
 const SearchBar = () => {
 
     const [open, setOpen] = React.useState(false)
     const [value, setValue] = React.useState("")
+
+    const { refetch } = useAllPostsQuery(value)
+
+    React.useEffect(() => {
+        refetch()
+    }, [value])
+
+    console.log(open);
+    console.log(value);
 
     return (
         <Popover open={open} onOpenChange={setOpen} >
