@@ -5,7 +5,7 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/components"
 import { MdEdit } from "react-icons/md";
 import DeleteAlert from '@/constants/Alerts/DeleteAlert';
 import ReportAlert from '@/constants/Alerts/ReportAlert';

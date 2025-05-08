@@ -3,20 +3,17 @@ import { IoSearch } from "react-icons/io5";
 import * as React from "react"
 import { Check } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
 import {
-    Command,
+    Button, Command,
     CommandEmpty,
     CommandGroup,
     CommandInput,
     CommandItem,
     CommandList,
-} from "@/components/ui/command"
-import {
     Popover,
     PopoverContent,
     PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/components"
 import searchItems from "./searchItems";
 import { useAllPostsQuery } from "@/lib/tanstack/querys_mutations";
 

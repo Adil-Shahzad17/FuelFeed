@@ -1,23 +1,8 @@
 import React from 'react'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormMessage
-} from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormMessage, Button, Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, Textarea } from "@/components/ui/components"
 import { reportSchema } from '@/validation/ReportValidation'
-import { Button } from "@/components/ui/button"
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
 import { GoReport } from "react-icons/go";
 import { Textarea } from '@/components/ui/textarea';
 

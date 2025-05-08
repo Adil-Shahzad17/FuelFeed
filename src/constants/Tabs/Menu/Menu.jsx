@@ -1,12 +1,9 @@
 import React from 'react'
 import { SettingIcons } from '@/constants/Icons/SideBarIcons'
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+    DropdownMenu, DropdownMenuContent, DropdownMenuLabel,
+    DropdownMenuSeparator, DropdownMenuTrigger
+} from "@/components/ui/components"
 import { IoMenu } from "react-icons/io5";
 import LogoutAlert from '@/constants/Alerts/LogoutAlert';
 import { Link } from 'react-router-dom';

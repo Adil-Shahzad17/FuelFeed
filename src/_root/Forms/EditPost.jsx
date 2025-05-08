@@ -1,37 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { power, test } from '@/constants/Images/images';
 import { IoIosCloseCircle } from "react-icons/io";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { Button } from '@/components/ui/button';
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormMessage
-} from "@/components/ui/form"
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
+import { Button, Form, FormControl, FormField, FormItem, FormMessage, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue, Textarea, Separator } from "@/components/ui/components"
 import DropZone from '@/components/ui/DropZone';
 import { postSchema } from '@/validation/PostValidation';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -41,7 +12,6 @@ import { profilePhoto } from '@/constants/Images/images';
 import { useEditPostMutation, useGetPostQuery } from '@/lib/tanstack/querys_mutations';
 import SkeletonLoader from '@/constants/Loading/SkeletonLoader';
 import post_service from '@/lib/appwrite/services/PostService';
-import { Separator } from '@/components/ui/separator';
 import Loader from '@/constants/Loading/Loader';
 
 const EditPost = () => {
@@ -109,9 +79,9 @@ const EditPost = () => {
                                     </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
-                                    <AlertDialogAction className='bg-mainColor'
+                                    <AlertDialogAction className='bg-mainColor dark:text-white'
                                         onClick={() => navigate("/profile")}>Discard Changes</AlertDialogAction>
-                                    <AlertDialogCancel className='dark:text-black'>Continue</AlertDialogCancel>
+                                    <AlertDialogCancel className='text-black dark:text-white'>Continue</AlertDialogCancel>
                                 </AlertDialogFooter>
                             </AlertDialogContent>
                         </AlertDialog>

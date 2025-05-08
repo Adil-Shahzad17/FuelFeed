@@ -1,7 +1,6 @@
 import React from 'react'
 import { power } from '@/constants/Images/images'
 import SearchBar from './SearchBar/SearchBar'
-import Demo from '@/Demo'
 import ThemeSwitch from '../Sidebar/ThemeSwitch'
 
 

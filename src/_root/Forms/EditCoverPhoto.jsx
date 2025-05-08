@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { test } from '@/constants/Images/images';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import {
@@ -7,19 +6,15 @@ import {
     FormControl,
     FormField,
     FormItem,
-    FormMessage
-} from "@/components/ui/form"
-import DropZone from '@/components/ui/DropZone';
-import { coverSchema } from '@/validation/CoverValidation';
-import { Button } from "@/components/ui/button"
-import {
-    Dialog,
+    FormMessage, Button, Dialog,
     DialogContent,
     DialogDescription,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
+    DialogTrigger
+} from "@/components/ui/components"
+import DropZone from '@/components/ui/DropZone';
+import { coverSchema } from '@/validation/CoverValidation';
 import { IoIosCamera } from "react-icons/io";
 import { useSelector } from 'react-redux';
 import userService from '@/lib/appwrite/services/UserService';
@@ -69,19 +64,6 @@ export default function EditCoverPhoto() {
 
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-3">
-
-
-                            {/* {
-                                edit &&
-
-                                <div className="rounded-lg my-5 w-full aspect-square mx-auto overflow-hidden">
-                                    <img
-                                        src={test}
-                                        alt=""
-                                        className="w-full h-full object-cover"
-                                    />
-                                </div>
-                            } */}
 
                             {
                                 (edit && user.cover_img) ? <img src={userService.getUserFilePreview(user.cover_img)} alt="" className='rounded-lg' />

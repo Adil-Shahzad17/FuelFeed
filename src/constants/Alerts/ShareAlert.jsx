@@ -1,18 +1,6 @@
 import React from 'react'
-import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, Input, Button, Label } from "@/components/ui/components"
 import { Copy, Check } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { FaShare } from 'react-icons/fa'
 
 const ShareAlert = ({ post }) => {

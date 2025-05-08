@@ -5,42 +5,25 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Button } from "../../components/ui/button"
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormMessage
-} from "@/components/ui/form"
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import {
-    Select,
+    Form, FormControl, FormField, FormItem, FormMessage, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, Select,
     SelectContent,
     SelectGroup,
     SelectItem,
     SelectLabel,
     SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
+    SelectValue, Textarea
+} from "@/components/ui/components"
 import { postSchema } from '@/validation/PostValidation';
 import Dropzone from '@/components/ui/DropZone';
 import { useCreatePostMutation } from '@/lib/tanstack/querys_mutations';
 import { useSelector } from 'react-redux';
 import Loader from '@/constants/Loading/Loader';
 import userService from '@/lib/appwrite/services/UserService';
+import { useNavigate } from 'react-router-dom';
 
 const CreatePost = () => {
 
+    const navigate = useNavigate()
     const user = useSelector((state) => state.user.userData)
     const { mutateAsync, isError, error, isPending } = useCreatePostMutation()
 
@@ -77,21 +60,23 @@ const CreatePost = () => {
                     <li className="rounded-l-md">
                         <AlertDialog>
                             <AlertDialogTrigger asChild>
-                                <a rel="noopener noreferrer" href="#" className="flex items-center p-2 space-x-3 rounded-md">
+                                <div className="flex items-center p-2 space-x-3 rounded-md">
                                     <IoIosCloseCircle size={36} className='bg-altColor dark:bg-dark_altColor rounded-full hover:cursor-pointer absolute right-4' />
-                                </a>
+                                </div>
                             </AlertDialogTrigger>
                             <AlertDialogContent className='dark:bg-dark_bgColor dark:text-white'>
                                 <AlertDialogHeader>
                                     <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                                     <AlertDialogDescription>
-                                        Are you sure you want to discard all changes? This action will revert the current page to its initial state and cannot be undone."
+                                        Are you sure you want to discard all changes?
                                     </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
-                                    <AlertDialogAction className='bg-mainColor'>Discard Changes</AlertDialogAction>
-                                    <AlertDialogCancel className='text-black'>Continue</AlertDialogCancel>
+                                    <AlertDialogAction className='bg-mainColor dark:text-white'
+                                        onClick={() => navigate("/profile")}>Discard Changes</AlertDialogAction>
+                                    <AlertDialogCancel className='text-black dark:text-white'>Continue</AlertDialogCancel>
                                 </AlertDialogFooter>
+
                             </AlertDialogContent>
                         </AlertDialog>
 

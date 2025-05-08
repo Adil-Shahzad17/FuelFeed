@@ -40,10 +40,8 @@ const EditProfile = () => {
     });
 
 
-    // 2. Define a submit handler.
     function onSubmit(values) {
         mutateAsync({ ...values, user_id: data.$id })
-        // console.log(values);
     }
 
     if (isFetching) {
@@ -87,8 +85,8 @@ const EditProfile = () => {
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
                                     <AlertDialogAction className='bg-mainColor dark:text-white'
-                                        onClick={() => navigate('/profile')}>Discard Changes</AlertDialogAction>
-                                    <AlertDialogCancel className='dark:text-white'>Continue</AlertDialogCancel>
+                                        onClick={() => navigate("/profile")}>Discard Changes</AlertDialogAction>
+                                    <AlertDialogCancel className='text-black dark:text-white'>Continue</AlertDialogCancel>
                                 </AlertDialogFooter>
                             </AlertDialogContent>
                         </AlertDialog>

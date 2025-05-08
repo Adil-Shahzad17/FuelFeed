@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
-import { test, coverPhoto, profilePhoto } from '@/constants/Images/images'
+import { coverPhoto, profilePhoto } from '@/constants/Images/images'
 import Posts from '../Home/Posts';
 import { MdEdit } from 'react-icons/md';
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/components"
 import EditCoverPhoto from '@/_root/Forms/EditCoverPhoto';
 import { useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import userService from '@/lib/appwrite/services/UserService';
 import { useUserPostsQuery } from '@/lib/tanstack/querys_mutations';
 import Loader from '@/constants/Loading/Loader';
@@ -48,9 +48,8 @@ const Profile = () => {
                 <div className="h-52 rounded-lg relative bg-cover bg-center"
                     style={{ backgroundImage: `url(${coverPhoto})` }}
                 >
-                    {
-                        user.cover_img && <img src={userService.getUserFilePreview(user.cover_img)} alt="" className='max-h-52 w-full object-cover rounded-lg' />
-                    }
+                    <img src={user.cover_img ? userService.getUserFilePreview(user.cover_img) : coverPhoto} alt="Cover Photo" className='max-h-52 w-full object-cover rounded-lg' />
+
 
                     <div className='bg-white absolute gap-2 py-2 px-3 rounded-md right-2 bottom-2 hover:cursor-pointer '>
                         <EditCoverPhoto />
@@ -60,10 +59,9 @@ const Profile = () => {
 
                 <div className='bg-altColor w-24 h-24 rounded-full border-4 border-white absolute left-3 
                 bottom-0'>
-                    {
-                        user.profile_img && <img src={userService.getUserFilePreview(user.profile_img
-                        )} alt="" className='w-full h-full object-cover rounded-full' />
-                    }
+                    <img src={user.profile_img ? userService.getUserFilePreview(user.profile_img
+                    ) : profilePhoto} alt="Profile Photo" className='w-full h-full object-cover rounded-full' />
+
                 </div>
 
             </div>
