@@ -14,7 +14,14 @@ class UserService {
     this.bucket = new Storage(this.client);
   }
 
-  async createUser({ user_id, user_name, bio, cover_img, profile_img }) {
+  async createUser({
+    user_id,
+    user_name,
+    bio,
+    cover_img,
+    profile_img,
+    lastSessionTime,
+  }) {
     try {
       return await this.database.createDocument(
         credentials.database_db,
@@ -25,6 +32,7 @@ class UserService {
           bio,
           cover_img,
           profile_img,
+          lastSessionTime,
         }
       );
     } catch (error) {
@@ -33,7 +41,7 @@ class UserService {
     }
   }
 
-  async updateUser({ user_id, bio, cover_img, profile_img }) {
+  async updateUser({ user_id, bio, cover_img, profile_img, lastSessionTime }) {
     try {
       return await this.database.updateDocument(
         credentials.database_db,
@@ -43,6 +51,7 @@ class UserService {
           bio,
           cover_img,
           profile_img,
+          lastSessionTime,
         }
       );
     } catch (error) {

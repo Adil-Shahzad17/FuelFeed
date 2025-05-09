@@ -12,13 +12,17 @@ import {
 import { GiExitDoor } from "react-icons/gi"
 import { useLogoutMutation } from "@/lib/tanstack/querys_mutations";
 import Loader from "../Loading/Loader";
+import { useSelector } from "react-redux";
 
 export default function LogoutAlert() {
+
+    const user = useSelector((state) => state.user.userData.$id);
+
 
     const { isPending, isError, error, mutateAsync } = useLogoutMutation()
 
     const handleLogout = async () => {
-        await mutateAsync()
+        await mutateAsync(user)
     }
 
     return (

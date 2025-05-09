@@ -29,9 +29,6 @@ const SearchBar = () => {
         refetch()
     }, [value])
 
-    console.log(open);
-    console.log(value);
-
     return (
         <Popover open={open} onOpenChange={setOpen} >
             <PopoverTrigger asChild>

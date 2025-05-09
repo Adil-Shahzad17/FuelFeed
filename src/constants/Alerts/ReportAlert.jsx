@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form"
 import { Form, FormControl, FormField, FormItem, FormMessage, Button, Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, Textarea } from "@/components/ui/components"
 import { reportSchema } from '@/validation/ReportValidation'
 import { GoReport } from "react-icons/go";
-import { Textarea } from '@/components/ui/textarea';
 
 
 export default function ReportAlert({ post }) {

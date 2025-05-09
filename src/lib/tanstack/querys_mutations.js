@@ -100,16 +100,19 @@ export const useLogoutMutation = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   return useMutation({
-    mutationFn: async () => {
-      try {
-        const logoutUser = await authservice.logOut();
+    mutationFn: async (user) => {
+      let logoutTime = Date.now();
+      const updateLastSession = await userService.updateUser({
+        user_id: user,
+        lastSessionTime: logoutTime.toString(),
+      });
 
-        if (logoutUser instanceof Error) throw new Error("Failed to Login");
-        dispatch(logout());
-      } catch (error) {
-        console.log(error);
-        throw new Error("Failed to Login");
-      }
+      if (updateLastSession instanceof Error) console.log(updateLastSession);
+
+      const logoutUser = await authservice.logOut();
+
+      if (logoutUser instanceof Error) throw new Error("Failed to Login");
+      dispatch(logout());
     },
     onSuccess: () => {
       navigate("/_auth/signup");
@@ -121,6 +124,9 @@ export const useLoginMutation = () => {
   const authdispatch = useDispatch();
   const userdispatch = useDispatch();
   const navigate = useNavigate();
+
+  const FOUR_HOURS_MS = 1000 * 60 * 60 * 4;
+
   return useMutation({
     mutationFn: async (data) => {
       try {
@@ -137,18 +143,29 @@ export const useLoginMutation = () => {
         const currentUser = await authservice.getCurrentUser();
 
         if (currentUser instanceof Error) throw new Error("No User Found");
-        authdispatch(login(currentUser));
 
         const user = await userService.getUser({ user_id: currentUser.$id });
 
         if (user instanceof Error) throw new Error("No User Found");
+
+        const sessionDifference = Math.abs(
+          Date.now() - parseInt(user.lastSessionTime)
+        );
+        const indicator = sessionDifference > FOUR_HOURS_MS;
+
+        if (!indicator) {
+          await authservice.logOut();
+          return indicator;
+        }
+
+        authdispatch(login(currentUser));
         userdispatch(userData(user));
       } catch (error) {
         throw new Error(error);
       }
     },
-    onSuccess: () => {
-      navigate("/");
+    onSuccess: (indicator) => {
+      navigate(indicator ? "/" : "/_auth/signup");
     },
   });
 };
@@ -166,7 +183,10 @@ export const useCurrentAccountUserQuery = () => {
         const currentAccount = await authservice.getCurrentUser();
 
         if (currentAccount instanceof Error) throw currentAccount;
-        authdispatch(login(currentAccount));
+
+        const sessions = await authservice.allSessions();
+
+        authdispatch(login({ ...currentAccount, sessions }));
 
         const currentUser = await userService.getUser({
           user_id: currentAccount.$id,
@@ -175,7 +195,7 @@ export const useCurrentAccountUserQuery = () => {
         if (currentUser instanceof Error) throw currentUser;
         userdispatch(userData(currentUser));
 
-        console.log(currentAccount);
+        console.log({ ...currentAccount, sessions });
         console.log(currentUser);
 
         return true;

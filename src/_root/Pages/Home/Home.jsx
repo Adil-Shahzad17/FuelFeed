@@ -5,32 +5,34 @@ import { useAllPostsQuery } from '@/lib/tanstack/querys_mutations'
 import Loader from '@/constants/Loading/Loader'
 import { useInView } from 'react-intersection-observer'
 import SkeletonLoader from '@/constants/Loading/SkeletonLoader'
+import CountDown from './CountDown'
 
 const Home = () => {
 
-    const { ref, inView } = useInView();
-    const {
-        data,
-        error,
-        isLoading,
-        isSuccess,
-        isError,
-        fetchNextPage,
-        hasNextPage,
-        isFetchingNextPage,
-    } = useAllPostsQuery();
+    // const { ref, inView } = useInView();
+    // const {
+    //     data,
+    //     error,
+    //     isLoading,
+    //     isSuccess,
+    //     isError,
+    //     fetchNextPage,
+    //     hasNextPage,
+    //     isFetchingNextPage,
+    // } = useAllPostsQuery();
 
-    useEffect(() => {
-        if (inView && hasNextPage && !isFetchingNextPage) {
-            fetchNextPage();
-        }
-    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+    // useEffect(() => {
+    //     if (inView && hasNextPage && !isFetchingNextPage) {
+    //         fetchNextPage();
+    //     }
+    // }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     return (
         <div className="h-screen w-full mx-auto px-2 flex flex-col gap-3 overflow-y-auto">
             <WhatsOnYourMind />
+            <CountDown />
 
-            {
+            {/* {
                 isError && <p className="text-md text-mainColor">
                     {error.message}
                 </p>
@@ -56,7 +58,7 @@ const Home = () => {
                         No more posts to load
                     </div>
                 )}
-            </div>
+            </div> */}
 
         </div>
     )

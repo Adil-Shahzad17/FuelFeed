@@ -16,6 +16,7 @@ import LoaderScreen from './constants/Loading/LoaderScreen';
 import OTP from './_auth/Signup/OTP';
 import { useCurrentAccountUserQuery } from './lib/tanstack/querys_mutations';
 import { useNavigate, Navigate } from 'react-router-dom';
+import CatchUser from './_auth/CatchUser';
 
 
 const Routing = () => {
@@ -68,6 +69,7 @@ const Routing = () => {
                 <Route path="signin" element={<Signin />} />
                 <Route indexx path="signup" element={<Signup />} />
                 <Route path="otp" element={<OTP />} />
+                <Route path='catchUser' element={<CatchUser />} />
             </Route>
         </Routes>
     );
