@@ -125,7 +125,7 @@ export const useLoginMutation = () => {
   const userdispatch = useDispatch();
   const navigate = useNavigate();
 
-  const FOUR_HOURS_MS = 1000 * 60 * 60 * 4;
+  const TWO_HOURS_MS = 1000 * 60 * 60 * 2; // Two hours in millieseconds.
 
   return useMutation({
     mutationFn: async (data) => {
@@ -138,34 +138,38 @@ export const useLoginMutation = () => {
         if (loginUser instanceof Error)
           throw new Error("Failed to Login, try again later");
 
-        console.log(loginUser);
-
         const currentUser = await authservice.getCurrentUser();
-
         if (currentUser instanceof Error) throw new Error("No User Found");
 
         const user = await userService.getUser({ user_id: currentUser.$id });
-
         if (user instanceof Error) throw new Error("No User Found");
 
-        const sessionDifference = Math.abs(
-          Date.now() - parseInt(user.lastSessionTime)
-        );
-        const indicator = sessionDifference > FOUR_HOURS_MS;
+        const lastSessionTime = Number(user.lastSessionTime);
+        const loginTime = new Date(loginUser.$createdAt).getTime();
+        const sessionDifference = Math.abs(lastSessionTime - loginTime);
 
-        if (!indicator) {
-          await authservice.logOut();
-          return indicator;
+        // TRUE if user is returning too soon (<5 minutes)
+        const isReturningTooSoon = sessionDifference <= TWO_HOURS_MS;
+        console.log(
+          `Session difference: ${sessionDifference}ms`,
+          `Is returning too soon: ${isReturningTooSoon}`
+        );
+
+        if (isReturningTooSoon) {
+          await authservice.logOut(); // Force logout if returning too soon
+          console.log("logOut");
+          return false; // Will trigger navigation to catchUser
         }
 
         authdispatch(login(currentUser));
         userdispatch(userData(user));
+        return true; // Will trigger navigation to home
       } catch (error) {
         throw new Error(error);
       }
     },
-    onSuccess: (indicator) => {
-      navigate(indicator ? "/" : "/_auth/signup");
+    onSuccess: (shouldProceedToHome) => {
+      navigate(shouldProceedToHome ? "/" : "/_auth/catchUser");
     },
   });
 };
@@ -184,9 +188,9 @@ export const useCurrentAccountUserQuery = () => {
 
         if (currentAccount instanceof Error) throw currentAccount;
 
-        const sessions = await authservice.allSessions();
+        // const sessions = await authservice.allSessions();
 
-        authdispatch(login({ ...currentAccount, sessions }));
+        authdispatch(login(currentAccount));
 
         const currentUser = await userService.getUser({
           user_id: currentAccount.$id,
@@ -195,7 +199,7 @@ export const useCurrentAccountUserQuery = () => {
         if (currentUser instanceof Error) throw currentUser;
         userdispatch(userData(currentUser));
 
-        console.log({ ...currentAccount, sessions });
+        console.log(currentAccount);
         console.log(currentUser);
 
         return true;

@@ -99,10 +99,6 @@ export default function Signin() {
                 <Link to="/_auth/signup" className="underline underline-offset-4">
                     Sign up
                 </Link>
-                <br />
-                <Link to="/_auth/catchUser" className="underline underline-offset-4">
-                    Catch User
-                </Link>
 
                 {
                     isPending && <Loader className="mt-5" />
