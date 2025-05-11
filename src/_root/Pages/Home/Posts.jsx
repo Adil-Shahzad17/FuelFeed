@@ -40,7 +40,8 @@ const Posts = ({ show, posts }) => {
             <div className="dark:bg-gray-900 flex items-center justify-center mb-2">
                 <div className="px-5 py-4 w-full h-auto dark:bg-dark_altColor shadow rounded-lg bg-white">
                     <div className="flex justify-between">
-                        <div className='flex mb-4'>
+                        <div className='flex mb-4'
+                            onClick={() => navigate(`/profile/${posts.user_id}`)}>
 
                             <img className="w-12 h-12 rounded-full object-cover" src={userService.getUserFilePreview(posts.profile_img)} />
                             <div className="ml-2 mt-0.5">
@@ -143,12 +144,6 @@ const Posts = ({ show, posts }) => {
                             {
                                 show === 'home' &&
                                 <div className="flex items-center space-x-4 font-body text-base font-medium hover:bg-gray-100 dark:hover:bg-dark_hoverColor p-2 rounded cursor-pointer"
-                                    // onClick={(() => {
-                                    //     setLiked(!liked)
-                                    //     if (!liked) setCount(count + 1)
-                                    //     if (liked) setCount(count - 1)
-                                    //     updateLikes()
-                                    // })}
                                     onClick={() => {
                                         setLiked(prev => {
                                             const newLiked = !prev;

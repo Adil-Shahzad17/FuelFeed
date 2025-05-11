@@ -56,7 +56,7 @@ const Saved = () => {
                 isSuccess &&
                 data.pages.map((page) => (
                     page.documents.map((post) => (
-                        <Posts show='home' posts={post} key={post.$id} />
+                        <Posts show='saved' posts={post} key={post.$id} />
                     ))
                 ))
             }

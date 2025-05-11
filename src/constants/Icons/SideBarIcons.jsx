@@ -25,7 +25,7 @@ export const Sidebar_Tabs_Icons = [
 
 export const SettingIcons = [
   {
-    iconName: "help",
+    iconName: "About",
     icon: <IoIosHelpCircle size={32} color="#5a189a" />,
     navigate: "help"
   },

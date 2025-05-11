@@ -12,7 +12,7 @@ const Sidebar = () => {
 
     return (
         <div className="z-10 mt-16 pt-3 pl-3 bg-bgColor text-black hidden md:block dark:bg-dark_bgColor dark:text-white">
-            <Link to="profile" className="flex items-center p-2 space-x-4 rounded-l-md hover:cursor-pointer hover:bg-hoverColor dark:hover:bg-dark_hoverColor">
+            <Link to={`/profile/${user.$id}`} className="flex items-center p-2 space-x-4 rounded-l-md hover:cursor-pointer hover:bg-hoverColor dark:hover:bg-dark_hoverColor">
                 <img src={user.profile_img ? userService.getUserFilePreview(user.profile_img) : profilePhoto} alt="Fuel Feed" className="w-12 h-12 rounded-full dark:bg-gray-500" />
                 <div>
                     <h2
@@ -27,7 +27,7 @@ const Sidebar = () => {
                     {
                         Sidebar_Tabs_Icons.map((icons) => (
                             <li key={icons.iconName} className="rounded-l-md hover:bg-hoverColor dark:hover:bg-dark_hoverColor">
-                                <Link to={icons.navigate} className="flex items-center p-2 space-x-3 rounded-md">
+                                <Link to={icons.iconName === 'profile' ? `/profile/${user.$id}` : icons.navigate} className="flex items-center p-2 space-x-3 rounded-md">
                                     {icons.icon}
                                     <span className="capitalize">{icons.iconName}</span>
                                 </Link>

@@ -125,6 +125,7 @@ export const useLoginMutation = () => {
   const userdispatch = useDispatch();
   const navigate = useNavigate();
 
+  const TEN_MINUTES_MS = 1000 * 60 * 10; // Ten minutes in millieseconds.
   const TWO_HOURS_MS = 1000 * 60 * 60 * 2; // Two hours in millieseconds.
 
   return useMutation({
@@ -148,8 +149,10 @@ export const useLoginMutation = () => {
         const loginTime = new Date(loginUser.$createdAt).getTime();
         const sessionDifference = Math.abs(lastSessionTime - loginTime);
 
-        // TRUE if user is returning too soon (<5 minutes)
-        const isReturningTooSoon = sessionDifference <= TWO_HOURS_MS;
+        // TRUE if user is returning too soon (<2 hours)
+        const isReturningTooSoon =
+          sessionDifference <= TWO_HOURS_MS &&
+          sessionDifference >= TEN_MINUTES_MS;
         console.log(
           `Session difference: ${sessionDifference}ms`,
           `Is returning too soon: ${isReturningTooSoon}`
@@ -177,6 +180,7 @@ export const useLoginMutation = () => {
 export const useCurrentAccountUserQuery = () => {
   const authdispatch = useDispatch();
   const userdispatch = useDispatch();
+  const navigate = useNavigate();
 
   return useQuery({
     queryKey: ["account_user"],
@@ -187,8 +191,6 @@ export const useCurrentAccountUserQuery = () => {
         const currentAccount = await authservice.getCurrentUser();
 
         if (currentAccount instanceof Error) throw currentAccount;
-
-        // const sessions = await authservice.allSessions();
 
         authdispatch(login(currentAccount));
 
@@ -202,6 +204,7 @@ export const useCurrentAccountUserQuery = () => {
         console.log(currentAccount);
         console.log(currentUser);
 
+        // navigate("/");
         return true;
       } catch (error) {
         throw new Error("Failed to get Current User");
@@ -321,7 +324,7 @@ export const useCreatePostMutation = () => {
       }
     },
     onSuccess: (data) => {
-      navigate("/profile");
+      navigate(`/profile/${data}`);
       queryClient.invalidateQueries({ queryKey: ["user_posts", data] });
     },
   });
@@ -376,7 +379,7 @@ export const useGetSavePostsQuery = (user_id) => {
         queries.push(Query.cursorAfter(pageParam));
       }
 
-      const posts = await post_service.allPosts(queries);
+      const posts = await saveService.getAllSavedPosts(queries);
 
       if (posts instanceof Error) throw new Error("Failed to get posts");
       return posts;

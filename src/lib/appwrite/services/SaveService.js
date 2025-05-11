@@ -1,4 +1,4 @@
-import { Client, ID, Databases, Storage, Query } from "appwrite";
+import { Client, ID, Databases, Storage } from "appwrite";
 import credentials from "@/lib/credentials";
 
 class SaveService {

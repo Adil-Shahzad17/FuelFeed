@@ -68,6 +68,12 @@ import {
 } from "@/components/ui/popover";
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export {
   Form,
@@ -124,4 +130,8 @@ export {
   PopoverTrigger,
   Label,
   Skeleton,
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
 };

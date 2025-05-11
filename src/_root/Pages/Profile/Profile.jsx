@@ -12,12 +12,10 @@ import Loader from '@/constants/Loading/Loader';
 import SkeletonLoader from '@/constants/Loading/SkeletonLoader';
 import { useInView } from 'react-intersection-observer';
 
-const Profile = () => {
+const Profile = ({ user_id }) => {
 
     const { ref, inView } = useInView({ delay: 200 });
     const user = useSelector((state) => state.user.userData)
-    console.log(user.$id);
-
 
     const { data,
         error,
@@ -27,7 +25,7 @@ const Profile = () => {
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
-    } = useUserPostsQuery(user.$id)
+    } = useUserPostsQuery(user_id)
 
     useEffect(() => {
         if (inView && hasNextPage && !isFetchingNextPage) {
@@ -48,7 +46,7 @@ const Profile = () => {
                 <div className="h-52 rounded-lg relative bg-cover bg-center"
                     style={{ backgroundImage: `url(${coverPhoto})` }}
                 >
-                    <img src={user.cover_img ? userService.getUserFilePreview(user.cover_img) : coverPhoto} alt="Cover Photo" className='max-h-52 w-full object-cover rounded-lg' />
+                    <img src={user.cover_img ? userService.getUserFilePreview(user.cover_img) : coverPhoto} alt="Cover Photo" className='h-52 w-full object-cover rounded-lg' />
 
 
                     <div className='bg-white absolute gap-2 py-2 px-3 rounded-md right-2 bottom-2 hover:cursor-pointer '>
@@ -93,7 +91,7 @@ const Profile = () => {
             }
 
             {
-                isSuccess &&
+                (isSuccess && data.pages[0]) &&
                 data.pages.map((page) => (
                     page.documents.map((post) => (
                         <Posts show='home' posts={post} key={post.$id} />

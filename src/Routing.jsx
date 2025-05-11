@@ -11,7 +11,6 @@ import Help from './_root/Pages/Help/Help';
 import CreatePost from './_root/Forms/CreatePost';
 import EditPost from './_root/Forms/EditPost';
 import EditProfile from './_root/Forms/EditProfile';
-import Demo from './Demo';
 import LoaderScreen from './constants/Loading/LoaderScreen';
 import OTP from './_auth/Signup/OTP';
 import { useCurrentAccountUserQuery } from './lib/tanstack/querys_mutations';
@@ -56,13 +55,12 @@ const Routing = () => {
         <Routes>
             <Route path="/" element={<RootLayout authentication={data} />}>
                 <Route path='/' element={<Home />} />
-                <Route path='profile' element={<Profile />} />
+                <Route path='profile/:user_id' element={<Profile />} />
                 <Route path='saved' element={<Saved />} />
                 <Route path='help' element={<Help />} />
                 <Route path='createpost' element={<CreatePost />} />
                 <Route path='editpost/:post_id' element={<EditPost />} />
                 <Route path='editprofile/:user_id' element={<EditProfile />} />
-                <Route path="demo" element={<Demo />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
             </Route>
             <Route path="/_auth" element={<AuthLayout />}>
