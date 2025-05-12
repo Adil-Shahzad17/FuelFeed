@@ -6,6 +6,8 @@ const credentials = {
   collection_user: String(import.meta.env.VITE_APPWRITE_COLLECTION_USER),
   collection_saves: String(import.meta.env.VITE_APPWRITE_COLLECTION_SAVES),
   bucket_fuel: String(import.meta.env.VITE_APPWRITE_BUCKET_FUEL),
+  EMAIL_JS_SERVICE_ID: import.meta.env.VITE_EMAIL_JS_SERVICE_ID,
+  EMAIL_JS_TEMPLATE_ID: import.meta.env.VITE_EMAIL_JS_TEMPLATE_ID,
+  EMAIL_JS_PUBLIC_KEY: import.meta.env.VITE_EMAIL_JS_PUBLIC_KEY,
 };
-
 export default credentials;

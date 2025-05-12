@@ -13,6 +13,8 @@ import { userData } from "../store/userSlice";
 import post_service from "../appwrite/services/PostService";
 import { Query } from "appwrite";
 import saveService from "../appwrite/services/SaveService";
+import credentials from "../credentials";
+import emailjs from "@emailjs/browser";
 
 // Authentication
 export const useSigninMutation = () => {
@@ -579,6 +581,26 @@ export const useLikePostMutation = () => {
         console.error("Failed to update likes:", error);
         throw new Error("Failed to update likes");
       }
+    },
+  });
+};
+
+export const useReportPostMutation = () => {
+  return useMutation({
+    mutationFn: async (data) => {
+      const templateParams = {
+        from_name: data.name,
+        reply_to: data.email,
+        message: `${data.message} : ${data.post_id}`,
+        to_name: "Adil",
+      };
+
+      await emailjs.send(
+        credentials.EMAIL_JS_SERVICE_ID,
+        credentials.EMAIL_JS_TEMPLATE_ID,
+        templateParams,
+        credentials.EMAIL_JS_PUBLIC_KEY
+      );
     },
   });
 };

@@ -79,8 +79,7 @@ const Posts = ({ show, posts }) => {
                                     }
 
                                     <ul className="space-y-2">
-                                        <li className="hover:bg-hoverColor
-                                        flex flex-col rounded-md">
+                                        <li className="flex flex-col rounded-md">
                                             {
                                                 show === 'profile' &&
                                                 <>
