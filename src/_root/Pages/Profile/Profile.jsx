@@ -5,17 +5,21 @@ import { MdEdit } from 'react-icons/md';
 import { Button } from "@/components/ui/components"
 import EditCoverPhoto from '@/_root/Forms/EditCoverPhoto';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import userService from '@/lib/appwrite/services/UserService';
 import { useUserPostsQuery } from '@/lib/tanstack/querys_mutations';
 import Loader from '@/constants/Loading/Loader';
 import SkeletonLoader from '@/constants/Loading/SkeletonLoader';
 import { useInView } from 'react-intersection-observer';
 
-const Profile = ({ user_id }) => {
+const Profile = () => {
 
     const { ref, inView } = useInView({ delay: 200 });
     const user = useSelector((state) => state.user.userData)
+
+    const { user_id } = useParams()
+    console.log(user_id);
+
 
     const { data,
         error,

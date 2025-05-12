@@ -28,7 +28,7 @@ const EditProfile = () => {
     const { user_id } = useParams()
     const navigate = useNavigate()
 
-    const { data, isFetching, isError, error, isSuccess } = useUserQuery(user_id)
+    const { data, isFetching, isError, error } = useUserQuery(user_id)
     const { isPending, mutateAsync } = useEditProfileMutation()
 
     const form = useForm({

@@ -402,6 +402,8 @@ export const useUserPostsQuery = (user_id) => {
     staleTime: Infinity,
     initialPageParam: 0,
     queryFn: async ({ pageParam }) => {
+      console.log(user_id);
+
       const queries = [
         Query.limit(LIMIT),
         Query.orderDesc("$createdAt"),
@@ -414,6 +416,7 @@ export const useUserPostsQuery = (user_id) => {
       const posts = await post_service.allPosts(queries);
 
       if (posts instanceof Error) throw new Error("Failed to get posts");
+      console.log(posts);
       return posts;
     },
     getNextPageParam: (lastPage) => {
