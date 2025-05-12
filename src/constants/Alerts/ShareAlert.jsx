@@ -30,7 +30,7 @@ const ShareAlert = ({ post }) => {
                 <DialogHeader>
                     <DialogTitle>Share link</DialogTitle>
                     <DialogDescription>
-                        Anyone who has this link will be able to view this post.
+                        Anyone who has this link will be able to view this post. Paste this link in a separate tab to view the post.
                     </DialogDescription>
                 </DialogHeader>
                 <div className="flex items-center space-x-2">
