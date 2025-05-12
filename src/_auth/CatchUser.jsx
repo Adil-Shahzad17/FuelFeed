@@ -7,6 +7,7 @@ const CatchUser = () => {
         <div className='flex flex-col justify-center items-center text-center font-heading px-5 gap-5 max-w-[750px]'>
             <h1 className='text-2xl sm:text-3xl'>Ah, splendid! The trap was set with precision and you danced right into it. <br /> Delightful!</h1>
             <h2 className='text-lg text-mainColor'>You think you can get away with it?</h2>
+            <h3 className='text-lg text-cyan-600'>2 hour Cooldown period</h3>
 
             <Separator />
 

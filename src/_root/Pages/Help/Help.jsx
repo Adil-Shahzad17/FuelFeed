@@ -49,7 +49,7 @@ const Help = () => {
                     We are a visual-first social media platform where only motivational images and content related to self-improvement, discipline, productivity, and personal growth are allowed. No drama. No clickbait. No distractions. Just pure, positive fuel to get you moving.
                     <br />
                     <br />
-                    But that’s not all—we’ve built in a unique feature to make sure this platform doesn’t become just another time sink. Once you close the app, you’ll be restricted from accessing it for 2 hours, giving you the space to take action on the inspiration you just received. There’s also a 15-minute grace period in case you closed it by accident or had to deal with something important. After that, it’s time to get off the screen and get into your life.
+                    But that’s not all—we’ve built in a unique feature to make sure this platform doesn’t become just another time sink. Once you close the app, you’ll be restricted from accessing it for 2 hours, giving you the space to take action on the inspiration you just received. There’s also a 20-minute grace period in case you closed it by accident or had to deal with something important. After that, it’s time to get off the screen and get into your life.
                     <br />
                     <br />
                     We’re not here to keep you scrolling. We’re here to spark something real.
@@ -87,7 +87,7 @@ const Help = () => {
                 <AccordionItem value="item-3">
                     <AccordionTrigger className='font-heading font-bold'> For how long will I be restricted after closing the app?</AccordionTrigger>
                     <AccordionContent className='font-body '>
-                        You’ll be restricted for 2 hours, but there’s a 15-minute grace window. If you closed the app by mistake or had to attend something urgent, you can reopen it within those 15 minutes. After that, the lock period activates to give you space to reflect and execute on your goals.
+                        You’ll be restricted for 2 hours, but there’s a 20-minute grace window. If you closed the app by mistake or had to attend something urgent, you can reopen it within those 20 minutes. After that, the lock period activates to give you space to reflect and execute on your goals.
                     </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-4">

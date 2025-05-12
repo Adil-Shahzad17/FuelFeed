@@ -30,10 +30,6 @@ const Posts = ({ show, posts }) => {
         mutateAsync({ post_id: posts.$id, likes_count: posts.likes_count, like: liked })
     }
 
-    console.log(typeof count);
-    console.log(typeof posts.likes_count)
-
-
 
     return (
         <>

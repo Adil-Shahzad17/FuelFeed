@@ -127,7 +127,7 @@ export const useLoginMutation = () => {
   const userdispatch = useDispatch();
   const navigate = useNavigate();
 
-  const TEN_MINUTES_MS = 1000 * 60 * 10; // Ten minutes in millieseconds.
+  const TWENTY_MINUTES_MS = 1000 * 60 * 20; // Twenty minutes in millieseconds.
   const TWO_HOURS_MS = 1000 * 60 * 60 * 2; // Two hours in millieseconds.
 
   return useMutation({
@@ -154,7 +154,7 @@ export const useLoginMutation = () => {
         // TRUE if user is returning too soon (<2 hours)
         const isReturningTooSoon =
           sessionDifference <= TWO_HOURS_MS &&
-          sessionDifference >= TEN_MINUTES_MS;
+          sessionDifference >= TWENTY_MINUTES_MS;
         console.log(
           `Session difference: ${sessionDifference}ms`,
           `Is returning too soon: ${isReturningTooSoon}`

@@ -4,10 +4,6 @@ import { Copy, Check } from "lucide-react"
 import { FaShare } from 'react-icons/fa'
 
 const ShareAlert = ({ post }) => {
-
-    console.log(post.$id);
-
-
     const [copy, setCopy] = React.useState('false')
     const ref = React.useRef(null)
 
@@ -44,7 +40,7 @@ const ShareAlert = ({ post }) => {
                         </Label>
                         <Input
                             id="link"
-                            defaultValue={post.$id}
+                            defaultValue={`http://localhost:5173/share/${post.$id}`}
                             readOnly
                             ref={ref}
                         />

@@ -16,6 +16,7 @@ import OTP from './_auth/Signup/OTP';
 import { useCurrentAccountUserQuery } from './lib/tanstack/querys_mutations';
 import { useNavigate, Navigate } from 'react-router-dom';
 import CatchUser from './_auth/CatchUser';
+import SharePost from './_root/Pages/Share/SharePost';
 
 
 const Routing = () => {
@@ -69,6 +70,7 @@ const Routing = () => {
                 <Route path="otp" element={<OTP />} />
                 <Route path='catchUser' element={<CatchUser />} />
             </Route>
+            <Route path='share/:post_id' element={<SharePost />} />
         </Routes>
     );
 };
