@@ -19,8 +19,8 @@ import { useLikePostMutation } from '@/lib/tanstack/querys_mutations';
 
 const Posts = ({ show, posts }) => {
 
-    const [liked, setLiked] = React.useState(false)
-    const [count, setCount] = React.useState(0)
+    const [liked, setLiked] = React.useState(false) // Track Like
+    const [count, setCount] = React.useState(0) // Display user like count updated before useLikePostMutation update the data.
 
     const navigate = useNavigate()
 
@@ -111,7 +111,7 @@ const Posts = ({ show, posts }) => {
                         <div className="rounded-lg my-5 w-full mx-auto overflow-hidden">
                             <img
                                 src={post_service.getFilePreview(posts.post_img)}
-                                alt=""
+                                alt="Image Failed to Load"
                                 className="w-full h-full object-cover"
                             />
                         </div>

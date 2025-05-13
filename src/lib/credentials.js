@@ -1,3 +1,4 @@
+// Imported from ENV
 const credentials = {
   end_point: String(import.meta.env.VITE_APPWRITE_ENDPOINT),
   project_id: String(import.meta.env.VITE_APPWRITE_PROJECT_ID),

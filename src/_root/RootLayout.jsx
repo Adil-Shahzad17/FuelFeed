@@ -6,7 +6,7 @@ import { Navigate } from 'react-router-dom'
 
 
 const RootLayout = ({ authentication }) => {
-
+    // If user is authenticated gives access to the rest of app.
     if (authentication) return (
         <div className='min-w-[320px] mx-auto max-w-screen-xl grid grid-rows-[auto_1fr] grid-cols-1 relative dark:bg-dark_bgColor bg-bgColor'>
             <Header />

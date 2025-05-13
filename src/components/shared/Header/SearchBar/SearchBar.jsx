@@ -23,7 +23,7 @@ const SearchBar = () => {
     const [open, setOpen] = React.useState(false)
     const [value, setValue] = React.useState("")
 
-    const { refetch } = useAllPostsQuery(value)
+    const { refetch } = useAllPostsQuery(value) // Update posts on Home page.
 
     React.useEffect(() => {
         refetch()

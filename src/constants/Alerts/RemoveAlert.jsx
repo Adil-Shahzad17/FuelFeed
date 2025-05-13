@@ -6,9 +6,6 @@ import Loader from "../Loading/Loader";
 
 
 export default function RemoveAlert({ post }) {
-    console.log(post);
-
-
     const { mutateAsync, isError, isPending, error } = useDeleteSavePostMutation()
 
     const handleRemove = async () => {

@@ -1,19 +1,28 @@
+import credentials from "../credentials"; // ENV File Data
+
+// Auth
 import authservice from "../appwrite/services/AuthService";
+import { draftLogin, login, logout } from "../store/authSlice";
+
+// User
 import userService from "../appwrite/services/UserService";
-import { useDispatch, useSelector } from "react-redux";
+import { userData } from "../store/userSlice";
+
+// Post
+import post_service from "../appwrite/services/PostService";
+
+// Save Post
+import saveService from "../appwrite/services/SaveService";
+
 import {
   useInfiniteQuery,
   useMutation,
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { draftLogin, login, logout } from "../store/authSlice";
-import { userData } from "../store/userSlice";
-import post_service from "../appwrite/services/PostService";
 import { Query } from "appwrite";
-import saveService from "../appwrite/services/SaveService";
-import credentials from "../credentials";
 import emailjs from "@emailjs/browser";
 
 // Authentication
@@ -33,8 +42,7 @@ export const useSigninMutation = () => {
         if (account instanceof Error)
           throw new Error("Unable to Create Account, try again later.");
 
-        console.log(account);
-        dispatch(draftLogin(account));
+        dispatch(draftLogin(account)); // Save account info in draft incase user don't complete the account creation process.
 
         const OTP = await authservice.generate_getOTPToken(data.email);
 
@@ -63,7 +71,7 @@ export const useOTPLoginMutation = () => {
           throw new Error("OTP Code should be of 6 digits.");
 
         const loginuser = await authservice.loginUsingOTP({
-          user_id: userInfo.$id,
+          user_id: userInfo.$id, // User id which was saved by draftLogin in useSigninMutation.
           otpToken: otp,
         });
 
@@ -77,7 +85,7 @@ export const useOTPLoginMutation = () => {
         const createUser = await userService.createUser({
           user_id: currentUser.$id,
           user_name: currentUser.name,
-        });
+        }); // Create Profile for User
 
         if (createUser instanceof Error) throw new Error("No User Found");
 
@@ -88,12 +96,11 @@ export const useOTPLoginMutation = () => {
         if (user instanceof Error) throw user;
         userdispatch(userData(user));
       } catch (error) {
-        console.log(error);
-        throw new Error("OTP Login M Error");
+        throw new Error("Something goes wrong with OTP");
       }
     },
     onSuccess: () => {
-      navigate("/");
+      navigate("/"); // Navigate to Home
     },
   });
 };
@@ -106,15 +113,15 @@ export const useLogoutMutation = () => {
       let logoutTime = Date.now();
       const updateLastSession = await userService.updateUser({
         user_id: user,
-        lastSessionTime: logoutTime.toString(),
+        lastSessionTime: logoutTime.toString(), // Update lastSessionTime value with time of logout.
       });
 
       if (updateLastSession instanceof Error) console.log(updateLastSession);
 
       const logoutUser = await authservice.logOut();
 
-      if (logoutUser instanceof Error) throw new Error("Failed to Login");
-      dispatch(logout());
+      if (logoutUser instanceof Error) throw new Error("Failed to Logout");
+      dispatch(logout()); // Clear Store State
     },
     onSuccess: () => {
       navigate("/_auth/signup");
@@ -141,28 +148,25 @@ export const useLoginMutation = () => {
         if (loginUser instanceof Error)
           throw new Error("Failed to Login, try again later");
 
+        // Get Account
         const currentUser = await authservice.getCurrentUser();
-        if (currentUser instanceof Error) throw new Error("No User Found");
+        if (currentUser instanceof Error) throw new Error("No Account Found");
 
+        // Get User Profile
         const user = await userService.getUser({ user_id: currentUser.$id });
         if (user instanceof Error) throw new Error("No User Found");
 
-        const lastSessionTime = Number(user.lastSessionTime);
-        const loginTime = new Date(loginUser.$createdAt).getTime();
+        const lastSessionTime = Number(user.lastSessionTime); // From User Profile
+        const loginTime = new Date(loginUser.$createdAt).getTime(); // Conver into millieseconds
         const sessionDifference = Math.abs(lastSessionTime - loginTime);
 
-        // TRUE if user is returning too soon (<2 hours)
+        // TRUE if user is returning too soon (<=2 hours)
         const isReturningTooSoon =
           sessionDifference <= TWO_HOURS_MS &&
-          sessionDifference >= TWENTY_MINUTES_MS;
-        console.log(
-          `Session difference: ${sessionDifference}ms`,
-          `Is returning too soon: ${isReturningTooSoon}`
-        );
+          sessionDifference >= TWENTY_MINUTES_MS; // Window to come back under 20 minutes period if closes the app by accident.
 
         if (isReturningTooSoon) {
           await authservice.logOut(); // Force logout if returning too soon
-          console.log("logOut");
           return false; // Will trigger navigation to catchUser
         }
 
@@ -180,9 +184,9 @@ export const useLoginMutation = () => {
 };
 
 export const useCurrentAccountUserQuery = () => {
+  // Get both account and profile is user.
   const authdispatch = useDispatch();
   const userdispatch = useDispatch();
-  const navigate = useNavigate();
 
   return useQuery({
     queryKey: ["account_user"],
@@ -190,10 +194,9 @@ export const useCurrentAccountUserQuery = () => {
     staleTime: Infinity,
     queryFn: async () => {
       try {
+        // Account is required to get the $id to get the user Profile.
         const currentAccount = await authservice.getCurrentUser();
-
         if (currentAccount instanceof Error) throw currentAccount;
-
         authdispatch(login(currentAccount));
 
         const currentUser = await userService.getUser({
@@ -203,10 +206,6 @@ export const useCurrentAccountUserQuery = () => {
         if (currentUser instanceof Error) throw currentUser;
         userdispatch(userData(currentUser));
 
-        console.log(currentAccount);
-        console.log(currentUser);
-
-        // navigate("/");
         return true;
       } catch (error) {
         throw new Error("Failed to get Current User");
@@ -215,8 +214,7 @@ export const useCurrentAccountUserQuery = () => {
   });
 };
 
-// ---------------------------
-
+// Profile Updation
 export const useUserQuery = (userid) => {
   return useQuery({
     queryKey: ["user", userid],
@@ -255,7 +253,7 @@ export const useEditProfileMutation = () => {
       if (update instanceof Error) throw new Error("Failed to update Profile");
 
       dispatch(userData(update));
-      return update;
+      return update; // To invalidateQuery
     },
     onSuccess: (data) => {
       navigate("/");
@@ -284,7 +282,7 @@ export const useEditCoverMutation = () => {
         if (update instanceof Error)
           throw new Error("Failed to update Profile");
 
-        return data.user_id;
+        return data.user_id; // To invalidateQuery
       } catch (error) {
         throw new Error(error.message);
       }
@@ -292,6 +290,58 @@ export const useEditCoverMutation = () => {
     onSuccess: (data) => {
       navigate("/");
       queryClient.invalidateQueries({ queryKey: ["user", data.$id] });
+    },
+  });
+};
+
+// Post Creation and Updation
+export const useAllPostsQuery = (search) => {
+  const LIMIT = 5;
+  return useInfiniteQuery({
+    queryKey: ["all_posts"],
+    staleTime: Infinity,
+    initialPageParam: 0,
+    queryFn: async ({ pageParam }) => {
+      const queries = [Query.limit(LIMIT), Query.orderDesc("$createdAt")];
+
+      if (search) {
+        // Coming from SearchBar in Header
+        queries.push(Query.equal("category", search));
+      }
+      if (pageParam) {
+        queries.push(Query.cursorAfter(pageParam));
+      }
+
+      const posts = await post_service.allPosts(queries); // Get All Posts
+
+      if (posts instanceof Error) throw new Error("Failed to get posts");
+      return posts;
+    },
+    getNextPageParam: (lastPage) => {
+      if (!lastPage?.documents || lastPage.documents.length === 0) {
+        return undefined;
+      }
+
+      const lastDocument = lastPage.documents[lastPage.documents.length - 1];
+      return lastDocument?.$id ?? undefined; // Using last posts $id for appwrite cursorAfter to fetch next page.
+    },
+  });
+};
+
+export const useGetPostQuery = (post_id) => {
+  // For EditPost and SharePost Page.
+  return useQuery({
+    queryKey: ["posts", post_id],
+    staleTime: Infinity,
+    queryFn: async () => {
+      try {
+        const post = await post_service.getPost({ post_id: post_id });
+        if (post instanceof Error) throw new Error("Failed to fetch your post");
+
+        return post;
+      } catch (error) {
+        throw new Error(error.message);
+      }
     },
   });
 };
@@ -319,7 +369,6 @@ export const useCreatePostMutation = () => {
         if (createPost instanceof Error)
           throw new Error("Something went wrong with post creation");
 
-        console.log(createPost);
         return data.user_id;
       } catch (error) {
         throw new Error(error.message);
@@ -332,125 +381,6 @@ export const useCreatePostMutation = () => {
   });
 };
 
-export const useAllPostsQuery = (search) => {
-  const LIMIT = 1;
-  return useInfiniteQuery({
-    queryKey: ["all_posts"],
-    staleTime: Infinity,
-    initialPageParam: 0,
-    queryFn: async ({ pageParam }) => {
-      const queries = [Query.limit(LIMIT), Query.orderDesc("$createdAt")];
-
-      if (search) {
-        queries.push(Query.equal("category", search));
-      }
-
-      if (pageParam) {
-        queries.push(Query.cursorAfter(pageParam));
-      }
-
-      const posts = await post_service.allPosts(queries);
-
-      if (posts instanceof Error) throw new Error("Failed to get posts");
-      return posts;
-    },
-    getNextPageParam: (lastPage) => {
-      if (!lastPage?.documents || lastPage.documents.length === 0) {
-        return undefined;
-      }
-
-      const lastDocument = lastPage.documents[lastPage.documents.length - 1];
-      return lastDocument?.$id ?? undefined;
-    },
-  });
-};
-
-export const useGetSavePostsQuery = (user_id) => {
-  const LIMIT = 1;
-  return useInfiniteQuery({
-    queryKey: ["user_saves", user_id],
-    staleTime: Infinity,
-    initialPageParam: 0,
-    queryFn: async ({ pageParam }) => {
-      const queries = [
-        Query.limit(LIMIT),
-        Query.orderDesc("$createdAt"),
-        Query.equal("user_id", user_id),
-      ];
-      if (pageParam) {
-        queries.push(Query.cursorAfter(pageParam));
-      }
-
-      const posts = await saveService.getAllSavedPosts(queries);
-
-      if (posts instanceof Error) throw new Error("Failed to get posts");
-      return posts;
-    },
-    getNextPageParam: (lastPage) => {
-      if (!lastPage?.documents || lastPage.documents.length === 0) {
-        return undefined;
-      }
-
-      const lastDocument = lastPage.documents[lastPage.documents.length - 1];
-      return lastDocument?.$id ?? undefined;
-    },
-  });
-};
-
-export const useUserPostsQuery = (user_id) => {
-  const LIMIT = 1;
-  return useInfiniteQuery({
-    queryKey: ["user_posts", user_id],
-    staleTime: Infinity,
-    initialPageParam: 0,
-    queryFn: async ({ pageParam }) => {
-      console.log(user_id);
-
-      const queries = [
-        Query.limit(LIMIT),
-        Query.orderDesc("$createdAt"),
-        Query.equal("user_id", user_id),
-      ];
-      if (pageParam) {
-        queries.push(Query.cursorAfter(pageParam));
-      }
-
-      const posts = await post_service.allPosts(queries);
-
-      if (posts instanceof Error) throw new Error("Failed to get posts");
-      console.log(posts);
-      return posts;
-    },
-    getNextPageParam: (lastPage) => {
-      if (!lastPage?.documents || lastPage.documents.length === 0) {
-        return undefined;
-      }
-
-      const lastDocument = lastPage.documents[lastPage.documents.length - 1];
-      return lastDocument?.$id ?? undefined;
-    },
-  });
-};
-
-export const useGetPostQuery = (post_id) => {
-  return useQuery({
-    queryKey: ["posts", post_id],
-    staleTime: Infinity,
-    queryFn: async () => {
-      try {
-        const post = await post_service.getPost({ post_id: post_id });
-        console.log(post);
-
-        if (post instanceof Error) throw new Error("Failed to fetch your post");
-
-        return post;
-      } catch (error) {
-        throw new Error(error.message);
-      }
-    },
-  });
-};
-
 export const useEditPostMutation = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -458,6 +388,7 @@ export const useEditPostMutation = () => {
   return useMutation({
     mutationFn: async (data) => {
       if (data.edit) {
+        // If user didn't update the post image.
         const editPost = await post_service.updatePost(data.post_id, {
           content: data.content,
           category: data.category,
@@ -467,12 +398,13 @@ export const useEditPostMutation = () => {
         console.log(editPost);
         return data.user_id;
       } else if (!data.edit) {
-        const deletePrevImage = await post_service.deleteFile(data.prev_image);
+        // If user did update the post image.
+        const deletePrevImage = await post_service.deleteFile(data.prev_image); // Delete existing image.
 
         if (deletePrevImage instanceof Error)
           throw new Error("Failed to delete existing image");
 
-        const fileUpload = await post_service.uploadFile(data.file);
+        const fileUpload = await post_service.uploadFile(data.file); // Upload new file
 
         if (fileUpload instanceof Error)
           throw new Error("Failed to post photo");
@@ -484,7 +416,6 @@ export const useEditPostMutation = () => {
         });
 
         if (editPost instanceof Error) throw new Error("Failed to edit post");
-        console.log(editPost);
         return data.user_id;
       }
     },
@@ -517,7 +448,76 @@ export const useDeletePostMutation = () => {
   });
 };
 
+// User Profile Posts
+export const useUserPostsQuery = (user_id) => {
+  const LIMIT = 5;
+  return useInfiniteQuery({
+    queryKey: ["user_posts", user_id],
+    staleTime: Infinity,
+    initialPageParam: 0,
+    queryFn: async ({ pageParam }) => {
+      console.log(user_id);
+
+      const queries = [
+        Query.limit(LIMIT),
+        Query.orderDesc("$createdAt"),
+        Query.equal("user_id", user_id),
+      ];
+      if (pageParam) {
+        queries.push(Query.cursorAfter(pageParam));
+      }
+
+      const posts = await post_service.allPosts(queries);
+
+      if (posts instanceof Error) throw new Error("Failed to get posts");
+      return posts;
+    },
+    getNextPageParam: (lastPage) => {
+      if (!lastPage?.documents || lastPage.documents.length === 0) {
+        return undefined;
+      }
+
+      const lastDocument = lastPage.documents[lastPage.documents.length - 1]; // Using last posts $id for appwrite cursorAfter to fetch next page.
+      return lastDocument?.$id ?? undefined;
+    },
+  });
+};
+
+// User Saves Posts
+export const useGetSavePostsQuery = (user_id) => {
+  const LIMIT = 5;
+  return useInfiniteQuery({
+    queryKey: ["user_saves", user_id],
+    staleTime: Infinity,
+    initialPageParam: 0,
+    queryFn: async ({ pageParam }) => {
+      const queries = [
+        Query.limit(LIMIT),
+        Query.orderDesc("$createdAt"),
+        Query.equal("user_id", user_id),
+      ];
+      if (pageParam) {
+        queries.push(Query.cursorAfter(pageParam));
+      }
+
+      const posts = await saveService.getAllSavedPosts(queries);
+
+      if (posts instanceof Error) throw new Error("Failed to get posts");
+      return posts;
+    },
+    getNextPageParam: (lastPage) => {
+      if (!lastPage?.documents || lastPage.documents.length === 0) {
+        return undefined;
+      }
+
+      const lastDocument = lastPage.documents[lastPage.documents.length - 1]; // For Appwrite cursorAfter
+      return lastDocument?.$id ?? undefined;
+    },
+  });
+};
+
 export const useSavePostMutation = () => {
+  // Save Post to Save Collection
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   return useMutation({
@@ -547,8 +547,6 @@ export const useDeleteSavePostMutation = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data) => {
-      console.log(data);
-
       const deleteSave = await saveService.deleteSavePost(data.$id);
 
       if (deleteSave instanceof Error) throw new Error(deleteSave);
@@ -562,29 +560,32 @@ export const useDeleteSavePostMutation = () => {
   });
 };
 
+// Like Post
 export const useLikePostMutation = () => {
   return useMutation({
     mutationFn: async (data) => {
       try {
-        let currentLikesCount = Number(data.likes_count) || 0;
+        let currentLikesCount = Number(data.likes_count) || 0; // Current Likes
 
         if (data.like) {
+          // If User Like a post
           currentLikesCount = Math.min(currentLikesCount + 1, 1000);
         } else {
+          // If User dislike a post
           currentLikesCount = Math.max(currentLikesCount - 1, 0);
         }
 
-        const response = await post_service.updatePost(data.post_id, {
+        await post_service.updatePost(data.post_id, {
           likes_count: currentLikesCount,
         });
       } catch (error) {
-        console.error("Failed to update likes:", error);
         throw new Error("Failed to update likes");
       }
     },
   });
 };
 
+// Report Post for not meeting the Application Rules via email.js
 export const useReportPostMutation = () => {
   return useMutation({
     mutationFn: async (data) => {

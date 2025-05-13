@@ -9,8 +9,6 @@ import userService from '@/lib/appwrite/services/UserService';
 const Sidebar = () => {
 
     const user = useSelector((state) => state.user.userData)
-    console.log(user.$id);
-
 
     return (
         <div className="z-10 mt-16 pt-3 pl-3 bg-bgColor text-black hidden md:block dark:bg-dark_bgColor dark:text-white">

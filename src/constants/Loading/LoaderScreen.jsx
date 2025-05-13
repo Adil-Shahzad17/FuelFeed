@@ -2,6 +2,8 @@ import React from 'react'
 import { power } from '../Images/images'
 import Loader from './Loader'
 
+// FallBack Screen
+
 const LoaderScreen = () => {
     return (
         <div className='bg-dark_bgColor w-screen h-screen pb-52 flex flex-col gap-14 justify-center items-center relative' >

@@ -1,5 +1,5 @@
 import React from 'react'
-import { power, profilePhoto } from '@/constants/Images/images';
+import { profilePhoto } from '@/constants/Images/images';
 import { IoIosCloseCircle } from "react-icons/io";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -37,7 +37,7 @@ const CreatePost = () => {
     });
 
 
-    // 2. Define a submit handler.
+    // Submit Form
     function onSubmit(data) {
         mutateAsync({ ...data, user_id: user.$id, user_name: user.user_name, profile_img: user.profile_img })
     }

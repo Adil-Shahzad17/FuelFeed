@@ -7,7 +7,6 @@ import { GoReport } from "react-icons/go";
 import { useSelector } from 'react-redux'
 import { useReportPostMutation } from '@/lib/tanstack/querys_mutations'
 import Loader from '../Loading/Loader'
-import credentials from '@/lib/credentials'
 
 
 export default function ReportAlert({ post }) {

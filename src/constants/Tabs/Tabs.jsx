@@ -4,6 +4,8 @@ import Menu from "./Menu/Menu";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+
+// Give user a Mobile Native Feel
 const Tabs = () => {
 
     const user = useSelector((state) => state.user.userData)

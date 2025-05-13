@@ -16,6 +16,7 @@ export default function OTP() {
     const { isPending, isError, error, mutateAsync } = useOTPLoginMutation()
     const [otp, setOtp] = React.useState("")
 
+    // Submit OTP
     const submitOTP = () => {
         mutateAsync(otp)
     }

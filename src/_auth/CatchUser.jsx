@@ -2,6 +2,7 @@ import { Button, Separator } from '@/components/ui/components'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+// Catch User if he/she try's to login before the 2 hour cooldown period is over.
 const CatchUser = () => {
     return (
         <div className='flex flex-col justify-center items-center text-center font-heading px-5 gap-5 max-w-[750px]'>

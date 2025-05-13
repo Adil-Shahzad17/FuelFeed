@@ -39,17 +39,14 @@ const EditProfile = () => {
         },
     });
 
-
+    // Submit Form
     function onSubmit(values) {
         mutateAsync({ ...values, user_id: data.$id })
     }
 
     if (isFetching) {
-        return (
-            <>
-                <LoaderPage />
-            </>
-        )
+        return <LoaderPage />
+
     }
 
     return (

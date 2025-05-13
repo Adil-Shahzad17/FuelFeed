@@ -8,9 +8,8 @@ import { useInView } from 'react-intersection-observer'
 
 const Saved = () => {
 
-    const { ref, inView } = useInView({ delay: 200 });
     const user = useSelector((state) => state.user.userData)
-    console.log(user);
+    const { ref, inView } = useInView({ delay: 200 });
 
     const { data,
         error,

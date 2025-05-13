@@ -5,7 +5,6 @@ import Loader from "../Loading/Loader";
 
 
 export default function SaveAlert({ post }) {
-    console.log(post);
     const { mutateAsync, isError, error, isPending } = useSavePostMutation()
 
     const handleSave = async () => {

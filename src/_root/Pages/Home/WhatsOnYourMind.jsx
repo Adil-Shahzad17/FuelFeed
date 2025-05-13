@@ -8,7 +8,6 @@ const WhatsOnYourMind = () => {
 
     const navigate = useNavigate()
     const user = useSelector((state) => state.user.userData)
-    console.log(user);
 
     return (
         <div className='bg-white w-full mx-auto my-3 rounded-md shadow-sm shadow-altColor

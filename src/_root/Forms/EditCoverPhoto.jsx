@@ -36,7 +36,7 @@ export default function EditCoverPhoto() {
     });
 
 
-    // 2. Define a submit handler.
+    // Submit Form
     function onSubmit(data) {
         mutateAsync({ ...data, user_id: user.$id })
     }

@@ -68,14 +68,6 @@ class AuthService {
       throw error;
     }
   }
-
-  async allSessions() {
-    try {
-      return await this.account.listSessions();
-    } catch (error) {
-      console.log("All Sessions Error", error);
-    }
-  }
 }
 
 const authservice = new AuthService();

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import WhatsOnYourMind from './WhatsOnYourMind'
-import { useSelector } from 'react-redux'
 import Posts from './Posts'
 import { useAllPostsQuery } from '@/lib/tanstack/querys_mutations'
 import Loader from '@/constants/Loading/Loader'
@@ -8,9 +7,6 @@ import { useInView } from 'react-intersection-observer'
 import SkeletonLoader from '@/constants/Loading/SkeletonLoader'
 
 const Home = () => {
-
-    const user = useSelector((state) => state.user?.userData)
-    const auth = useSelector((state) => state.auth?.userData)
 
     const { ref, inView } = useInView();
     const {

@@ -28,7 +28,7 @@ const EditPost = () => {
 
     useEffect(() => {
         if (data) {
-            form.reset({ content: data.content }); // ✅ Syncs default value after load
+            form.reset({ content: data.content }); // Sets Default value after load
         }
     }, [data])
 
@@ -44,9 +44,8 @@ const EditPost = () => {
     });
 
 
-    // 2. Define a submit handler.
+    // Submit Form
     function onSubmit(values) {
-        // console.log(values);
         mutateAsync({ ...values, edit, post_id, prev_image: data.post_img, user_id: user.$id })
     }
 

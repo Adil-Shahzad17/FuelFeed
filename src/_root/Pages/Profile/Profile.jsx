@@ -14,12 +14,9 @@ import { useInView } from 'react-intersection-observer';
 
 const Profile = () => {
 
-    const { ref, inView } = useInView({ delay: 200 });
     const user = useSelector((state) => state.user.userData)
-
     const { user_id } = useParams()
-    console.log(user_id);
-
+    const { ref, inView } = useInView({ delay: 200 });
 
     const { data,
         error,
@@ -36,12 +33,6 @@ const Profile = () => {
             fetchNextPage();
         }
     }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
-
-    if (isSuccess) {
-        console.log(data);
-    }
-
-
 
     return (
         <div className="w-full mx-auto flex flex-col gap-2 dark:text-white">

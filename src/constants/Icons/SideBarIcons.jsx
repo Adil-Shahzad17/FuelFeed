@@ -23,6 +23,7 @@ export const Sidebar_Tabs_Icons = [
   },
 ];
 
+// Other Icons
 export const SettingIcons = [
   {
     iconName: "About",
