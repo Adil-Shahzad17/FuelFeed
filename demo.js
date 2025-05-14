@@ -1,6 +1,5 @@
-const one = new Date(1746877022888).toLocaleString();
-const two = new Date(Date.now()).toLocaleString();
-// console.log(one);
+const one = new Date("2025-05-14T10:49:12.565+00:00").toLocaleString();
+const two = new Date("2025-05-14T10:49:12.565+00:00").toLocaleString();
 
-const ten = 1000 * 60 * 10;
-console.log(new Date(ten).getMinutes());
+console.log(one);
+console.log(two);

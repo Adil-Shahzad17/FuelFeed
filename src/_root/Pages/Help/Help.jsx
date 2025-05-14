@@ -49,7 +49,7 @@ const Help = () => {
                     We are a visual-first social media platform where only motivational images and content related to self-improvement, discipline, productivity, and personal growth are allowed. No drama. No clickbait. No distractions. Just pure, positive fuel to get you moving.
                     <br />
                     <br />
-                    But that’s not all—we’ve built in a unique feature to make sure this platform doesn’t become just another time sink. Once you close the app, you’ll be restricted from accessing it for 2 hours, giving you the space to take action on the inspiration you just received. There’s also a 20-minute grace period in case you closed it by accident or had to deal with something important. After that, it’s time to get off the screen and get into your life.
+                    But that’s not all, we’ve built in a unique feature to make sure this platform doesn’t become just another time sink. Each session lasts for 45 minutes, after which you’ll be logged out. If you haven’t found the push you were looking for, don’t worry you’ll have a 20-minute grace period to jump back in and complete your goal. After that, you’ll be restricted from accessing the app for 2 hours, giving you the space to take action on the inspiration you just received and focus on your real life.
                     <br />
                     <br />
                     We’re not here to keep you scrolling. We’re here to spark something real.
@@ -87,7 +87,7 @@ const Help = () => {
                 <AccordionItem value="item-3">
                     <AccordionTrigger className='font-heading font-bold'> For how long will I be restricted after closing the app?</AccordionTrigger>
                     <AccordionContent className='font-body '>
-                        You’ll be restricted for 2 hours, but there’s a 20-minute grace window. If you closed the app by mistake or had to attend something urgent, you can reopen it within those 20 minutes. After that, the lock period activates to give you space to reflect and execute on your goals.
+                        Each session lasts 45 minutes. Once it ends, you'll be logged out and have a 20-minute grace period to return—perfect if you didn’t quite find the push you needed. If you don’t come back within that window, you’ll be restricted for 2 hours to help you shift from screen time to real-life action.
                     </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-4">

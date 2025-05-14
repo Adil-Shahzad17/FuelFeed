@@ -78,7 +78,6 @@ export const useOTPLoginMutation = () => {
         if (loginuser instanceof Error) throw new Error("Failed to Login");
 
         const currentUser = await authservice.getCurrentUser();
-
         if (currentUser instanceof Error) throw new Error("No Account Found");
         authdispatch(login(currentUser));
 
@@ -151,6 +150,7 @@ export const useLoginMutation = () => {
         // Get Account
         const currentUser = await authservice.getCurrentUser();
         if (currentUser instanceof Error) throw new Error("No Account Found");
+        console.log(currentUser);
 
         // Get User Profile
         const user = await userService.getUser({ user_id: currentUser.$id });
@@ -195,17 +195,17 @@ export const useCurrentAccountUserQuery = () => {
     queryFn: async () => {
       try {
         // Account is required to get the $id to get the user Profile.
-        const currentAccount = await authservice.getCurrentUser();
-        if (currentAccount instanceof Error) throw currentAccount;
-        authdispatch(login(currentAccount));
+        const currentUser = await authservice.getCurrentUser();
+        if (currentUser instanceof Error) throw currentUser;
 
-        const currentUser = await userService.getUser({
-          user_id: currentAccount.$id,
+        const user = await userService.getUser({
+          user_id: currentUser.$id,
         });
 
-        if (currentUser instanceof Error) throw currentUser;
-        userdispatch(userData(currentUser));
+        if (user instanceof Error) throw user;
 
+        authdispatch(login(currentUser));
+        userdispatch(userData(user));
         return true;
       } catch (error) {
         throw new Error("Failed to get Current User");
