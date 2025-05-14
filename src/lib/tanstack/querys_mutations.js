@@ -256,7 +256,7 @@ export const useEditProfileMutation = () => {
       return update; // To invalidateQuery
     },
     onSuccess: (data) => {
-      navigate("/");
+      navigate(`/profile/${data.$id}`);
       queryClient.invalidateQueries({ queryKey: ["user", data.$id] });
     },
   });
@@ -288,8 +288,8 @@ export const useEditCoverMutation = () => {
       }
     },
     onSuccess: (data) => {
-      navigate("/");
-      queryClient.invalidateQueries({ queryKey: ["user", data.$id] });
+      navigate(`/profile/${data}`);
+      queryClient.invalidateQueries({ queryKey: ["user", data] });
     },
   });
 };

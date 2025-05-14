@@ -58,7 +58,7 @@ const Routing = () => {
     return (
         <Suspense fallback={<LoaderScreen />}>
             <Routes>
-                <Route path="/" element={<RootLayout authentication={data} />}>
+                <Route element={<RootLayout authentication={data} />}>
                     <Route path='/' element={<Home />} />
                     <Route path='profile/:user_id' element={<Profile />} />
                     <Route path='saved' element={<Saved />} />
