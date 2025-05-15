@@ -150,7 +150,6 @@ export const useLoginMutation = () => {
         // Get Account
         const currentUser = await authservice.getCurrentUser();
         if (currentUser instanceof Error) throw new Error("No Account Found");
-        console.log(currentUser);
 
         // Get User Profile
         const user = await userService.getUser({ user_id: currentUser.$id });
@@ -315,6 +314,7 @@ export const useAllPostsQuery = (search) => {
       const posts = await post_service.allPosts(queries); // Get All Posts
 
       if (posts instanceof Error) throw new Error("Failed to get posts");
+      console.log(posts);
       return posts;
     },
     getNextPageParam: (lastPage) => {
@@ -395,7 +395,6 @@ export const useEditPostMutation = () => {
         });
 
         if (editPost instanceof Error) throw new Error("Failed to edit post");
-        console.log(editPost);
         return data.user_id;
       } else if (!data.edit) {
         // If user did update the post image.
@@ -456,8 +455,6 @@ export const useUserPostsQuery = (user_id) => {
     staleTime: Infinity,
     initialPageParam: 0,
     queryFn: async ({ pageParam }) => {
-      console.log(user_id);
-
       const queries = [
         Query.limit(LIMIT),
         Query.orderDesc("$createdAt"),
@@ -575,7 +572,7 @@ export const useLikePostMutation = () => {
           currentLikesCount = Math.max(currentLikesCount - 1, 0);
         }
 
-        await post_service.updatePost(data.post_id, {
+        const liked = await post_service.updatePost(data.post_id, {
           likes_count: currentLikesCount,
         });
       } catch (error) {
