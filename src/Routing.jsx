@@ -23,9 +23,12 @@ const SharePost = lazy(() => import('./_root/Pages/Share/SharePost'));
 
 // FallBack UI
 import LoaderScreen from './constants/Loading/LoaderScreen';
+import { useSelector } from 'react-redux';
 
 
 const Routing = () => {
+
+    const auth = useSelector((state) => state.auth.status)
 
     const navigate = useNavigate();
     const {
@@ -41,7 +44,6 @@ const Routing = () => {
         const cookieFallback = localStorage.getItem("cookieFallback");
         if (!cookieFallback || cookieFallback === "[]") {
             navigate("/_auth/signup");
-            console.log("Navigate to Auth");
             return
         }
         refetch()
@@ -58,8 +60,8 @@ const Routing = () => {
     return (
         <Suspense fallback={<LoaderScreen />}>
             <Routes>
-                <Route element={<RootLayout authentication={data} />}>
-                    <Route path='/' element={<Home />} />
+                <Route element={<RootLayout authentication={data || auth} />}>
+                    <Route index path='/' element={<Home />} />
                     <Route path='profile/:user_id' element={<Profile />} />
                     <Route path='saved' element={<Saved />} />
                     <Route path='help' element={<Help />} />

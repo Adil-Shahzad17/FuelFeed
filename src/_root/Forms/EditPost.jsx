@@ -22,9 +22,6 @@ const EditPost = () => {
     const { post_id } = useParams()
 
     const { data, isPending, isError, error, isSuccess } = useGetPostQuery(post_id)
-    if (isSuccess) {
-        console.log(data);
-    }
 
     useEffect(() => {
         if (data) {

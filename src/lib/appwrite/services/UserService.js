@@ -20,7 +20,7 @@ class UserService {
     bio,
     cover_img,
     profile_img,
-    lastSessionTime,
+    lastSessionTime, // For 2 hour cooldown period.
   }) {
     try {
       return await this.database.createDocument(

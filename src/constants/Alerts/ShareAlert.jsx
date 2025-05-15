@@ -11,7 +11,6 @@ const ShareAlert = ({ post }) => {
         if (ref.current && ref.current.value) {
             navigator.clipboard.writeText(ref.current.value)
                 .then(() => {
-                    console.log(ref.current.value);
                     setCopy(!copy)
                 })
         }
