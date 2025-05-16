@@ -10,7 +10,7 @@
 
 ### **Project Access** ✅
 
-The Project is **Live** at: **[FuelFeed](https://quill-quest-tau.vercel.app/)**
+The Project is **Live** at: **[FuelFeed](https://fuel-feed.vercel)**
 
 ---
 
