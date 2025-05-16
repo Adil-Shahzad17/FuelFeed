@@ -16,7 +16,7 @@ const RootLayout = ({ authentication }) => {
             </main>
         </div>
     ); else {
-        <Navigate to="/_auth/signin" />
+        return <Navigate to="/_auth/signin" replace />
     }
 };
 

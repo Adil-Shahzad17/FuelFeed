@@ -68,11 +68,10 @@ const Routing = () => {
                     <Route path='createpost' element={<CreatePost />} />
                     <Route path='editpost/:post_id' element={<EditPost />} />
                     <Route path='editprofile/:user_id' element={<EditProfile />} />
-                    <Route path="*" element={<Navigate to="/" replace />} />
                 </Route>
-                <Route path="/_auth" element={<AuthLayout />}>
+                <Route path="/_auth" element={<AuthLayout authentication={auth} />}>
                     <Route path="signin" element={<Signin />} />
-                    <Route indexx path="signup" element={<Signup />} />
+                    <Route index path="signup" element={<Signup />} />
                     <Route path="otp" element={<OTP />} />
                     <Route path='catchUser' element={<CatchUser />} />
                 </Route>
