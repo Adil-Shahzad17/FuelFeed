@@ -11,7 +11,7 @@ const Header = () => {
             <nav className='flex justify-between items-center h-full w-full px-2 md:px-10'>
                 <div className='flex items-center gap-3 hover:cursor-pointer'>
                     <img src={power} alt="Fuel Feed" className="w-12 h-12 rounded-full sm:h-14 sm:w-14" />
-                    <h1 className='font-icon text-mainColor font-normal text-5xl hidden sm:block'>
+                    <h1 className='font-icon text-mainColor font-semibold text-5xl hidden sm:block'>
                         Fuel Feed
                     </h1>
                 </div>

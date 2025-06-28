@@ -47,7 +47,7 @@ export default function Signup() {
                 <img src={power} alt="Fuel Feed" width="60px" height="60px" />
                 <h1 className="text-4xl font-bold font-title">
                     Welcome to <span
-                        className="inline-block font-icon text-mainColor font-normal text-6xl">Fuel Feed</span></h1>
+                        className="inline-block font-icon text-mainColor font-semibold text-6xl">Fuel Feed</span></h1>
                 <p className="text-md text-altColor">
                     Create your account now, fill in to get started.
                 </p>

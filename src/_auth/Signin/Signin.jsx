@@ -42,8 +42,8 @@ export default function Signin() {
             <div className="flex flex-col gap-3 items-center text-center">
                 <img src={power} alt="Fuel Feed" width="60px" height="60px" />
                 <h1 className="text-4xl font-bold font-title">
-                    Welcome back to <span
-                        className="inline-block font-icon text-mainColor font-normal text-6xl">Fuel Feed</span></h1>
+                    Welcome to <span
+                        className="inline-block font-icon text-mainColor font-semibold text-6xl">Fuel Feed</span></h1>
                 <p className="text-md text-altColor">
                     Login to your Fuel Feed account
                 </p>
